@@ -5,3 +5,4 @@ Using the Microsoft Kinect to measure children's physical activity movements dur
 
 Group Members:
 David Nathan
+Patrick Thomas
