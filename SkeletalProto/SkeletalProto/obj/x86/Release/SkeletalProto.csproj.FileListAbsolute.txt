@@ -1,0 +1,36 @@
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\MainWindow.baml
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\MainWindow.g.cs
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\App.g.cs
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto_MarkupCompile.cache
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.g.resources
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.Properties.Resources.resources
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\SkeletalProto.exe
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\SkeletalProto.pdb
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\Coding4Fun.Kinect.Wpf.dll
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\Microsoft.Samples.Kinect.WpfViewers.dll
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\SkeletonBasics-WPF.exe
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\Microsoft.Expression.Drawing.dll
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\Microsoft.Samples.Kinect.WpfViewers.pdb
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\Coding4Fun.Kinect.Wpf.pdb
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\bin\Release\SkeletonBasics-WPF.pdb
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.exe
+C:\Users\DavidN\documents\visual studio 2010\Projects\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.pdb
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\bin\Release\SkeletalProto.exe
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\bin\Release\SkeletalProto.pdb
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\bin\Release\Microsoft.Expression.Drawing.dll
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\bin\Release\Coding4Fun.Kinect.Wpf.pdb
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\bin\Release\SkeletonBasics-WPF.pdb
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\MainWindow.baml
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\MainWindow.g.cs
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\App.g.cs
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto_MarkupCompile.cache
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.g.resources
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.Properties.Resources.resources
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.exe
+C:\Users\David\Dropbox\CITS3200\SkeletalProto\SkeletalProto\obj\x86\Release\SkeletalProto.pdb
