@@ -1,0 +1,13 @@
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\bin\Release\Modelledtracker.exe
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\bin\Release\Modelledtracker.pdb
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\MainWindow.baml
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\MainWindow.g.cs
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\App.g.cs
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\Modelledtracker_MarkupCompile.cache
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\Modelledtracker.g.resources
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\Modelledtracker.Properties.Resources.resources
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\GenerateResource.read.1.tlog
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\Modelledtracker.exe
+C:\Users\Tigsy\documents\visual studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Release\Modelledtracker.pdb
