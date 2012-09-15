@@ -1,0 +1,13 @@
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\MainWindow.baml
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\App.g.cs
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker_MarkupCompile.cache
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.g.resources
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.Properties.Resources.resources
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\bin\Debug\Modelledtracker.exe
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\bin\Debug\Modelledtracker.pdb
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.exe
+C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.pdb

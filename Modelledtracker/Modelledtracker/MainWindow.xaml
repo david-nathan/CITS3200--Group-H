@@ -1,0 +1,10 @@
+﻿<Window x:Class="Modelledtracker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+    <StackPanel>
+        <Canvas Name="skeletonCanvas"></Canvas>
+        <TextBlock Name="StatusTextBlock" HorizontalAlignment="Center" FontSize="26" Text="Status"></TextBlock>
+        <TextBlock Name="QualityTextBlock" HorizontalAlignment="Center" FontSize="26" Text="Quality"></TextBlock>
+    </StackPanel>
+</Window>
