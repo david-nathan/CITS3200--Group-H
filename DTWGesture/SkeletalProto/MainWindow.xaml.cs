@@ -125,6 +125,7 @@ namespace SkeletalProto
             if (null == this.sensor)
             {
                 this.statusTextBlock.Text = Properties.Resources.NoKinectReady;
+                button1.IsEnabled = false;
             }
                 
         }
@@ -146,7 +147,7 @@ namespace SkeletalProto
 
             using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
             {
-                if (skeletonFrame != null)
+                if (skeletonFrame != null )
                 {
                     skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
                     skeletonFrame.CopySkeletonDataTo(skeletons);
@@ -159,10 +160,11 @@ namespace SkeletalProto
                             firstframe = false;
                         }
 
+                        
                         skeletonFrame.Timestamp = skeletonFrame.Timestamp - initTimeStamp;
                         skeletonFrame.FrameNumber = skeletonFrame.FrameNumber - initFrameNum;
-                        WriteSkeleton writeToFile = new WriteSkeleton();
-                        writeToFile.WriteSkeletonToFile(skeletons[0], skeletonFrame, file);
+                        WriteSkeleton writeSkeleton = new WriteSkeleton();
+                        writeSkeleton.WriteSkeletonToFile(skeletons[0], skeletonFrame, file);
                     }
                 }
             }
@@ -325,6 +327,6 @@ namespace SkeletalProto
            
         }
 
-      
+    
     }
 }
