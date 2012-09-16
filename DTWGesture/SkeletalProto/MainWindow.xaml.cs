@@ -4,6 +4,7 @@ using System.Windows.Media;
 using Microsoft.Kinect;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 
 namespace SkeletalProto
@@ -32,6 +33,7 @@ namespace SkeletalProto
         private Boolean firstframe = true;
         private int initFrameNum;
         private long initTimeStamp;
+        
         
 
         System.IO.StreamWriter file;
@@ -142,30 +144,15 @@ namespace SkeletalProto
         private void SensorSkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             Skeleton[] skeletons = new Skeleton[0];
+            SkeletonFrame skelFrame = e.OpenSkeletonFrame();
             
-            
-
             using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
             {
                 if (skeletonFrame != null )
                 {
                     skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
                     skeletonFrame.CopySkeletonDataTo(skeletons);
-                    if (recording)
-                    {
-                        if (firstframe)
-                        {
-                            initFrameNum = skeletonFrame.FrameNumber;
-                            initTimeStamp = skeletonFrame.Timestamp; 
-                            firstframe = false;
-                        }
-
-                        
-                        skeletonFrame.Timestamp = skeletonFrame.Timestamp - initTimeStamp;
-                        skeletonFrame.FrameNumber = skeletonFrame.FrameNumber - initFrameNum;
-                        WriteSkeleton writeSkeleton = new WriteSkeleton();
-                        writeSkeleton.WriteSkeletonToFile(skeletons[0], skeletonFrame, file);
-                    }
+                   
                 }
             }
 
@@ -187,6 +174,23 @@ namespace SkeletalProto
                             double angle = angleCalculation.GetBodySegmentAngle(skel);
                             string angleString = Convert.ToString(angle);
                             this.angleTextBlock.Text = angleString;
+
+                            if (recording)
+                            {
+                                if (firstframe)
+                                {
+                                    initFrameNum = skelFrame.FrameNumber;
+                                    initTimeStamp = skelFrame.Timestamp;
+                                    firstframe = false;
+                                }
+
+                                skelFrame.FrameNumber = skelFrame.FrameNumber - initFrameNum;
+                                skelFrame.Timestamp = skelFrame.Timestamp - initTimeStamp;
+                                WriteSkeleton writeskel = new WriteSkeleton();
+                                writeskel.WriteSkeletonToFile(skel, skelFrame, file);
+                            }
+                            
+                            
                         }
                         else if (skel.TrackingState == SkeletonTrackingState.PositionOnly)
                         {
@@ -203,6 +207,8 @@ namespace SkeletalProto
                 // prevent drawing outside of our render area
                 this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));
             }
+
+            skelFrame.Dispose();
         }
 
         private void DrawBonesAndJoints(Skeleton skeleton, DrawingContext drawingContext)
@@ -311,12 +317,14 @@ namespace SkeletalProto
             }
             file = new System.IO.StreamWriter(@"C:\Users\Public\WriteText.csv", true);
             file.WriteLine(str);
+           
 
             
         }
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            
             string date = DateTime.Now.ToString();
             string str = "Stop:, " + date;
             file.WriteLine(str);
@@ -327,6 +335,6 @@ namespace SkeletalProto
            
         }
 
-    
+           
     }
 }
