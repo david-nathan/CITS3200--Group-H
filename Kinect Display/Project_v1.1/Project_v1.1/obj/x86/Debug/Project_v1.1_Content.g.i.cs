@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/kinect_angle.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/stop.png")]
 
 
