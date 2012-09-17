@@ -11,3 +11,15 @@ C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtra
 C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\bin\Debug\Modelledtracker.pdb
 C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.exe
 C:\Users\Tigsy\Documents\Visual Studio 2010\Projects\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.pdb
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.exe
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.pdb
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\bin\Debug\Modelledtracker.exe
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\bin\Debug\Modelledtracker.pdb
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.csprojResolveAssemblyReference.cache
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\MainWindow.baml
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\App.g.cs
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker_MarkupCompile.cache
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.g.resources
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.Properties.Resources.resources
+C:\Users\Tigsy\Desktop\Repo\Modelledtracker\Modelledtracker\obj\x86\Debug\Modelledtracker.csproj.GenerateResource.Cache

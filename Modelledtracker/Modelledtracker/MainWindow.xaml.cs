@@ -13,6 +13,7 @@ namespace Modelledtracker
     public partial class MainWindow : Window
     {
         KinectSensor myKinect;
+        string sessiondate = "test";
 
         public MainWindow()
         {
@@ -31,11 +32,13 @@ namespace Modelledtracker
 
             // Get the first Kinect on the computer
             myKinect = KinectSensor.KinectSensors[0];
-
+            DateTime date = DateTime.Now;
+            sessiondate = date.ToLongDateString();
             // Start the Kinect running and select the depth camera
             try
             {
                 myKinect.SkeletonStream.Enable();
+
                 myKinect.Start();
             }
             catch
@@ -148,6 +151,7 @@ namespace Modelledtracker
                     {
                         message = message + " I";
                     }
+                    
 
                     // Spine
                     addLine(skeleton.Joints[JointType.Head],skeleton.Joints[JointType.ShoulderCenter]);
@@ -182,18 +186,17 @@ namespace Modelledtracker
                      * writes the position of each joint to a file.
                      * current destination is at this_program\text.txt
                      */
-                    using (StreamWriter file = new StreamWriter("test.txt",true))
+                    using (StreamWriter file = new StreamWriter(sessiondate + ".txt",true))
                     {
                         foreach(Joint joint in skeleton.Joints)
                         {
                             file.Write(
                                 joint.JointType + ":" +
+                                joint.TrackingState + "," +
                                 joint.Position.X + "," +
                                 joint.Position.Y + "," +
-                                joint.Position.Z + ",");
-
+                                joint.Position.Z + "\n");
                         }
-                        file.WriteLine("END\n");
                     }
                 }
             }
