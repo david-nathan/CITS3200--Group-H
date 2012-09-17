@@ -1,0 +1,28 @@
+﻿<Window x:Class="Project_v1._1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800" xmlns:my="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers" Closing="Window_Closing" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Image Height="32" HorizontalAlignment="Left" Margin="10,10,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
+        <TextBlock Height="32" HorizontalAlignment="Left" Margin="576,12,0,0" Name="textBlock1" Text="Project - CITS 3200" VerticalAlignment="Top" Width="190" FontSize="14" TextAlignment="Right" />
+        <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar1" VerticalAlignment="Top" Width="778" />
+        <my:KinectColorViewer Height="180" HorizontalAlignment="Left" Margin="526,48,0,0" Name="kinectColorViewer1" VerticalAlignment="Top" Width="240" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" Background="#FF797979" />
+        <my:KinectSkeletonViewer Height="360" HorizontalAlignment="Left" Margin="12,48,0,0" Name="kinectSkeletonViewer1" VerticalAlignment="Top" Width="480" Background="#FF797979" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" />
+        <my:KinectSensorChooser HorizontalAlignment="Left" Margin="84,117,0,0" Name="kinectSensorChooser1" VerticalAlignment="Top" Width="328" />
+        <Grid Height="174" HorizontalAlignment="Left" Margin="526,234,0,0" Name="grid1" VerticalAlignment="Top" Width="240" Background="#FF52318F">
+            <Button Content="Tilt Camera" Height="23" HorizontalAlignment="Left" Margin="37,57,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+            <Slider Height="128" HorizontalAlignment="Left" Margin="117,6,0,0" Name="slider1" VerticalAlignment="Top" Width="40" Orientation="Vertical" Maximum="27" Minimum="-27" Interval="1" IsSnapToTickEnabled="True" TickPlacement="TopLeft" />
+            <Label Content="{Binding Path=Value, ElementName=slider1}" Height="28" HorizontalAlignment="Left" Margin="150,56,0,0" Name="label1" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" />
+            <Label Content="Current Angle:" Height="28" HorizontalAlignment="Left" Margin="29,140,0,0" Name="label2" VerticalAlignment="Top" Width="100" Foreground="White" FontWeight="Bold" />
+            <Label Content="..." Height="28" HorizontalAlignment="Right" Margin="0,140,99,0" Name="lblCurrentAngle" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" />
+            <Image Height="41" HorizontalAlignment="Left" Margin="50,86,0,0" Name="image2" Stretch="Uniform" VerticalAlignment="Top" Width="49" Source="/Project_v1.1;component/images/Kinect_Angle.png" />
+        </Grid>
+        <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar2" VerticalAlignment="Top" Width="778" />
+        <Label Content="Kinect Status:" Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="label3" VerticalAlignment="Top" Width="80" />
+        <Label Content="{Binding Path=Kinect.Status, ElementName=kinectSensorChooser1}" Height="23" HorizontalAlignment="Left" Margin="73,538,0,0" Name="label4" VerticalAlignment="Top" Width="113" />
+        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="691,509,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
+        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="608,509,0,0" Name="button3" VerticalAlignment="Top" Width="75" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="73,428,0,0" Name="textBox1" VerticalAlignment="Top" Width="160" />
+        <Label Content="Save As:" Height="23" HorizontalAlignment="Left" Margin="22,426,0,0" Name="label5" VerticalAlignment="Top" />
+    </Grid>
+</Window>
