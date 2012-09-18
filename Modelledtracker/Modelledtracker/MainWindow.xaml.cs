@@ -14,6 +14,7 @@ namespace Modelledtracker
     {
         KinectSensor myKinect;
         string sessiondate = "test";
+        bool writetofile = false;
 
         public MainWindow()
         {
@@ -184,18 +185,24 @@ namespace Modelledtracker
 
                     /*
                      * writes the position of each joint to a file.
-                     * current destination is at this_program\text.txt
+                     * Only active when writetofile is set to true.
+                     * Toggle upon event from UI.
+                     * Uses date to store each session separately.
+                     * If initialisation fails, data is stored to test.txt
                      */
-                    using (StreamWriter file = new StreamWriter(sessiondate + ".txt",true))
+                    if (writetofile == true)
                     {
-                        foreach(Joint joint in skeleton.Joints)
+                        using (StreamWriter file = new StreamWriter(sessiondate + ".txt", true))
                         {
-                            file.Write(
-                                joint.JointType + ":" +
-                                joint.TrackingState + "," +
-                                joint.Position.X + "," +
-                                joint.Position.Y + "," +
-                                joint.Position.Z + "\n");
+                            foreach (Joint joint in skeleton.Joints)
+                            {
+                                file.Write(
+                                    joint.JointType + ":" +
+                                    joint.TrackingState + "," +
+                                    joint.Position.X + "," +
+                                    joint.Position.Y + "," +
+                                    joint.Position.Z + "\n");
+                            }
                         }
                     }
                 }
