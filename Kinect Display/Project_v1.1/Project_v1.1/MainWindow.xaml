@@ -24,7 +24,7 @@
         <Button Content="Start" Height="23" HorizontalAlignment="Left" Margin="526,426,0,0" Name="button3" VerticalAlignment="Top" Width="75" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="73,428,0,0" Name="textBox1" VerticalAlignment="Top" Width="160" />
         <Label Content="Save As:" Height="23" HorizontalAlignment="Left" Margin="22,426,0,0" Name="label5" VerticalAlignment="Top" />
-        <Image Height="25" HorizontalAlignment="Left" Margin="603,426,0,0" Name="image3" Stretch="Uniform" VerticalAlignment="Top" Width="35" Source="/Project_v1.1;component/images/record.png" />
+        <Image Height="23" HorizontalAlignment="Left" Margin="603,426,0,0" Name="image3" Stretch="Uniform" VerticalAlignment="Top" Width="35" Source="/Project_v1.1;component/images/record.png" />
         <Image Height="23" HorizontalAlignment="Left" Margin="740,428,0,0" Name="image4" Stretch="Uniform" VerticalAlignment="Top" Width="26" Source="/Project_v1.1;component/images/stop.png" />
     </Grid>
 </Window>
