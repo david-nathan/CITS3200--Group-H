@@ -35,3 +35,4 @@ C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\De
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Interop.SSCE.dll
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.ResolveComReference.cache
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\SkeletalProto.exe.config

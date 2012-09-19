@@ -5,6 +5,7 @@ using Microsoft.Kinect;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using System.Timers;
 
 
 namespace SkeletalProto
@@ -33,7 +34,9 @@ namespace SkeletalProto
         private Boolean firstframe = true;
         private int initFrameNum;
         private long initTimeStamp;
-        
+        private List<float[]> recordData = new List<float[]>();
+        private List<float[]> gestureData;
+       
         
 
         System.IO.StreamWriter file;
@@ -43,6 +46,7 @@ namespace SkeletalProto
             InitializeComponent();
             recording = false;
             button2.IsEnabled = false;
+            button3.IsEnabled = false;
         }
         
         private static void RenderClippedEdges(Skeleton skeleton, DrawingContext drawingContext)
@@ -187,7 +191,8 @@ namespace SkeletalProto
                                 skelFrame.FrameNumber = skelFrame.FrameNumber - initFrameNum;
                                 skelFrame.Timestamp = skelFrame.Timestamp - initTimeStamp;
                                 WriteSkeleton writeskel = new WriteSkeleton();
-                                writeskel.WriteSkeletonToFile(skel, skelFrame, file);
+                                float[] data = writeskel.WriteSkeletonToFile(skel, skelFrame, file);
+                                recordData.Add(data);
                             }
                             
                             
@@ -208,7 +213,10 @@ namespace SkeletalProto
                 this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight));
             }
 
-            skelFrame.Dispose();
+            if (skelFrame != null)
+            {
+                skelFrame.Dispose();
+            }
         }
 
         private void DrawBonesAndJoints(Skeleton skeleton, DrawingContext drawingContext)
@@ -317,8 +325,7 @@ namespace SkeletalProto
             }
             file = new System.IO.StreamWriter(@"C:\Users\Public\WriteText.csv", true);
             file.WriteLine(str);
-           
-
+            
             
         }
 
@@ -332,9 +339,158 @@ namespace SkeletalProto
             recording = false;
             button1.IsEnabled = true;
             button2.IsEnabled = false;
+            button3.IsEnabled = true;
            
         }
 
-           
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+
+            readInText();
+            gestureData = standardiseData(gestureData);
+            recordData = standardiseData(recordData);
+            float[] gestureVariance = variance(gestureData);
+            float[] recordVariance = variance(recordData);
+            string rdCount = recordData.Count.ToString();
+            string gdCount = gestureData.Count.ToString();
+            string counts = "COUNT:";
+            counts += rdCount + gdCount;  //For DEBUGGING
+            Console.WriteLine(counts);
+        }
+
+
+
+        private void readInText()
+        {
+            List<string[]> str_gestureData = parseCSV(@"C:\Users\Public\JumpText.csv");
+            str_gestureData.RemoveAt(0); //Remove start date
+            str_gestureData.RemoveAt(str_gestureData.Count-1); //Remove stop date
+               
+                gestureData = str_gestureData.ConvertAll(
+                    new Converter<string[], float[]>(StringAtoFloatA)); //Convert to float
+            button3.IsEnabled = false;
+        }
+
+        public static float[] StringAtoFloatA(string[] strA) //Converter for array conversion
+        {
+            float[] floatA = new float[strA.Length];
+            for (int i = 0; i < strA.Length - 1; i++)
+            {
+                
+                floatA[i] = float.Parse(strA[i]);
+            }
+
+            return floatA;
+        }
+
+
+        public List<string[]> parseCSV(string path) //Parser for CSV file
+        {
+            List<string[]> parsedData = new List<string[]>();
+
+            try
+            {
+                using (StreamReader readFile = new StreamReader(path))
+                {
+                    string line;
+                    string[] row;
+
+                    while ((line = readFile.ReadLine()) != null)
+                    {
+                        row = line.Split(',');
+                        parsedData.Add(row);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            return parsedData;
+        }
+
+
+        private float[] variance(List<float[]> dataList)
+        {
+            float[] var = new float[dataList.Count];   //array of variances
+            float[] avg = new float[dataList.Count];   //array of averages
+
+            for (int i = 0; i < dataList.Count; i++) //average calculation
+            {
+                for (int j = 2; j < dataList[i].Length; j++)
+                {
+                    avg[i] = avg[i] + dataList[i][j];
+
+                }
+
+                avg[i] = avg[i] / (dataList[i].Length - 2); //two less since first two columns are made up of frame number and time stamp.
+
+            }
+
+            for (int i = 0; i < dataList.Count; i++) //standard deviation calculation
+            {
+                for (int j = 2; j < dataList[i].Length; j++)
+                {
+                    var[i] = var[i] + (dataList[i][j] - avg[i]) * (dataList[i][j] - avg[i]);
+
+                }
+
+                var[i] = var[i] / (dataList[i].Length - 2);
+            }
+
+            return var;
+        }
+
+        
+
+        private List<float[]> standardiseData(List<float[]> dataList)
+        {
+            float[] avg = new float[dataList.Count];   //array of averages
+            float[] stdev = new float[dataList.Count]; //array of standard deviations
+            
+            for (int i = 0; i < dataList.Count; i++) //average calculation
+            {
+                for (int j = 2; j < dataList[i].Length; j++)
+                {
+                    avg[i] = avg[i] + dataList[i][j];
+                   
+                }
+
+                avg[i] = avg[i] / (dataList[i].Length  - 2); //two less since first two columns are made up of frame number and time stamp.
+
+            }
+
+            for (int i = 0; i < dataList.Count; i++) //standard deviation calculation
+            {
+                for (int j = 2; j < dataList[i].Length; j++)
+                {
+                    stdev[i] = stdev[i] + (dataList[i][j] - avg[i]) * (dataList[i][j] - avg[i]);
+                    
+                }
+
+                stdev[i] = stdev[i] / (dataList[i].Length - 2);
+                stdev[i] = (float)Math.Sqrt(stdev[i]);
+
+            }
+
+            for (int i = 0; i < dataList.Count; i++) //transform dataList to standardised data
+            {
+                for (int j = 2; j < dataList[i].Length; j++)
+                {
+                     dataList[i][j] = (dataList[i][j] - avg[i])/stdev[i];
+                }
+            }
+
+            return dataList;
+        }
+
+       
+
+
+
+
+
+   
     }
 }
