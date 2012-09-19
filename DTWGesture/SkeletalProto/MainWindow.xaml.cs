@@ -413,72 +413,72 @@ namespace SkeletalProto
 
         private float[] variance(List<float[]> dataList)
         {
-            float[] var = new float[dataList.Count];   //array of variances
-            float[] avg = new float[dataList.Count];   //array of averages
+            float[] var = new float[62];   //array of variances
+            float[] avg = new float[62];   //array of averages
 
-            for (int i = 0; i < dataList.Count; i++) //average calculation
+            for (int j = 2; j < 62; j++) //average calculation
             {
-                for (int j = 2; j < dataList[i].Length; j++)
+                for (int i = 0; i < dataList.Count; i++)
                 {
-                    avg[i] = avg[i] + dataList[i][j];
+                    avg[j] += dataList[i][j];
 
                 }
 
-                avg[i] = avg[i] / (dataList[i].Length - 2); //two less since first two columns are made up of frame number and time stamp.
+                avg[j] = avg[j] / (dataList.Count);
 
             }
 
-            for (int i = 0; i < dataList.Count; i++) //standard deviation calculation
+            for (int j = 2; j < 62; j++) //variance calculation
             {
-                for (int j = 2; j < dataList[i].Length; j++)
+                for (int i = 0; i < dataList.Count; i++)
                 {
-                    var[i] = var[i] + (dataList[i][j] - avg[i]) * (dataList[i][j] - avg[i]);
+                    var[j] = var[j] + (dataList[i][j] - avg[j]) * (dataList[i][j] - avg[j]);
 
                 }
 
-                var[i] = var[i] / (dataList[i].Length - 2);
+                var[j] = var[j] / (dataList.Count);
             }
 
             return var;
         }
 
-        
+
 
         private List<float[]> standardiseData(List<float[]> dataList)
         {
-            float[] avg = new float[dataList.Count];   //array of averages
-            float[] stdev = new float[dataList.Count]; //array of standard deviations
-            
-            for (int i = 0; i < dataList.Count; i++) //average calculation
+            float[] avg = new float[62];   //array of averages
+            float[] stdev = new float[62]; //array of standard deviations
+
+            for (int j = 2; j < 62; j++) //average calculation
             {
-                for (int j = 2; j < dataList[i].Length; j++)
+                for (int i = 0; i < dataList.Count; i++)
                 {
-                    avg[i] = avg[i] + dataList[i][j];
-                   
+                    avg[j] += dataList[i][j];
+
                 }
 
-                avg[i] = avg[i] / (dataList[i].Length  - 2); //two less since first two columns are made up of frame number and time stamp.
+                avg[j] = avg[j] / (dataList.Count);
 
             }
 
-            for (int i = 0; i < dataList.Count; i++) //standard deviation calculation
+            for (int j = 2; j < 62; j++) //standard deviation calculation
             {
-                for (int j = 2; j < dataList[i].Length; j++)
+                for (int i = 0; i < dataList.Count; i++)
                 {
-                    stdev[i] = stdev[i] + (dataList[i][j] - avg[i]) * (dataList[i][j] - avg[i]);
-                    
+                    stdev[j] = stdev[j] + (dataList[i][j] - avg[j]) * (dataList[i][j] - avg[j]);
+
                 }
 
-                stdev[i] = stdev[i] / (dataList[i].Length - 2);
-                stdev[i] = (float)Math.Sqrt(stdev[i]);
+                stdev[j] = stdev[j] / (dataList.Count);
+                stdev[j] = (float)Math.Sqrt(stdev[j]);
 
             }
 
-            for (int i = 0; i < dataList.Count; i++) //transform dataList to standardised data
+            for (int j = 2; j < 62; j++) //transform dataList to standardised data
             {
-                for (int j = 2; j < dataList[i].Length; j++)
+                for (int i = 0; i < dataList.Count; i++)
                 {
-                     dataList[i][j] = (dataList[i][j] - avg[i])/stdev[i];
+                    dataList[i][j] = (dataList[i][j] - avg[j]) / stdev[j];
                 }
             }
 
