@@ -20,15 +20,34 @@ namespace Project_v1._1
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        
+        public Boolean recording { get; set; }
+        System.IO.StreamWriter file;
+        private Boolean firstframe = true;
+        private int initFrameNum;
+        private long initTimeStamp;
+        
+
+      
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
+            recording = false;
+            stop_button.IsEnabled = false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             kinectSensorChooser1.KinectSensorChanged += new DependencyPropertyChangedEventHandler(kinectSensorChooser1_KinectSensorChanged);
+          
         }
+
+        
 
         void kinectSensorChooser1_KinectSensorChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -48,11 +67,13 @@ namespace Project_v1._1
             newSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
             newSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
             newSensor.SkeletonStream.Enable();
+            newSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(newSensor_SkeletonFrameReady);
 
 
             try
             {
                 newSensor.Start();
+
             }
             catch (System.IO.IOException)
             {
@@ -61,6 +82,52 @@ namespace Project_v1._1
             }
 
             //lblCurrentAngle.Content = kinectSensorChooser1.Kinect.ElevationAngle.ToString();
+        }
+
+        void newSensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
+        {
+            Skeleton[] skeletons = new Skeleton[0];
+            SkeletonFrame skelFrame = e.OpenSkeletonFrame();
+
+            using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
+            {
+                if (skeletonFrame != null)
+                {
+
+                    //TODO: Throw up Error if more than one Skeleton Appears
+                    skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                    skeletonFrame.CopySkeletonDataTo(skeletons);
+
+                }
+            }
+            if(skeletons.Length != 0)
+            {
+                foreach (Skeleton skel in skeletons)
+                {
+                    if (skel.TrackingState == SkeletonTrackingState.Tracked)
+                    {
+                        if (recording)
+                        {
+                            if (firstframe)
+                            {
+                                initFrameNum = skelFrame.FrameNumber;
+                                initTimeStamp = skelFrame.Timestamp;
+                                firstframe = false;
+                            }
+
+                            skelFrame.FrameNumber = skelFrame.FrameNumber - initFrameNum;
+                            skelFrame.Timestamp = skelFrame.Timestamp - initTimeStamp;
+                            WriteSkeleton writeSkel = new WriteSkeleton();
+                            float[] data = writeSkel.WriteSkeletonToFile(skel, skelFrame, file); 
+                        }
+                    }
+                }
+            }
+
+            if(skelFrame != null)
+            {
+            skelFrame.Dispose();
+            }
         }
 
         //void newSensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
@@ -106,6 +173,37 @@ namespace Project_v1._1
         {
             StopKinect(kinectSensorChooser1.Kinect);
         }
+
+        private void start_button_Click(object sender, RoutedEventArgs e)
+        {
+            recording = true;
+            start_button.IsEnabled = false;
+            stop_button.IsEnabled = true;
+            string date = DateTime.Now.ToString();
+            string str = "Start:, " + date + " , ";
+            Skeleton skeletonText = new Skeleton();
+            foreach (Joint joint in skeletonText.Joints)
+            {
+                str = str + joint.JointType.ToString() + " , , , ";
+            }
+            file = new System.IO.StreamWriter(@"C:\Users\Public\WriteText.csv", true);
+            file.WriteLine(str);
+
+            
+
+        }
+
+        private void stop_button_Click(object sender, RoutedEventArgs e)
+        {
+            stop_button.IsEnabled = false;
+            start_button.IsEnabled = true;
+            string date = DateTime.Now.ToString();
+            string str = "Stop:, " + date;
+            file.WriteLine(str);
+            file.Close();
+            recording = false;
+        }
+
 
     }
 }
