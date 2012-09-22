@@ -6,6 +6,8 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 namespace SkeletalProto
@@ -36,8 +38,8 @@ namespace SkeletalProto
         private long initTimeStamp;
         private List<float[]> recordData = new List<float[]>();
         private List<float[]> gestureData;
-       
-        
+
+        private string startTime;
 
         System.IO.StreamWriter file;
         
@@ -349,6 +351,26 @@ namespace SkeletalProto
             readInText();
             gestureData = standardiseData(gestureData);
             recordData = standardiseData(recordData);
+            //TESTING SERIALIZATION 
+            DateTime dt = Convert.ToDateTime(startTime);
+            Gestures gesture = new Gestures();
+            GestureKey jumpID = new GestureKey(GestureKey.Rating.C, "Jump", dt);
+            gesture.gestures.Add(jumpID, gestureData);
+
+            Stream stream = File.Open(@"C:\Users\Public\gesture.osl", FileMode.Create);
+            BinaryFormatter bformatter = new BinaryFormatter();
+            bformatter.Serialize(stream, gesture);
+            stream.Close();
+
+            //TESTING DESERIALIZATION
+            gesture = null;
+
+            stream = File.Open(@"C:\Users\Public\gesture.osl", FileMode.Open);
+            bformatter = new BinaryFormatter();
+            gesture = (Gestures)bformatter.Deserialize(stream);
+            stream.Close();
+            //FINISH TEST
+
             float[] gestureVariance = variance(gestureData);
             float[] recordVariance = variance(recordData);
             string rdCount = recordData.Count.ToString();
@@ -363,6 +385,7 @@ namespace SkeletalProto
         private void readInText()
         {
             List<string[]> str_gestureData = parseCSV(@"C:\Users\Public\JumpText.csv");
+            startTime = str_gestureData[0][1];
             str_gestureData.RemoveAt(0); //Remove start date
             str_gestureData.RemoveAt(str_gestureData.Count-1); //Remove stop date
                

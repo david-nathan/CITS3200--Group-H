@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.ComponentModel;
+using System.Windows.Forms;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -27,6 +29,7 @@ namespace Project_v1._1
         private Boolean firstframe = true;
         private int initFrameNum;
         private long initTimeStamp;
+        private string SaveFileLocation = @"C:\Users\Public";
         
 
       
@@ -39,6 +42,8 @@ namespace Project_v1._1
             InitializeComponent();
             recording = false;
             stop_button.IsEnabled = false;
+            start_button.IsEnabled = false;
+            classify_button.IsEnabled = false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -179,18 +184,22 @@ namespace Project_v1._1
             recording = true;
             start_button.IsEnabled = false;
             stop_button.IsEnabled = true;
+            TargetFileButton.IsEnabled = false;
+            file = new System.IO.StreamWriter(SaveFileLocation, true);
             string date = DateTime.Now.ToString();
-            string str = "Start:, " + date + " , ";
+            string str1 = "Start:, " + date + " , " + "Gesture:," + "_UNKNOWN";
+            file.WriteLine(str1);
+            string str = "Frame Number, Time Stamp,";
             Skeleton skeletonText = new Skeleton();
             foreach (Joint joint in skeletonText.Joints)
             {
-                str = str + joint.JointType.ToString() + " , , , ";
+                str = str + joint.JointType.ToString() + " X" + ","
+                          + joint.JointType.ToString() + " Y" + ","
+                          + joint.JointType.ToString() + " Z" + ",";
+                
             }
-            file = new System.IO.StreamWriter(@"C:\Users\Public\WriteText.csv", true);
-            file.WriteLine(str);
-
             
-
+            file.WriteLine(str);
         }
 
         private void stop_button_Click(object sender, RoutedEventArgs e)
@@ -202,7 +211,57 @@ namespace Project_v1._1
             file.WriteLine(str);
             file.Close();
             recording = false;
+            classify_button.IsEnabled = true;
+            TargetFileButton.IsEnabled = true;
         }
+
+        private void targetFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "Comma Separated Value File(.csv)|*.csv";
+            dlg.InitialDirectory = SaveFileLocation;
+
+
+            // Display SaveFileDialog by calling ShowDialog method
+            DialogResult result = dlg.ShowDialog();
+
+
+            // Get the selected file name
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                //Save document
+                SaveFileLocation = dlg.FileName;
+                if (!dlg.FileName.EndsWith(".csv"))
+                {
+                    System.Windows.Forms.MessageBox.Show("Please select a filename with the '.csv' extension");
+
+                }
+                else
+                {
+
+                    textBlock2.Text = SaveFileLocation;
+                    classify_button.IsEnabled = true;
+                    start_button.IsEnabled = true;
+                }
+            }
+
+
+        }
+
+        private void classify_button_Click(object sender, RoutedEventArgs e)
+        {
+            TargetFileButton.IsEnabled = false;
+            start_button.IsEnabled = false;
+
+
+
+
+        }
+
 
 
     }
