@@ -36,3 +36,8 @@ C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\De
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Interop.SSCE.dll
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.ResolveComReference.cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\SkeletalProto.exe.config
+C:\Users\David\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\SkeletalProto.exe.config
+C:\Users\David\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Interop.SSCE.dll
+C:\Users\David\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.ResolveComReference.cache
+C:\Users\David\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.exe
+C:\Users\David\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.pdb

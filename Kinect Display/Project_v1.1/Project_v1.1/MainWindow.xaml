@@ -6,8 +6,8 @@
         <Image Height="32" HorizontalAlignment="Left" Margin="10,10,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
         <TextBlock Height="32" HorizontalAlignment="Left" Margin="576,12,0,0" Name="textBlock1" Text="Project - CITS 3200" VerticalAlignment="Top" Width="190" FontSize="14" TextAlignment="Right" />
         <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar1" VerticalAlignment="Top" Width="778" />
-        <my:KinectColorViewer Height="180" HorizontalAlignment="Left" Margin="526,48,0,0" Name="kinectColorViewer1" VerticalAlignment="Top" Width="240" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" Background="#FF797979" />
-        <my:KinectSkeletonViewer Height="360" HorizontalAlignment="Left" Margin="12,48,0,0" Name="kinectSkeletonViewer1" VerticalAlignment="Top" Width="480" Background="#FF797979" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" />
+        <my:KinectColorViewer Height="180" HorizontalAlignment="Left" Margin="526,48,0,0" Name="kinectColorViewer1" VerticalAlignment="Top" Width="240" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" Background="Black" />
+        <my:KinectSkeletonViewer Height="360" HorizontalAlignment="Left" Margin="12,48,0,0" Name="kinectSkeletonViewer1" VerticalAlignment="Top" Width="480" Background="Black" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" />
         <my:KinectSensorChooser HorizontalAlignment="Left" Margin="84,117,0,0" Name="kinectSensorChooser1" VerticalAlignment="Top" Width="328" />
         <Grid Height="174" HorizontalAlignment="Left" Margin="526,234,0,0" Name="grid1" VerticalAlignment="Top" Width="240" Background="#FF52318F">
             <Button Content="Tilt Camera" Height="23" HorizontalAlignment="Left" Margin="37,57,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
