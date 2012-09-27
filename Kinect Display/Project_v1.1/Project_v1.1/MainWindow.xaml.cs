@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 using Microsoft.Kinect;
 
 namespace Project_v1._1
@@ -30,9 +34,10 @@ namespace Project_v1._1
         private int initFrameNum;
         private long initTimeStamp;
         private string SaveFileLocation = @"C:\Users\Public";
-        
+        private string PlotDataLocation = @"C:\Users\Public";
+        private Gestures gestureLibrary;
 
-      
+
 
 
 
@@ -40,10 +45,45 @@ namespace Project_v1._1
         public MainWindow()
         {
             InitializeComponent();
+            tabItem1.IsEnabled = true;
+            tabItem2.IsEnabled = true;
             recording = false;
             stop_button.IsEnabled = false;
             start_button.IsEnabled = false;
             classify_button.IsEnabled = false;
+            addToLibraryButton.IsEnabled = false;
+
+            //Initialize Gesture Library
+
+            //For installation
+           /* Gestures gesture = new Gestures();
+            Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Create);
+            BinaryFormatter bformatter = new BinaryFormatter();
+            bformatter.Serialize(stream, gesture);
+            stream.Close();
+
+            stream = null;
+            */
+            
+            
+            Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Open);
+            BinaryFormatter bformatter = new BinaryFormatter();
+            gestureLibrary = (Gestures)bformatter.Deserialize(stream);
+            stream.Close();
+            
+            
+            /*readInText();
+            GestureKey jumpID = new GestureKey("C", "Jump", startTime, gestureData[gestureData.Count-1][0].ToString(), gestureData[gestureData.Count-1][1].ToString());
+            gestureLibrary.gestures.Add(jumpID, gestureData);*/
+
+            
+            
+
+           
+            
+
+            dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
+                
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -177,6 +217,12 @@ namespace Project_v1._1
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             StopKinect(kinectSensorChooser1.Kinect);
+
+            //Save Gesture Libary 
+            Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Open);
+            BinaryFormatter bformatter = new BinaryFormatter();
+            bformatter.Serialize(stream, gestureLibrary);
+            stream.Close();
         }
 
         private void start_button_Click(object sender, RoutedEventArgs e)
@@ -258,11 +304,152 @@ namespace Project_v1._1
             start_button.IsEnabled = false;
 
 
+            //TODO: Warning Message that all gestures will be classified. 
 
+            List<string[]> str_sessionData = readInFullSession(SaveFileLocation);
+
+            var numGestures = new List< KeyValuePair<int, KeyValuePair<string, string>>>();
+            for(int i=0; i<str_sessionData.Count; i++)
+            {
+                if (str_sessionData[i][0].Equals("Start:"))
+                {
+                    KeyValuePair<string, string> stgest = new KeyValuePair<string, string>(str_sessionData[i][1], str_sessionData[i][3]);
+                    numGestures.Add(new KeyValuePair<int, KeyValuePair<string, string>>(i, stgest));
+                }
+            }
+
+            //TODO: DTW Gestures
 
         }
 
+        private void tabItem2_Loaded(object sender, RoutedEventArgs e)
+        {
+            webBrowser1.LoadCompleted += new LoadCompletedEventHandler(webBrowser1_LoadCompleted);
 
+            Uri uri = new Uri("C:/Users/DavidN/Documents/Developer/Testing/Charting/Chart/Chart.Web/ChartTestPage.html");
+            //System.IO.Stream source = System.Windows.Application.GetContentStream(uri).Stream;
+            this.webBrowser1.Navigate(uri);
+
+
+
+        }
+        
+//========================================================================= Kinect Gestures Functions ==========================================================================================================
+        private void gesturesTabItem_Loaded(object sender, RoutedEventArgs e)
+        {
+
+           //TODO: Add Listener to update DataGrid.
+            
+        }
+
+      
+
+//========================================================================= Kinect Plot Functions ==========================================================================================================
+
+        void webBrowser1_LoadCompleted(object sender, NavigationEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("Silverlight app has loaded");
+        }
+
+        private void loadPlotDatabutton2_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            SaveFileDialog dlg = new SaveFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "Comma Separated Value File(.csv)|*.csv";
+            dlg.InitialDirectory = PlotDataLocation;
+
+
+            // Display SaveFileDialog by calling ShowDialog method
+            DialogResult result = dlg.ShowDialog();
+
+
+            // Get the selected file name
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                //Save document
+                PlotDataLocation = dlg.FileName;
+                if (!dlg.FileName.EndsWith(".csv"))
+                {
+                    System.Windows.Forms.MessageBox.Show("Please select a filename with the '.csv' extension");
+
+                }
+                else
+                {
+
+                    plotDatatextBlock.Text = PlotDataLocation;
+                }
+            }
+
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        //========================================================================= Gesture from File ==========================================================================================================
+        private List<float[]> readInSingleGestureData(string fileLocation)
+        {
+            List<float[]> float_gestureData;
+
+            List<string[]> str_gestureData = parseCSV(fileLocation);
+            str_gestureData.RemoveAt(0); //Remove start date
+            str_gestureData.RemoveAt(str_gestureData.Count - 1); //Remove stop date
+
+            float_gestureData = str_gestureData.ConvertAll(
+                new Converter<string[], float[]>(StringAtoFloatA)); //Convert to float
+            return float_gestureData;
+        }
+
+        private List<string[]> readInFullSession(string fileLocation)
+        {
+            List<string[]> str_sessionData = parseCSV(fileLocation);
+
+            return str_sessionData;
+
+        }
+
+        public static float[] StringAtoFloatA(string[] strA) //Converter for array conversion
+        {
+            float[] floatA = new float[strA.Length];
+            for (int i = 0; i < strA.Length - 1; i++)
+            {
+
+                floatA[i] = float.Parse(strA[i]);
+            }
+
+            return floatA;
+        }
+
+
+        public List<string[]> parseCSV(string path) //Parser for CSV file
+        {
+            List<string[]> parsedData = new List<string[]>();
+
+            try
+            {
+                using (StreamReader readFile = new StreamReader(path))
+                {
+                    string line;
+                    string[] row;
+
+                    while ((line = readFile.ReadLine()) != null)
+                    {
+                        row = line.Split(',');
+                        parsedData.Add(row);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message);
+            }
+
+            return parsedData;
+        }
 
     }
 }

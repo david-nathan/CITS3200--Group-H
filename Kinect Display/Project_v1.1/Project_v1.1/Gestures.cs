@@ -41,30 +41,38 @@ namespace Project_v1._1
     public class GestureKey : ISerializable
     {
         public enum Rating { A, B, C, D, E, DEFAULT };
-        Rating rating;
-        string name;
-        DateTime recorded;
+        public string rating { get; set; }
+        public string name { get; set; }
+        public string recorded { get; set; }
+        public string framenum { get; set; }
+        public string timestamp { get; set; }
 
         public GestureKey()
         {
-            rating = Rating.DEFAULT;
+            rating = Rating.DEFAULT.ToString();
             name = "DEFAULT";
-            recorded = DateTime.MinValue;
+            recorded = DateTime.MinValue.ToShortDateString();
+            framenum = "0";
+            timestamp = "0";
         }
 
-        public GestureKey(Rating rating, string name, DateTime recorded)
+        public GestureKey(string rating, string name, string recorded, string framenum, string timestamp)
         {
             this.rating = rating;
             this.name = name;
             this.recorded = recorded;
+            this.framenum = framenum;
+            this.timestamp = timestamp;
         }
 
         //Deserialzation Constructor
         public GestureKey(SerializationInfo info, StreamingContext ctxt)
         {
-            rating = (Rating)info.GetValue("Rating", typeof(Rating));
+            rating = (String)info.GetValue("Rating", typeof(String));
             name = (String)info.GetValue("Name", typeof(String));
-            recorded = (DateTime)info.GetValue("Recorded", typeof(DateTime));
+            recorded = (String)info.GetValue("Recorded", typeof(String));
+            framenum = (String)info.GetValue("Frame Number", typeof(String));
+            timestamp = (String)info.GetValue("Time Stamp", typeof(String));
         }
 
         //Serialization Function
@@ -73,6 +81,8 @@ namespace Project_v1._1
             info.AddValue("Rating", rating);
             info.AddValue("Name", name);
             info.AddValue("Recorded", recorded);
+            info.AddValue("Frame Number", framenum);
+            info.AddValue("Time Stamp", timestamp);
         }
 
     }
