@@ -65,3 +65,7 @@ C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto
 C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.g.resources
 C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.Properties.Resources.resources
 C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.GenerateResource.Cache
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\system.windows.controls.datavisualization.toolkit.pdb
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Window2.baml
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Window2.g.cs
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\WPFToolkit.dll
