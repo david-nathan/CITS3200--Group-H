@@ -31,12 +31,15 @@ namespace Project_v1._1
         public Boolean recording { get; set; }
         System.IO.StreamWriter file;
         private Boolean firstframe = true;
+        private Boolean addToLibrary = false;
+        private DateTime startTime;
         private int initFrameNum;
         private long initTimeStamp;
         private string SaveFileLocation = @"C:\Users\Public";
         private string PlotDataLocation = @"C:\Users\Public";
         private Gestures gestureLibrary;
-
+        //TO LOSE
+        //private string startTime;
 
 
 
@@ -51,12 +54,12 @@ namespace Project_v1._1
             stop_button.IsEnabled = false;
             start_button.IsEnabled = false;
             classify_button.IsEnabled = false;
-            addToLibraryButton.IsEnabled = false;
+            addToLibraryButton.IsEnabled = true;
 
             //Initialize Gesture Library
 
             //For installation
-           /* Gestures gesture = new Gestures();
+            /*Gestures gesture = new Gestures();
             Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Create);
             BinaryFormatter bformatter = new BinaryFormatter();
             bformatter.Serialize(stream, gesture);
@@ -70,19 +73,16 @@ namespace Project_v1._1
             BinaryFormatter bformatter = new BinaryFormatter();
             gestureLibrary = (Gestures)bformatter.Deserialize(stream);
             stream.Close();
-            
-            
-            /*readInText();
-            GestureKey jumpID = new GestureKey("C", "Jump", startTime, gestureData[gestureData.Count-1][0].ToString(), gestureData[gestureData.Count-1][1].ToString());
-            gestureLibrary.gestures.Add(jumpID, gestureData);*/
 
-            
-            
 
-           
-            
+            /*List<float[]> gestureData = readInSingleGestureData(@"C:\Users\Public\JumpText.csv");
+            GestureKey jumpID = new GestureKey(GestureKey.Rating.C, "Jump", DateTime.Parse(startTime), (int)(gestureData[gestureData.Count-1][0]) , new TimeSpan((long)(gestureData[gestureData.Count-1][1]*10000)));
+            gestureLibrary.gestures.Add(jumpID, gestureData);
+             */
 
+            ratingCategory.ItemsSource = Enum.GetValues(typeof(GestureKey.Rating )).Cast<GestureKey.Rating>().AsEnumerable();
             dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
+            dataGridGestures.IsReadOnly = true;
                 
         }
 
@@ -231,6 +231,7 @@ namespace Project_v1._1
             start_button.IsEnabled = false;
             stop_button.IsEnabled = true;
             TargetFileButton.IsEnabled = false;
+
             file = new System.IO.StreamWriter(SaveFileLocation, true);
             string date = DateTime.Now.ToString();
             string str1 = "Start:, " + date + " , " + "Gesture:," + "_UNKNOWN";
@@ -257,6 +258,7 @@ namespace Project_v1._1
             file.WriteLine(str);
             file.Close();
             recording = false;
+
             classify_button.IsEnabled = true;
             TargetFileButton.IsEnabled = true;
         }
@@ -303,12 +305,18 @@ namespace Project_v1._1
             TargetFileButton.IsEnabled = false;
             start_button.IsEnabled = false;
 
+            if (classify_button.Content.Equals("Save to Library"))
+            {
+                System.Windows.Forms.MessageBox.Show("Reached the Save to Library Condition");
+                return;
+            }
+            
 
             //TODO: Warning Message that all gestures will be classified. 
 
             List<string[]> str_sessionData = readInFullSession(SaveFileLocation);
 
-            var numGestures = new List< KeyValuePair<int, KeyValuePair<string, string>>>();
+            var numGestures = new List< KeyValuePair<int, KeyValuePair<string, string>>>(); //A list of KeyValuePairs with the first value being the line that it starts on and the second <StartTime, Previous Gesture classification>
             for(int i=0; i<str_sessionData.Count; i++)
             {
                 if (str_sessionData[i][0].Equals("Start:"))
@@ -318,21 +326,13 @@ namespace Project_v1._1
                 }
             }
 
+
+
             //TODO: DTW Gestures
 
         }
 
-        private void tabItem2_Loaded(object sender, RoutedEventArgs e)
-        {
-            webBrowser1.LoadCompleted += new LoadCompletedEventHandler(webBrowser1_LoadCompleted);
 
-            Uri uri = new Uri("C:/Users/DavidN/Documents/Developer/Testing/Charting/Chart/Chart.Web/ChartTestPage.html");
-            //System.IO.Stream source = System.Windows.Application.GetContentStream(uri).Stream;
-            this.webBrowser1.Navigate(uri);
-
-
-
-        }
         
 //========================================================================= Kinect Gestures Functions ==========================================================================================================
         private void gesturesTabItem_Loaded(object sender, RoutedEventArgs e)
@@ -346,9 +346,13 @@ namespace Project_v1._1
 
 //========================================================================= Kinect Plot Functions ==========================================================================================================
 
-        void webBrowser1_LoadCompleted(object sender, NavigationEventArgs e)
+
+        private void tabItem2_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("Silverlight app has loaded");
+
+
+
+
         }
 
         private void loadPlotDatabutton2_Click(object sender, RoutedEventArgs e)
@@ -385,10 +389,7 @@ namespace Project_v1._1
 
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
 
         //========================================================================= Gesture from File ==========================================================================================================
         private List<float[]> readInSingleGestureData(string fileLocation)
@@ -396,6 +397,8 @@ namespace Project_v1._1
             List<float[]> float_gestureData;
 
             List<string[]> str_gestureData = parseCSV(fileLocation);
+            //TO LOSE
+            //startTime = str_gestureData[0][1];
             str_gestureData.RemoveAt(0); //Remove start date
             str_gestureData.RemoveAt(str_gestureData.Count - 1); //Remove stop date
 
@@ -450,6 +453,18 @@ namespace Project_v1._1
 
             return parsedData;
         }
+
+        private void addToLibraryButton_Click(object sender, RoutedEventArgs e)
+        {
+            start_button.IsEnabled = true;
+            TargetFileButton.IsEnabled = false;
+            classify_button.Content = "Save to Library";
+            addToLibraryButton.IsEnabled = false;
+            addToLibrary = true;
+            SaveFileLocation = @"C:\Users\Public\placeholder.csv";
+        }
+
+
 
     }
 }

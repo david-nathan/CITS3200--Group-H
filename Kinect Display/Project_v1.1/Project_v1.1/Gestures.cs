@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.ComponentModel;
 
 namespace Project_v1._1
 {
@@ -38,25 +39,26 @@ namespace Project_v1._1
     }
 
     [Serializable()]
-    public class GestureKey : ISerializable
+    public class GestureKey : ISerializable//, INotifyPropertyChanged  
     {
         public enum Rating { A, B, C, D, E, DEFAULT };
-        public string rating { get; set; }
+        public Rating rating { get; set; }
+
         public string name { get; set; }
-        public string recorded { get; set; }
-        public string framenum { get; set; }
-        public string timestamp { get; set; }
+        public DateTime recorded { get; set; }
+        public int framenum { get; set; }
+        public TimeSpan  timestamp { get; set; }
 
         public GestureKey()
         {
-            rating = Rating.DEFAULT.ToString();
+            rating = Rating.DEFAULT;
             name = "DEFAULT";
-            recorded = DateTime.MinValue.ToShortDateString();
-            framenum = "0";
-            timestamp = "0";
+            recorded = DateTime.MinValue;
+            framenum = 0;
+            timestamp = new TimeSpan(0);
         }
 
-        public GestureKey(string rating, string name, string recorded, string framenum, string timestamp)
+        public GestureKey(Rating rating, string name, DateTime recorded, int framenum, TimeSpan timestamp)
         {
             this.rating = rating;
             this.name = name;
@@ -68,11 +70,11 @@ namespace Project_v1._1
         //Deserialzation Constructor
         public GestureKey(SerializationInfo info, StreamingContext ctxt)
         {
-            rating = (String)info.GetValue("Rating", typeof(String));
+            rating = (Rating)info.GetValue("Rating", typeof(Rating));
             name = (String)info.GetValue("Name", typeof(String));
-            recorded = (String)info.GetValue("Recorded", typeof(String));
-            framenum = (String)info.GetValue("Frame Number", typeof(String));
-            timestamp = (String)info.GetValue("Time Stamp", typeof(String));
+            recorded = (DateTime)info.GetValue("Recorded", typeof(DateTime));
+            framenum = (int)info.GetValue("Frame Number", typeof(int));
+            timestamp = (TimeSpan)info.GetValue("Time Stamp", typeof(TimeSpan));
         }
 
         //Serialization Function
@@ -86,4 +88,8 @@ namespace Project_v1._1
         }
 
     }
+
+    
+
+    
 }
