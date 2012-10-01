@@ -16,3 +16,7 @@ CURRENT TASKS
 3. Integration of KinectDisplay with Input/Output functionality.
 4. Joint Tracking Charting
 5. Record Gesture UI
+
+SETUP FOR KINECT WINDOWS
+========================
+The gestures.osl file needs to be in C:\Users\Public
