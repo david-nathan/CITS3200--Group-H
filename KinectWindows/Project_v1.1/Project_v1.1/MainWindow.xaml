@@ -46,8 +46,9 @@
             <Image Height="23" HorizontalAlignment="Left" Margin="740,428,0,0" Name="image4" Stretch="Uniform" VerticalAlignment="Top" Width="26" Source="/Project_v1.1;component/images/stop.png" />
             <Button Content="Save as" Height="23" HorizontalAlignment="Left" Margin="16,429,0,0" Name="TargetFileButton" VerticalAlignment="Top" Width="86" Click="targetFileButton_Click" />
             <TextBlock Height="23" HorizontalAlignment="Right" Margin="0,429,486,0" Name="textBlock2" Text="" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.317,1.087" FontSize="14" />
-            <Button Content="Classify" Height="23" HorizontalAlignment="Left" Margin="526,468,0,0" Name="classify_button" VerticalAlignment="Top" Width="212" Click="classify_button_Click" />
+            <Button Content="Classify" Height="23" HorizontalAlignment="Left" Margin="526,468,0,0" Name="classify_button" VerticalAlignment="Top" Width="100" Click="classify_button_Click" />
                     <Button Content="Add To Library" Height="23" HorizontalAlignment="Left" Margin="16,468,0,0" Name="addToLibraryButton" VerticalAlignment="Top" Width="86" Click="addToLibraryButton_Click" />
+                    <Button Content="Cancel" HorizontalAlignment="Left" Margin="664,470,0,0" VerticalAlignment="Top" Width="100"/>
                 </Grid>
                 </TabItem> 
 

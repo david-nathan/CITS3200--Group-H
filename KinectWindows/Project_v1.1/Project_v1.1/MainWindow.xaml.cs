@@ -33,6 +33,7 @@ namespace Project_v1._1
         private Boolean firstframe = true;
         private Boolean addToLibrary = false;
         private DateTime startTime;
+        private string start_time;
         private int initFrameNum;
         private long initTimeStamp;
         private string SaveFileLocation = @"C:\Users\Public";
@@ -252,7 +253,7 @@ namespace Project_v1._1
         private void stop_button_Click(object sender, RoutedEventArgs e)
         {
             stop_button.IsEnabled = false;
-            start_button.IsEnabled = true;
+            
             string date = DateTime.Now.ToString();
             string str = "Stop:, " + date;
             file.WriteLine(str);
@@ -260,7 +261,11 @@ namespace Project_v1._1
             recording = false;
 
             classify_button.IsEnabled = true;
-            TargetFileButton.IsEnabled = true;
+            if (classify_button.Content != "Save to Library")
+            {
+                start_button.IsEnabled = true;
+                TargetFileButton.IsEnabled = true;
+            }    
         }
 
         private void targetFileButton_Click(object sender, RoutedEventArgs e)
@@ -300,6 +305,18 @@ namespace Project_v1._1
 
         }
 
+        private void addToLibraryButton_Click(object sender, RoutedEventArgs e)
+        {
+            start_button.IsEnabled = true;
+            TargetFileButton.IsEnabled = false;
+            classify_button.Content = "Save to Library";
+            //TO REMOVE
+            classify_button.IsEnabled = true;
+            addToLibraryButton.IsEnabled = false;
+            addToLibrary = true;
+            SaveFileLocation = @"C:\Users\Public\placeholder.csv";
+        }
+
         private void classify_button_Click(object sender, RoutedEventArgs e)
         {
             TargetFileButton.IsEnabled = false;
@@ -309,6 +326,15 @@ namespace Project_v1._1
             if (classify_button.Content.Equals("Save to Library"))
             {
                 System.Windows.Forms.MessageBox.Show("Reached the Save to Library Condition");
+
+                string message = "Insert Gesture Info";
+                string title = "Add to Gesture Library";
+                string defaultValue = "JUMP";
+
+                string input = Microsoft.VisualBasic.Interaction.InputBox(message, title, defaultValue);
+               
+
+
                 return;
             }
             
@@ -386,8 +412,8 @@ namespace Project_v1._1
             List<float[]> float_gestureData;
 
             List<string[]> str_gestureData = parseCSV(fileLocation);
-            //TO LOSE
-            //startTime = str_gestureData[0][1];
+            
+            start_time = str_gestureData[0][1];
             str_gestureData.RemoveAt(0); //Remove start date
             str_gestureData.RemoveAt(str_gestureData.Count - 1); //Remove stop date
 
@@ -508,15 +534,7 @@ namespace Project_v1._1
             return parsedData;
         }
 
-        private void addToLibraryButton_Click(object sender, RoutedEventArgs e)
-        {
-            start_button.IsEnabled = true;
-            TargetFileButton.IsEnabled = false;
-            classify_button.Content = "Save to Library";
-            addToLibraryButton.IsEnabled = false;
-            addToLibrary = true;
-            SaveFileLocation = @"C:\Users\Public\placeholder.csv";
-        }
+   
 
 
 

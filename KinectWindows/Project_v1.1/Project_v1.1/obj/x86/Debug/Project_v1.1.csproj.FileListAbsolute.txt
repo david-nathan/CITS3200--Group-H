@@ -67,3 +67,4 @@ C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v
 C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.g.resources
 C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1._1.Properties.Resources.resources
 C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.csproj.GenerateResource.Cache
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\DynamicDataDisplay.dll
