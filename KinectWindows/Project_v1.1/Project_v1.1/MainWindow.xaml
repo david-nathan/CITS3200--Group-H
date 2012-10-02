@@ -45,7 +45,7 @@
             <Image Height="23" HorizontalAlignment="Left" Margin="603,426,0,0" Name="image3" Stretch="Uniform" VerticalAlignment="Top" Width="35" Source="/Project_v1.1;component/images/record.png" />
             <Image Height="23" HorizontalAlignment="Left" Margin="740,428,0,0" Name="image4" Stretch="Uniform" VerticalAlignment="Top" Width="26" Source="/Project_v1.1;component/images/stop.png" />
             <Button Content="Save as" Height="23" HorizontalAlignment="Left" Margin="16,429,0,0" Name="TargetFileButton" VerticalAlignment="Top" Width="86" Click="targetFileButton_Click" />
-            <TextBlock Height="23" HorizontalAlignment="Right" Margin="0,429,486,0" Name="textBlock2" Text="" VerticalAlignment="Top" Width="161" RenderTransformOrigin="0.317,1.087" FontSize="14" />
+            <TextBlock Height="23" HorizontalAlignment="Right" Margin="0,429,435,0" Name="textBlock2" Text="" VerticalAlignment="Top" Width="212" RenderTransformOrigin="0.317,1.087" FontSize="14" />
             <Button Content="Classify" Height="23" HorizontalAlignment="Left" Margin="526,468,0,0" Name="classify_button" VerticalAlignment="Top" Width="100" Click="classify_button_Click" />
                     <Button Content="Add To Library" Height="23" HorizontalAlignment="Left" Margin="16,468,0,0" Name="addToLibraryButton" VerticalAlignment="Top" Width="86" Click="addToLibraryButton_Click" />
                     <Button Content="Cancel" HorizontalAlignment="Left" Margin="664,470,0,0" VerticalAlignment="Top" Width="100"/>
@@ -74,13 +74,26 @@
             <TabItem Header="Kinect Plot" Name="tabItem2" Loaded="tabItem2_Loaded">
                 <Grid>
                     <Grid Margin="22,32,207,179">
-                        <d3:ChartPlotter />
-                        
-                       
+                        <d3:ChartPlotter />                                              
                     </Grid> 
                     <Button Content="Load From" Height="23" HorizontalAlignment="Left" Margin="24,432,0,0" Name="loadPlotDatabutton2" VerticalAlignment="Top" Width="75" Click="loadPlotDatabutton2_Click" />
                     <TextBlock Height="19" HorizontalAlignment="Left" Margin="118,436,0,0" Name="plotDatatextBlock" Text="" VerticalAlignment="Top" Width="233" />
                     <Label Content=":" Height="28" HorizontalAlignment="Left" Margin="105,431,0,0" Name="label6" VerticalAlignment="Top" Width="21" />
+
+                    <Grid Height="451">
+
+                        <DataGrid  x:Name="sessionGridGestures" Margin="27,396,211,-53" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridComboBoxColumn Header="Rating" x:Name="ratingSessionCategory" SelectedItemBinding="{Binding rating}">
+                                </DataGridComboBoxColumn>
+                                <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
+                                <DataGridTextColumn Header="Recorded" Binding="{Binding recorded}"/>
+                                <DataGridTextColumn Header="Number of Frames" Binding="{Binding framenum}"/>
+                                <DataGridTextColumn Header="Length of Gesture" Binding="{Binding timestamp, StringFormat=ss\\.fff}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
                 </Grid>
 
             </TabItem>

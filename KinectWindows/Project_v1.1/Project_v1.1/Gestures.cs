@@ -52,7 +52,7 @@ namespace Project_v1._1
         public GestureKey()
         {
             rating = Rating.DEFAULT;
-            name = "DEFAULT";
+            name = "_UNKNOWN";
             recorded = DateTime.MinValue;
             framenum = 0;
             timestamp = new TimeSpan(0);

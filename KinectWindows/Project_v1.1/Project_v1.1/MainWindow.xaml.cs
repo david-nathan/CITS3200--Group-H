@@ -31,9 +31,9 @@ namespace Project_v1._1
         public Boolean recording { get; set; }
         System.IO.StreamWriter file;
         private Boolean firstframe = true;
-        private Boolean addToLibrary = false;
         private DateTime startTime;
         private string start_time;
+        private string gesture_type;
         private int initFrameNum;
         private long initTimeStamp;
         private string SaveFileLocation = @"C:\Users\Public";
@@ -56,6 +56,8 @@ namespace Project_v1._1
             start_button.IsEnabled = false;
             classify_button.IsEnabled = false;
             addToLibraryButton.IsEnabled = true;
+            TargetFileButton.IsEnabled = true;
+            
 
             //Initialize Gesture Library
 
@@ -219,6 +221,8 @@ namespace Project_v1._1
         {
             StopKinect(kinectSensorChooser1.Kinect);
 
+            
+
             //Save Gesture Libary 
             Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Open);
             BinaryFormatter bformatter = new BinaryFormatter();
@@ -259,9 +263,12 @@ namespace Project_v1._1
             file.WriteLine(str);
             file.Close();
             recording = false;
+            firstframe = true;
+            initFrameNum = 0;
+            initTimeStamp = 0; 
 
             classify_button.IsEnabled = true;
-            if (classify_button.Content != "Save to Library")
+            if ((String)(classify_button.Content) != "Save to Library")
             {
                 start_button.IsEnabled = true;
                 TargetFileButton.IsEnabled = true;
@@ -310,10 +317,7 @@ namespace Project_v1._1
             start_button.IsEnabled = true;
             TargetFileButton.IsEnabled = false;
             classify_button.Content = "Save to Library";
-            //TO REMOVE
-            classify_button.IsEnabled = true;
             addToLibraryButton.IsEnabled = false;
-            addToLibrary = true;
             SaveFileLocation = @"C:\Users\Public\placeholder.csv";
         }
 
@@ -325,17 +329,44 @@ namespace Project_v1._1
 
             if (classify_button.Content.Equals("Save to Library"))
             {
-                System.Windows.Forms.MessageBox.Show("Reached the Save to Library Condition");
+                
+                List<float[]> data = readInSingleGestureData(SaveFileLocation);
 
-                string message = "Insert Gesture Info";
-                string title = "Add to Gesture Library";
-                string defaultValue = "JUMP";
+                GestureKey gkey = new GestureKey(GestureKey.Rating.DEFAULT, gesture_type, DateTime.Parse(start_time), (int)(data[data.Count-1][0]), new TimeSpan((long)(data[data.Count-1][1]*10000)));
 
-                string input = Microsoft.VisualBasic.Interaction.InputBox(message, title, defaultValue);
-               
+                RecordGestureDialog dlg = new RecordGestureDialog();
+                dlg.gestureNameTextBox.Text  = gkey.name;
+                dlg.ratingComboBox.SelectedIndex = (int)(gkey.rating);
+                dlg.textBlock1.Text = gkey.recorded.ToString();
+                dlg.textBlock2.Text = gkey.timestamp.Seconds.ToString();
+                dlg.textBlock3.Text = gkey.framenum.ToString();
 
+                dlg.ShowDialog();
 
-                return;
+                if (dlg.DialogResult == true)
+                {
+                    gkey.name = dlg.gestureNameTextBox.Text;
+                    gkey.rating = (GestureKey.Rating)(dlg.ratingComboBox.SelectedIndex);
+                    gestureLibrary.gestures.Add(gkey, data);
+                    File.Delete(SaveFileLocation);
+                    SaveFileLocation = @"C:\Users\Public";
+                    classify_button.Content = "Classify";
+                    classify_button.IsEnabled = false;
+                    TargetFileButton.IsEnabled = true;
+                    addToLibraryButton.IsEnabled = true;
+                    return;
+                }
+                else
+                {
+                    File.Delete(SaveFileLocation);
+                    SaveFileLocation = @"C:\Users\Public";
+                    classify_button.Content = "Classify";
+                    classify_button.IsEnabled = false;
+                    TargetFileButton.IsEnabled = true;
+                    addToLibraryButton.IsEnabled = true;
+                    return;
+                }
+                
             }
             
 
@@ -354,6 +385,7 @@ namespace Project_v1._1
         {
 
            //TODO: Add Listener to update DataGrid.
+            dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
             
         }
 
@@ -373,7 +405,7 @@ namespace Project_v1._1
         private void loadPlotDatabutton2_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
-            SaveFileDialog dlg = new SaveFileDialog();
+            OpenFileDialog dlg = new OpenFileDialog();
 
             // Set filter for file extension and default file extension
             dlg.DefaultExt = ".csv";
@@ -381,7 +413,7 @@ namespace Project_v1._1
             dlg.InitialDirectory = PlotDataLocation;
 
 
-            // Display SaveFileDialog by calling ShowDialog method
+            // Display OpenFileDialog by calling ShowDialog method
             DialogResult result = dlg.ShowDialog();
 
 
@@ -397,8 +429,12 @@ namespace Project_v1._1
                 }
                 else
                 {
-
                     plotDatatextBlock.Text = PlotDataLocation;
+                    Gestures sessionGestures = readInSessionData(PlotDataLocation);
+                    ratingSessionCategory.ItemsSource = Enum.GetValues(typeof(GestureKey.Rating)).Cast<GestureKey.Rating>().AsEnumerable();
+                    sessionGridGestures.ItemsSource = sessionGestures.gestures.Keys.AsEnumerable();
+                    sessionGridGestures.IsReadOnly = true;
+
                 }
             }
 
@@ -414,7 +450,9 @@ namespace Project_v1._1
             List<string[]> str_gestureData = parseCSV(fileLocation);
             
             start_time = str_gestureData[0][1];
-            str_gestureData.RemoveAt(0); //Remove start date
+            gesture_type = str_gestureData[0][3];
+
+            str_gestureData.RemoveRange(0,2); //Remove start date
             str_gestureData.RemoveAt(str_gestureData.Count - 1); //Remove stop date
 
             float_gestureData = str_gestureData.ConvertAll(
@@ -447,7 +485,7 @@ namespace Project_v1._1
             if(str_sessionData[0][0] != "Start:")
             {
             System.Windows.Forms.MessageBox.Show("CSV file has incorrect format");
-                return sessionGestures;
+            return new Gestures();
             }
 
             int index = 0;
@@ -469,7 +507,7 @@ namespace Project_v1._1
             {
                 List<string[]> str_data = str_sessionData.GetRange(e.Current.Key, e.Current.Value);
                 string[] firstline = str_data[0];
-                str_data.RemoveRange(0, 2);
+                str_data.RemoveRange(0,2);
                 str_data.RemoveAt(str_data.Count - 1);
                 List<float[]> float_data = str_data.ConvertAll(new Converter<string[], float[]>(StringAtoFloatA));
 
@@ -492,6 +530,8 @@ namespace Project_v1._1
                 sessionGestures.gestures.Add(dataKey, float_data);
             }
 
+           
+            sessionGestures.gestures.Remove(sessionGestures.gestures.Keys.ElementAt(0));
             return sessionGestures;
         }
 
