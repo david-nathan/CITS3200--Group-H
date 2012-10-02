@@ -304,6 +304,7 @@ namespace Project_v1._1
         {
             TargetFileButton.IsEnabled = false;
             start_button.IsEnabled = false;
+            Gestures sessionGestures;
 
             if (classify_button.Content.Equals("Save to Library"))
             {
@@ -314,19 +315,7 @@ namespace Project_v1._1
 
             //TODO: Warning Message that all gestures will be classified. 
 
-            List<string[]> str_sessionData = readInFullSession(SaveFileLocation);
-
-            var numGestures = new List< KeyValuePair<int, KeyValuePair<string, string>>>(); //A list of KeyValuePairs with the first value being the line that it starts on and the second <StartTime, Previous Gesture classification>
-            for(int i=0; i<str_sessionData.Count; i++)
-            {
-                if (str_sessionData[i][0].Equals("Start:"))
-                {
-                    KeyValuePair<string, string> stgest = new KeyValuePair<string, string>(str_sessionData[i][1], str_sessionData[i][3]);
-                    numGestures.Add(new KeyValuePair<int, KeyValuePair<string, string>>(i, stgest));
-                }
-            }
-
-
+            sessionGestures = readInSessionData(SaveFileLocation);
 
             //TODO: DTW Gestures
 
@@ -413,6 +402,71 @@ namespace Project_v1._1
 
             return str_sessionData;
 
+        }
+
+
+ 
+        private Gestures readInSessionData(string fileLocation)
+        {
+            Gestures sessionGestures = new Gestures();
+            GestureKey.Rating _rating;
+            string _name;
+            DateTime _recorded;
+            int _framenum;
+            TimeSpan _timestamp;
+
+            List<string[]> str_sessionData = readInFullSession(fileLocation);
+            List<KeyValuePair<int, int>> gestureIndex = new List<KeyValuePair<int, int>>();
+
+            if(str_sessionData[0][0] != "Start:")
+            {
+            System.Windows.Forms.MessageBox.Show("CSV file has incorrect format");
+                return sessionGestures;
+            }
+
+            int index = 0;
+
+            for(int i=1; i<str_sessionData.Count; i++)
+            {
+                if (str_sessionData[i][0].Equals("Start:"))
+                {
+                    gestureIndex.Add(new KeyValuePair<int,int>(index, i-index));
+                    index = i;
+                }
+            }
+
+            gestureIndex.Add(new KeyValuePair<int,int>(index, str_sessionData.Count-1-index));
+
+            List<KeyValuePair<int, int>>.Enumerator e = gestureIndex.GetEnumerator();
+
+            while (e.MoveNext())
+            {
+                List<string[]> str_data = str_sessionData.GetRange(e.Current.Key, e.Current.Value);
+                string[] firstline = str_data[0];
+                str_data.RemoveRange(0, 2);
+                str_data.RemoveAt(str_data.Count - 1);
+                List<float[]> float_data = str_data.ConvertAll(new Converter<string[], float[]>(StringAtoFloatA));
+
+                _recorded = DateTime.Parse(firstline[1]);
+                if (firstline[3].Equals("_UNKNOWN"))
+                {
+                    _name = firstline[3];
+                    _rating = GestureKey.Rating.DEFAULT;
+                }
+                else
+                {
+                    _rating = (GestureKey.Rating)(firstline[3].ElementAt(firstline.Length - 1));
+                    _name = firstline[3].Remove(firstline[3].Length - 2);
+                }
+                _framenum = (int)(float_data[float_data.Count - 1][0]);
+                _timestamp = new TimeSpan((long)(float_data[float_data.Count - 1][1] * 10000));
+
+                GestureKey dataKey = new GestureKey(_rating, _name, _recorded, _framenum, _timestamp);
+
+                sessionGestures.gestures.Add(dataKey, float_data);
+            }
+
+            return sessionGestures;
         }
 
         public static float[] StringAtoFloatA(string[] strA) //Converter for array conversion

@@ -50,3 +50,20 @@ C:\Users\David\Documents\Visual Studio 2012\Projects\Kinect Display\Project_v1.1
 C:\Users\David\Documents\Visual Studio 2012\Projects\Kinect Display\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.pdb
 C:\Users\David\Documents\Developer\CITS3200\Kinect Windows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.exe
 C:\Users\David\Documents\Developer\CITS3200\Kinect Windows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.pdb
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.exe
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.pdb
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\Project_v1.1.exe
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\Project_v1.1.pdb
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\Microsoft.Samples.Kinect.WpfViewers.dll
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\Microsoft.Samples.Kinect.WpfViewers.pdb
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\DynamicDataDisplay.xml
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\ru-ru\DynamicDataDisplay.resources.dll
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.csprojResolveAssemblyReference.cache
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\MainWindow.g.cs
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\App.g.cs
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1_MarkupCompile.cache
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1_MarkupCompile.lref
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\MainWindow.baml
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.g.resources
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1._1.Properties.Resources.resources
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.csproj.GenerateResource.Cache
