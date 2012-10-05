@@ -323,7 +323,7 @@ namespace SkeletalProto
             {
                 str = str + joint.JointType.ToString() + " , , , ";
             }
-            file = new System.IO.StreamWriter(@"C:\Users\Public\WriteText.csv", true);
+            file = new System.IO.StreamWriter(@"C:\Users\Public\TestText.csv", true);
             file.WriteLine(str);
             
             
@@ -347,10 +347,10 @@ namespace SkeletalProto
         {
 
             readInText();
-            gestureData = standardiseData(gestureData);
-            recordData = standardiseData(recordData);
             float[] gestureVariance = variance(gestureData);
             float[] recordVariance = variance(recordData);
+            gestureData = standardiseData(gestureData);
+            recordData = standardiseData(recordData);
             string rdCount = recordData.Count.ToString();
             string gdCount = gestureData.Count.ToString();
             string counts = "COUNT:";

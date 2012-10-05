@@ -88,3 +88,6 @@ C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_
 C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.g.resources
 C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1._1.Properties.Resources.resources
 C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.csproj.GenerateResource.Cache
+C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\ClassifyResults.baml
+C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\ClassifyResults.g.cs
+C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs

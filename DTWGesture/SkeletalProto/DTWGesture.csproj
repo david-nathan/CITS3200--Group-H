@@ -87,6 +87,7 @@
     </ApplicationDefinition>
     <Compile Include="Window2.xaml.cs">
       <DependentUpon>Window2.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="WriteSkeleton.cs" />
     <Page Include="MainWindow.xaml">

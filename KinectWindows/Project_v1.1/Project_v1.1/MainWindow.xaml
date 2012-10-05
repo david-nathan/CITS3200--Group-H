@@ -18,7 +18,7 @@
     </Window.Resources>
         <Grid Height="613" Width="844">
         
-        <TabControl HorizontalAlignment="Left" Margin="21,-22,0,10" Name="tabControl1" Width="789">
+        <TabControl HorizontalAlignment="Left" Margin="24,-22,0,10" Name="tabControl1" Width="789" SelectionChanged="tabControl1_SelectionChanged">
             <TabItem Header="Kinect Display" Name="tabItem1">
 
             <Grid Margin="0,0,12,0">
@@ -44,19 +44,22 @@
             <Label Content=":" Height="24" HorizontalAlignment="Left" Margin="102,428,0,0" Name="label5" VerticalAlignment="Top" RenderTransformOrigin="0.462,0.261" />
             <Image Height="23" HorizontalAlignment="Left" Margin="603,426,0,0" Name="image3" Stretch="Uniform" VerticalAlignment="Top" Width="35" Source="/Project_v1.1;component/images/record.png" />
             <Image Height="23" HorizontalAlignment="Left" Margin="740,428,0,0" Name="image4" Stretch="Uniform" VerticalAlignment="Top" Width="26" Source="/Project_v1.1;component/images/stop.png" />
-            <Button Content="Save as" Height="23" HorizontalAlignment="Left" Margin="16,429,0,0" Name="TargetFileButton" VerticalAlignment="Top" Width="86" Click="targetFileButton_Click" />
+            <Button Content="Target File" Height="23" HorizontalAlignment="Left" Margin="16,429,0,0" Name="TargetFileButton" VerticalAlignment="Top" Width="86" Click="targetFileButton_Click" />
             <TextBlock Height="23" HorizontalAlignment="Right" Margin="0,429,435,0" Name="textBlock2" Text="" VerticalAlignment="Top" Width="212" RenderTransformOrigin="0.317,1.087" FontSize="14" />
             <Button Content="Classify" Height="23" HorizontalAlignment="Left" Margin="526,468,0,0" Name="classify_button" VerticalAlignment="Top" Width="100" Click="classify_button_Click" />
                     <Button Content="Add To Library" Height="23" HorizontalAlignment="Left" Margin="16,468,0,0" Name="addToLibraryButton" VerticalAlignment="Top" Width="86" Click="addToLibraryButton_Click" />
-                    <Button Content="Cancel" HorizontalAlignment="Left" Margin="664,470,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Button x:Name="cancelKDButton" Content="Cancel" HorizontalAlignment="Left" Margin="664,470,0,0" VerticalAlignment="Top" Width="100" Click="cancelKDButton_Click"/>
                 </Grid>
                 </TabItem> 
 
                 <TabItem Header="Kinect Gestures" Name="gesturesTabItem">
-                
-                <Grid Height="451">
+               
+                <Grid>
 
-                    <DataGrid  x:Name="dataGridGestures" Margin="65,44,121,159" AutoGenerateColumns="False">
+                    <DataGrid  x:Name="dataGridGestures" Margin="48,169,118,40" AutoGenerateColumns="False" FontSize="14" SelectionMode="Single" IsReadOnly="True" SelectionChanged="dataGridGestures_SelectionChanged" Grid.Row="4">
+                       
+                        
+                        
                         <DataGrid.Columns>
                             <DataGridComboBoxColumn Header="Rating" x:Name="ratingCategory" SelectedItemBinding="{Binding rating}">
                             </DataGridComboBoxColumn>
@@ -66,10 +69,36 @@
                             <DataGridTextColumn Header="Length of Gesture" Binding="{Binding timestamp, StringFormat=ss\\.fff}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <Grid Margin="673,170,10,13">
+                        <Button Content="Edit" Grid.Column="0" Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="5,20,0,0" Name="edit_button" VerticalAlignment="Top" Width="85" FontSize="14" Click="edit_button_Click"/>
+                        <Button Content="Delete" Grid.Column="0" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="5,70,0,0" Name="delete_button" VerticalAlignment="Top" Width="85" FontSize="14" Click="delete_button_Click"/>
+                        <Button Content="Save" Grid.Column="0" Grid.Row="2" Height="28" HorizontalAlignment="Left" Margin="5,120,0,0" Name="savegesture_button" VerticalAlignment="Top" Width="86" FontSize="14" Click="savegesture_button_Click"/>
+                    </Grid>
+                    <Grid Margin="60,25,175,504">
+                        <Image Height="32" HorizontalAlignment="Left" Margin="10,16,0,0" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
+                        <Label Content="Gesture Library" Grid.Column="0"  Grid.Row="0" Height="53" HorizontalAlignment="Left" Margin="107,-2,0,0" VerticalAlignment="Top" Width="269" FontSize="36" FontFamily="Segoe UI Semibold"/>
+                    </Grid> 
+                    <Grid Margin="48,105,118,431">
+                        <Label Content="Rating:" Grid.Column="0"  Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="5,15,0,0" VerticalAlignment="Top" Width="54" FontSize="14"/>
+                        <ComboBox x:Name="gestureRatingCombo" Grid.Column="1"  Grid.Row="0" Height="20" HorizontalAlignment="Left" Margin="62,23,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="2.944,0.464" PreviewMouseDown="gestureRatingCombo_PreviewMouseDown">
+                            <ComboBoxItem Content="A"/>
+                            <ComboBoxItem Content="B"/>
+                            <ComboBoxItem Content="C"/>
+                            <ComboBoxItem Content="D"/>
+                            <ComboBoxItem Content="E"/>
+                            <ComboBoxItem Content="DEFAULT"/>
+                        </ComboBox>
+                        <Label Content="Name:"  Grid.Column="2" Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="150,18,0,0" VerticalAlignment="Top" Width="54" FontSize="14"/>
+                        <TextBox x:Name="gestureLibraryName" Grid.Column="3" Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="204,20,0,0" VerticalAlignment="Top" Width="115" FontSize="14" PreviewMouseDown="gestureLibraryName_PreviewMouseDown"/>
+                        <Label Content="Recorded:" Grid.Column="4"  Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="352,19,0,0" VerticalAlignment="Top" Width="73" FontSize="14"/>
+                        <TextBlock x:Name="gestureLibraryRecord" Grid.Row="0" Height="28" Margin="430,24,0,0" VerticalAlignment="Top" Width="152" FontSize="14" HorizontalAlignment="Left"/>
 
+                    </Grid> 
                 </Grid>
+                    
+                
 
-                </TabItem>
+            </TabItem>
 
             <TabItem Header="Kinect Plot" Name="tabItem2" Loaded="tabItem2_Loaded">
                 <Grid>
@@ -98,7 +127,8 @@
 
             </TabItem>
             
-            
+
+
         </TabControl>
     </Grid>
 </Window>

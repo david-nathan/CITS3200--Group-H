@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\DavidN\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\App.xaml
-21748876337
+32092906554
 
-92097012988
+101084735726
 17-1252385204
-MainWindow.xaml;RecordGestureDialog.xaml;
+ClassifyResults.xaml;MainWindow.xaml;RecordGestureDialog.xaml;
 
 False
 

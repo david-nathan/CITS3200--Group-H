@@ -76,12 +76,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClassifyResults.xaml.cs">
+      <DependentUpon>ClassifyResults.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DTWRecognition.cs" />
     <Compile Include="Gestures.cs" />
     <Compile Include="RecordGestureDialog.xaml.cs">
       <DependentUpon>RecordGestureDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="WriteSkeleton.cs" />
+    <Page Include="ClassifyResults.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

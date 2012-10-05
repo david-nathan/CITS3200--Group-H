@@ -24,15 +24,12 @@ C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\Microsoft.Expression.Drawing.dll
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\Coding4Fun.Kinect.Wpf.pdb
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\SkeletonBasics-WPF.pdb
-C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\MainWindow.baml
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\MainWindow.g.cs
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\App.g.cs
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto_MarkupCompile.cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.g.resources
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.Properties.Resources.resources
-C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\GenerateResource.read.1.tlog
-C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Interop.SSCE.dll
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.ResolveComReference.cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\SkeletalProto.exe.config
@@ -66,6 +63,8 @@ C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto
 C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.Properties.Resources.resources
 C:\Users\Tigsy\Desktop\Repo\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.GenerateResource.Cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\system.windows.controls.datavisualization.toolkit.pdb
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\WPFToolkit.dll
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csprojResolveAssemblyReference.cache
+C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.GenerateResource.Cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Window2.baml
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Window2.g.cs
-C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\bin\Debug\WPFToolkit.dll
