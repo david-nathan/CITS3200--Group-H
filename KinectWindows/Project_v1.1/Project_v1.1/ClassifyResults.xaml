@@ -2,14 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:Project_v1._1"
-        Title="ClassifyResults" Height="299" Width="780">
+        Title="ClassifyResults" Height="299" Width="520">
     
     <Window.Resources>
         <c:Results  x:Key="myResults"/>
     </Window.Resources>
     <Grid Width="Auto">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="600"/>
+            <ColumnDefinition Width="Auto" MinWidth="400"/>
             <ColumnDefinition Width="Auto" MinWidth="120"/>
         </Grid.ColumnDefinitions>
         <DataGrid Name="resultsListView" AutoGenerateColumns="False" Height="260" VerticalAlignment="Top" Grid.Column="0" CanUserDeleteRows="False" CanUserAddRows="False" Grid.ColumnSpan="2" Margin="0,0,120,0">
@@ -22,11 +22,7 @@
                 <DataGrid.Columns>
                 <DataGridTextColumn Header="Recorded" Width="Auto" Binding="{Binding Path= recorded}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Previous" Width="Auto" Binding="{Binding Path= previous}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Rating" Width="Auto" Binding="{Binding Path= prev_rating}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="TimeSpan" Width="Auto" Binding="{Binding Path= prev_timespan,StringFormat=ss\\.fff}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Result" Width="Auto" Binding="{Binding Path= result}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Rating" Width="Auto" Binding="{Binding Path= res_rating}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="TimeSpan" Width="Auto" Binding="{Binding Path= res_timespan,StringFormat=ss\\.fff}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="DTW Distance" Width="Auto" Binding="{Binding Path= minDistance}" IsReadOnly="True"/>
 
                 <DataGridCheckBoxColumn Header="Save" Width="Auto"  IsReadOnly="False" 
@@ -36,7 +32,7 @@
             </DataGrid.Columns >      
         </DataGrid>
         
-        <StackPanel Height="271" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,-35,-2">
+        <StackPanel Height="271" VerticalAlignment="Bottom" Grid.Column="1" Margin="0,0,15,0">
             <Button x:Name="saveResults" Content="Save" Margin="15,30,17,0" Click="saveResults_Click"/>
             <Button x:Name="cancelResults" Content="Cancel" Margin="15,5,17,0" Click="cancelResults_Click" HorizontalContentAlignment="Center"/>
         </StackPanel>

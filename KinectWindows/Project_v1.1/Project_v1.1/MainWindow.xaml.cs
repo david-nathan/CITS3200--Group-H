@@ -53,7 +53,6 @@ namespace Project_v1._1
             InitializeComponent();
             tabItem1.IsEnabled = true;
             tabItem2.IsEnabled = true;
-            gesturesTabItem.IsEnabled = true;
             recording = false;
             edit_button.IsEnabled = false;
             savegesture_button.IsEnabled = false;
@@ -362,7 +361,7 @@ namespace Project_v1._1
                 dlg.gestureNameTextBox.Text  = gkey.name;
                 dlg.ratingComboBox.SelectedIndex = (int)(gkey.rating);
                 dlg.textBlock1.Text = gkey.recorded.ToString();
-                dlg.textBlock2.Text = gkey.timestamp.ToString();
+                dlg.textBlock2.Text = gkey.timestamp.Seconds.ToString();
                 dlg.textBlock3.Text = gkey.framenum.ToString();
 
                 dlg.ShowDialog();
@@ -376,7 +375,6 @@ namespace Project_v1._1
                     SaveFileLocation = @"C:\Users\Public";
                     classify_button.Content = "Classify";
                     classify_button.IsEnabled = false;
-                    cancelKDButton.IsEnabled = false;
                     TargetFileButton.IsEnabled = true;
                     addToLibraryButton.IsEnabled = true;
                     return;
@@ -387,7 +385,6 @@ namespace Project_v1._1
                     SaveFileLocation = @"C:\Users\Public";
                     classify_button.Content = "Classify";
                     classify_button.IsEnabled = false;
-                    cancelKDButton.IsEnabled = false;
                     TargetFileButton.IsEnabled = true;
                     addToLibraryButton.IsEnabled = true;
                     return;
@@ -397,7 +394,7 @@ namespace Project_v1._1
 
 
            
-            string messageBoxText = "All Gestures in the current Target File will be classified.\n Do you wish to continue?";
+            string messageBoxText = "All Gestures in the current Save as file will be classified. Do you wish to continue?";
             string caption = "Classify Gestures";
             MessageBoxButton button = MessageBoxButton.YesNo;
             MessageBoxImage icon = MessageBoxImage.Warning;
@@ -430,17 +427,7 @@ namespace Project_v1._1
                         minDistance = session_kvp.Value[session_kvp.Value.Count - 1];
                     }
                 }
-                Results input = new Results(
-                    results_kvp.Key.recorded.ToString(), 
-                    results_kvp.Key.name, 
-                    results_kvp.Key.rating,
-                    results_kvp.Key.timestamp,
-                    classification.name,
-                    classification.rating,
-                    classification.timestamp,
-                    results_kvp.Key,
-                    minDistance.ToString());
-
+                Results input = new Results(results_kvp.Key.recorded.ToString(), results_kvp.Key.name, classification.name, minDistance.ToString());
                 table_results.Add(input);
             }
 
@@ -452,29 +439,11 @@ namespace Project_v1._1
             {
                 foreach (Results save_result in dlgr.resultsListView.ItemsSource)
                 {
-                    if (save_result.Selected)
-                    {
-                        List<float[]> data = sessionGestures.gestures[save_result.gKey];
-                        sessionGestures.gestures.Remove(save_result.gKey);
-                        save_result.gKey.name = save_result.result;
-                        save_result.gKey.rating = save_result.res_rating;
-                        sessionGestures.gestures.Add(save_result.gKey, data);
-                    }                  
+                    //TODO: Write Back to CSV file.
                 }
+            }
+            
 
-                //Write Back to CSV file.
-                writeToFile(SaveFileLocation, sessionGestures);
-            }
-
-            if (kinectConnected)
-            {
-                setKDButtons(false, true, true, false, true, true);
-            }
-            else
-            {
-                setKDButtons(false, true, false, false, true, true);
-            }
-           
         }
 
 
@@ -484,7 +453,7 @@ namespace Project_v1._1
                  {
                      if (tabControl1.SelectedIndex == 1)
                      {
-                         dataGridGestures.Items.Refresh();
+                         dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
                          setLibraryFields(-1, "", "");
                          setLibraryButtons(false, false, false);
                          selectedRow = null;
@@ -495,16 +464,8 @@ namespace Project_v1._1
 
 
 
- //========================================================================= Kinect Gestures Functions ==========================================================================================================
+        //========================================================================= Kinect Gestures Functions ==========================================================================================================
 
-
-             private void gesturesTabItem_Loaded(object sender, RoutedEventArgs e)
-             {
-                 dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
-                 setLibraryFields(-1, "", "");
-                 setLibraryButtons(false, false, false);
-                 selectedRow = null;
-             }
 
         private void dataGridGestures_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -684,6 +645,8 @@ namespace Project_v1._1
             return str_sessionData;
 
         }
+
+
  
         private Gestures readInSessionData(string fileLocation)
         {
@@ -734,23 +697,8 @@ namespace Project_v1._1
                 }
                 else
                 {
-                    char ch = firstline[3].ElementAt(firstline[3].Length - 1);
-                    int rating = (ch.CompareTo('A'));
-                    
-                    if (rating < 0 || rating > 4)
-                    {
-                        rating = 5;                    
-                    }
-                    
-                    _rating = (GestureKey.Rating)(rating);
-                    if (firstline[3].EndsWith("DEFAULT"))
-                    {
-                        firstline[3].Remove(firstline[3].Length - 7);
-                    }
-
-                    char[] trim = { 'A', 'B', 'C', 'D', 'E'};
-                    firstline[3] = firstline[3].TrimEnd(trim);
-                    _name = firstline[3];
+                    _rating = (GestureKey.Rating)(firstline[3].ElementAt(firstline.Length - 1));
+                    _name = firstline[3].Remove(firstline[3].Length - 2);
                 }
                 _framenum = (int)(float_data[float_data.Count - 1][0]);
                 _timestamp = new TimeSpan((long)(float_data[float_data.Count - 1][1] * 10000));
@@ -765,42 +713,6 @@ namespace Project_v1._1
             return sessionGestures;
         }
 
-        private void writeToFile(string filelocation, Gestures session)
-        {
-            File.Delete(filelocation);
-            System.IO.StreamWriter write_file = new System.IO.StreamWriter(filelocation, true);
-
-            string str = "Frame Number, Time Stamp,";
-            Skeleton skeletonText = new Skeleton();
-            foreach (Joint joint in skeletonText.Joints)
-            {
-                str = str + joint.JointType.ToString() + " X" + ","
-                          + joint.JointType.ToString() + " Y" + ","
-                          + joint.JointType.ToString() + " Z" + ",";
-            }
-
-            foreach (KeyValuePair<GestureKey, List<float[]>> session_kvp in session.gestures)
-            {
-                string str1 = "Start:, " + session_kvp.Key.recorded.ToString() + "," + "Gestures:, " + session_kvp.Key.name + session_kvp.Key.rating.ToString();
-                write_file.WriteLine(str1);
-                write_file.WriteLine(str);
-
-                List<string[]> str_Value = session_kvp.Value.ConvertAll( new Converter<float[], string[]>(FloatAtoStringA));
-
-                foreach (string[] line in str_Value)
-                {
-                    string str_line = string.Join(",", line);
-                    write_file.WriteLine(str_line);
-                }
-
-                DateTime stop = session_kvp.Key.recorded.Add(session_kvp.Key.timestamp);
-                string str2 = "Stop:, " + stop.ToString();
-                write_file.WriteLine(str2);
-            }
-
-            write_file.Close();
-        }
-
         public static float[] StringAtoFloatA(string[] strA) //Converter for array conversion
         {
             float[] floatA = new float[strA.Length];
@@ -811,17 +723,6 @@ namespace Project_v1._1
             }
 
             return floatA;
-        }
-
-        public static string[] FloatAtoStringA(float[] floatA)
-        {
-            string[] strA = new string[floatA.Length];
-            for (int i = 0; i < floatA.Length - 1; i++)
-            {
-                strA[i] = floatA[i].ToString();
-            }
-
-            return strA;
         }
 
 
@@ -850,5 +751,41 @@ namespace Project_v1._1
 
             return parsedData;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
     }
 }

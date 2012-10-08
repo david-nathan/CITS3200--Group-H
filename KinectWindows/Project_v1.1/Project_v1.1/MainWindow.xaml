@@ -18,7 +18,7 @@
     </Window.Resources>
         <Grid Height="613" Width="844">
         
-        <TabControl HorizontalAlignment="Left" Margin="24,-22,0,10" Name="tabControl1" Width="789" SelectionChanged="tabControl1_SelectionChanged" >
+        <TabControl HorizontalAlignment="Left" Margin="24,-22,0,10" Name="tabControl1" Width="789" SelectionChanged="tabControl1_SelectionChanged">
             <TabItem Header="Kinect Display" Name="tabItem1">
 
             <Grid Margin="0,0,12,0">
@@ -52,7 +52,7 @@
                 </Grid>
                 </TabItem> 
 
-                <TabItem Header="Kinect Gestures" Name="gesturesTabItem" Loaded="gesturesTabItem_Loaded">
+                <TabItem Header="Kinect Gestures" Name="gesturesTabItem">
                
                 <Grid>
 
@@ -61,7 +61,8 @@
                         
                         
                         <DataGrid.Columns>
-                            <DataGridComboBoxColumn Header="Rating" x:Name="ratingCategory" SelectedItemBinding="{Binding rating}"/>                            
+                            <DataGridComboBoxColumn Header="Rating" x:Name="ratingCategory" SelectedItemBinding="{Binding rating}">
+                            </DataGridComboBoxColumn>
                             <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
                             <DataGridTextColumn Header="Recorded" Binding="{Binding recorded}"/>
                             <DataGridTextColumn Header="Number of Frames" Binding="{Binding framenum}"/>
