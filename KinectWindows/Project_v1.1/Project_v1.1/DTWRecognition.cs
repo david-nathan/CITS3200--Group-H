@@ -189,7 +189,7 @@ namespace Project_v1._1
         }
 
 
-        private List<List<float>> toListList(List<float[]> listArray)
+        public List<List<float>> toListList(List<float[]> listArray)
         {
             List<List<float>> listList = new List<List<float>>(62);
 

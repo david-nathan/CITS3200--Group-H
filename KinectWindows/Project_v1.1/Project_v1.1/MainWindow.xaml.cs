@@ -16,6 +16,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
+using Microsoft.Research.DynamicDataDisplay.PointMarkers;
+using System.Reflection;
+
 
 using Microsoft.Kinect;
 
@@ -43,10 +48,6 @@ namespace Project_v1._1
         private Gestures gestureLibrary;
         //TO LOSE
         //private string startTime;
-
-
-
-
 
         public MainWindow()
         {
@@ -621,7 +622,9 @@ namespace Project_v1._1
 
         private void loadPlotDatabutton2_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog
+
+            plotGraph(0, 0, 0, @"C:\Users\Public\testing.csv");
+           /* // Create OpenFileDialog
             OpenFileDialog dlg = new OpenFileDialog();
 
             // Set filter for file extension and default file extension
@@ -653,9 +656,43 @@ namespace Project_v1._1
                     sessionGridGestures.IsReadOnly = true;
 
                 }
-            }
+            }*/
 
         }
+
+        private void plotGraph(int user_axis, int jointnum, int graphtype, string filepath)
+        {
+
+            Gestures sessionGestures = readInSessionData(filepath);// will be replaced in future by the selected Gesture in the datagrid
+            List<float[]> lf_data = sessionGestures.gestures.ElementAt(0).Value;
+
+            List<List<float>> ll_data = toListList(lf_data);
+
+            var x = ll_data[1].AsEnumerable();
+            var y = ll_data[2].AsEnumerable();
+
+            float[] xfarray = x.ToArray();
+            float[] yfarray = y.ToArray();
+
+            double[] xarray = FloatAtoDoubleA(xfarray);
+            double[] yarray = FloatAtoDoubleA(yfarray);
+                
+
+            var xdata = xarray.AsXDataSource();
+            var ydata = yarray.AsYDataSource();
+
+            CompositeDataSource compositeDS = xdata.Join(ydata);
+           
+
+            plotter.AddLineGraph(compositeDS, Colors.Black, 3);
+            plotter.FitToView();
+
+        }
+
+
+
+
+
 
         private void Plot_Type_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -863,6 +900,37 @@ namespace Project_v1._1
             return strA;
         }
 
+        public static double[] FloatAtoDoubleA(float[] input)
+        {
+            if (input == null)
+            {
+                return null; // Or throw an exception - your choice
+            }
+            double[] output = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+            {
+                output[i] = input[i];
+            }
+            return output;
+        }
+
+        public List<List<float>> toListList(List<float[]> listArray)
+        {
+            List<List<float>> listList = new List<List<float>>(62);
+
+            for (int j = 0; j < 62; j++)
+            {
+                List<float> list = new List<float>(listArray.Count);
+
+                for (int i = 0; i < listArray.Count; i++)
+                {
+                    list.Add(listArray[i][j]);
+                }
+
+                listList.Add(list);
+            }
+            return listList;
+        }
 
         public List<string[]> parseCSV(string path) //Parser for CSV file
         {
