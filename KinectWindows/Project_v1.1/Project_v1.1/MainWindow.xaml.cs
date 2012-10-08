@@ -782,11 +782,13 @@ namespace Project_v1._1
                     _rating = (GestureKey.Rating)(rating);
                     if (firstline[3].EndsWith("DEFAULT"))
                     {
-                        firstline[3].Remove(firstline[3].Length - 7);
+                        firstline[3] = firstline[3].Remove(firstline[3].Length - 8);
                     }
-
-                    char[] trim = { 'A', 'B', 'C', 'D', 'E'};
-                    firstline[3] = firstline[3].TrimEnd(trim);
+                    else
+                    {
+                        char[] trim = { 'A', 'B', 'C', 'D', 'E' };
+                        firstline[3] = firstline[3].TrimEnd(trim);
+                    }
                     _name = firstline[3];
                 }
                 _framenum = (int)(float_data[float_data.Count - 1][0]);
