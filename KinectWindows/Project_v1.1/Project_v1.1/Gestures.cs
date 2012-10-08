@@ -39,7 +39,7 @@ namespace Project_v1._1
     }
 
     [Serializable()]
-    public class GestureKey : ISerializable
+    public class GestureKey : ISerializable//, INotifyPropertyChanged  
     {
         public enum Rating { A, B, C, D, E, DEFAULT };
         public Rating rating { get; set; }
