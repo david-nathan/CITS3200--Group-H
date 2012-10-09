@@ -136,8 +136,13 @@
                             </Grid>
                             <Label Content="Plotter Specifics:" HorizontalAlignment="Left" Height="28" Margin="0,63,0,0" VerticalAlignment="Top" Width="100"/>
                             <Label Content="Body Segment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,140,0,0"/>
-                            <ComboBox x:Name="Body_Segment_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Margin="5,164,0,0" IsEnabled="False"/>
-                            <Button Content="Plot" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,220,0,0" IsEnabled="False"/>
+                            <ComboBox x:Name="Body_Segment_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Margin="5,164,0,0" IsEnabled="False" MaxDropDownHeight="100" SelectionChanged="Body_Segment_ComboBox_SelectionChanged"/>
+                            <Button x:Name="Plot_graph_button" Content="Plot" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,220,0,0" IsEnabled="False" Click="Plot_graph_button_Click"/>
+                            <Grid x:Name="xyz" Margin="5,190,9,40" Opacity="0">
+                                <RadioButton x:Name="Radio_X" Content="x" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <RadioButton x:Name="Radio_Y" Content="y" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="68,1,0,0"/>
+                                <RadioButton x:Name="Radio_Z" Content="z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="137,1,0,0"/>
+                            </Grid>
                         </Grid>
                     </Border>
                 </Grid>

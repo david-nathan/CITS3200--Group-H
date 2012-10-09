@@ -659,18 +659,54 @@ namespace Project_v1._1
 
         private void Plot_Type_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Plot_Type_ComboBox.SelectedIndex == 0)
+            if (Plot_Type_ComboBox.SelectedIndex == 0 || Plot_Type_ComboBox.SelectedIndex == 2)
             {
-                //Set Radio buttons appropriately
-                Radio_optionA.Content = "x-y axis";
-                Radio_optionB.Content = "x-z axis";
-                Radio_optionA.IsEnabled = true;
-                Radio_optionB.IsEnabled = true;
-
                 //Add appropriate combo box elements
                 Body_Segment_ComboBox.IsEnabled = true;
+                Body_Segment_ComboBox.Items.Clear();
+                Body_Segment_ComboBox.Items.Add("Centre Hip");
+                Body_Segment_ComboBox.Items.Add("Spine");
+                Body_Segment_ComboBox.Items.Add("Shoulder Centre");
+                Body_Segment_ComboBox.Items.Add("Head");
+                Body_Segment_ComboBox.Items.Add("Left Shoulder");
+                Body_Segment_ComboBox.Items.Add("Left Elbow");
+                Body_Segment_ComboBox.Items.Add("Left Wrist");
+                Body_Segment_ComboBox.Items.Add("Left Hand");
+                Body_Segment_ComboBox.Items.Add("Right Shoulder");
+                Body_Segment_ComboBox.Items.Add("Right Elbow");
+                Body_Segment_ComboBox.Items.Add("Right Wrist");
+                Body_Segment_ComboBox.Items.Add("Right Hand");
+                Body_Segment_ComboBox.Items.Add("Left Hip");
+                Body_Segment_ComboBox.Items.Add("Left Knee");
+                Body_Segment_ComboBox.Items.Add("Left Ankle");
+                Body_Segment_ComboBox.Items.Add("Left Foot");
+                Body_Segment_ComboBox.Items.Add("Right Hip");
+                Body_Segment_ComboBox.Items.Add("Right Knee");
+                Body_Segment_ComboBox.Items.Add("Right Ankle");
+                Body_Segment_ComboBox.Items.Add("Right Foot");
 
+                if (Plot_Type_ComboBox.SelectedIndex == 0)
+                {
+                    //Set Radio buttons appropriately
+                    Radio_optionA.Content = "x-y axis";
+                    Radio_optionB.Content = "x-z axis";
+                    Radio_optionA.IsEnabled = true;
+                    Radio_optionB.IsEnabled = true;
 
+                    xyz.Opacity = 0;
+                }
+                else
+                {
+                    //Set Radio buttons appropriately
+                    Radio_optionA.Content = "meters";
+                    Radio_optionB.Content = "meters per second";
+                    Radio_optionA.IsEnabled = true;
+                    Radio_optionB.IsEnabled = true;
+
+                    //Add appropriate combo box elements
+                    xyz.Opacity = 100;
+                    Radio_X.IsChecked = true;
+                }
             }
             else if (Plot_Type_ComboBox.SelectedIndex == 1)
             {
@@ -680,20 +716,35 @@ namespace Project_v1._1
                 Radio_optionA.IsEnabled = true;
                 Radio_optionB.IsEnabled = true;
 
-                //Add appropriate combo box elements
-                Body_Segment_ComboBox.IsEnabled = true;
-            }
-            else if (Plot_Type_ComboBox.SelectedIndex == 2)
-            {
-                //Set Radio buttons appropriately
-                Radio_optionA.Content = "meters";
-                Radio_optionB.Content = "meters per second";
-                Radio_optionA.IsEnabled = true;
-                Radio_optionB.IsEnabled = true;
+                xyz.Opacity = 0;
 
                 //Add appropriate combo box elements
                 Body_Segment_ComboBox.IsEnabled = true;
+                Body_Segment_ComboBox.Items.Clear();
+                Body_Segment_ComboBox.Items.Add("Left Shoulder");
+                Body_Segment_ComboBox.Items.Add("Left Elbow");
+                Body_Segment_ComboBox.Items.Add("Left Wrist");
+                Body_Segment_ComboBox.Items.Add("Right Shoulder");
+                Body_Segment_ComboBox.Items.Add("Right Elbow");
+                Body_Segment_ComboBox.Items.Add("Right Wrist");
+                Body_Segment_ComboBox.Items.Add("Left Hip");
+                Body_Segment_ComboBox.Items.Add("Left Knee");
+                Body_Segment_ComboBox.Items.Add("Left Ankle");
+                Body_Segment_ComboBox.Items.Add("Right Hip");
+                Body_Segment_ComboBox.Items.Add("Right Knee");
+                Body_Segment_ComboBox.Items.Add("Right Ankle");
             }
+
+        }
+
+        private void Body_Segment_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Plot_graph_button.IsEnabled = true;
+        }
+
+        private void Plot_graph_button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         //========================================================================= Gesture from File ==========================================================================================================
@@ -888,6 +939,24 @@ namespace Project_v1._1
             }
 
             return parsedData;
+        }
+
+        public List<List<float>> toListList(List<float[]> listArray)
+        {
+            List<List<float>> listList = new List<List<float>>(62);
+
+            for (int j = 0; j < 62; j++)
+            {
+                List<float> list = new List<float>(listArray.Count);
+
+                for (int i = 0; i < listArray.Count; i++)
+                {
+                    list.Add(listArray[i][j]);
+                }
+
+                listList.Add(list);
+            }
+            return listList;
         }
 
     }
