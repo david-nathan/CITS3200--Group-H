@@ -18,6 +18,10 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using Microsoft.Kinect;
+using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Research.DynamicDataDisplay.PointMarkers;
+using Microsoft.Research.DynamicDataDisplay.DataSources;
+using Microsoft.Research.DynamicDataDisplay.Charts.Navigation;
 
 namespace Project_v1._1
 {
@@ -41,6 +45,13 @@ namespace Project_v1._1
         private string SaveFileLocation = @"C:\Users\Public";
         private string PlotDataLocation = @"C:\Users\Public";
         private Gestures gestureLibrary;
+        private Gestures sessionGestures;
+
+        //Boolean variables to enable the 'Plot' button
+        //private Boolean isRowSelected = false;
+
+        //Used to clear plotter
+        LineAndMarker<ElementMarkerPointsGraph> chart;
         //TO LOSE
         //private string startTime;
 
@@ -349,7 +360,6 @@ namespace Project_v1._1
         {
             TargetFileButton.IsEnabled = false;
             start_button.IsEnabled = false;
-            Gestures sessionGestures;
 
             if (classify_button.Content.Equals("Save to Library"))
             {
@@ -498,13 +508,13 @@ namespace Project_v1._1
  //========================================================================= Kinect Gestures Functions ==========================================================================================================
 
 
-             private void gesturesTabItem_Loaded(object sender, RoutedEventArgs e)
-             {
-                 dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
-                 setLibraryFields(-1, "", "");
-                 setLibraryButtons(false, false, false);
-                 selectedRow = null;
-             }
+        private void gesturesTabItem_Loaded(object sender, RoutedEventArgs e)
+        {
+		    dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
+			setLibraryFields(-1, "", "");
+			setLibraryButtons(false, false, false);
+			selectedRow = null;
+	    }
 
         private void dataGridGestures_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -647,7 +657,7 @@ namespace Project_v1._1
                 else
                 {
                     plotDatatextBlock.Text = PlotDataLocation;
-                    Gestures sessionGestures = readInSessionData(PlotDataLocation);
+                    sessionGestures = readInSessionData(PlotDataLocation);
                     ratingSessionCategory.ItemsSource = Enum.GetValues(typeof(GestureKey.Rating)).Cast<GestureKey.Rating>().AsEnumerable();
                     sessionGridGestures.ItemsSource = sessionGestures.gestures.Keys.AsEnumerable();
                     sessionGridGestures.IsReadOnly = true;
@@ -740,11 +750,121 @@ namespace Project_v1._1
         private void Body_Segment_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Plot_graph_button.IsEnabled = true;
+            //plotter.Children.Remove();
+        }
+
+        private void sessionGridGestures_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sessionGridGestures.SelectedItem != null)
+            {
+                selectedRow = (GestureKey)(sessionGridGestures.SelectedItem);
+            }
+        }
+
+        private void Clear_button_Click(object sender, RoutedEventArgs e)
+        {
+            plotter.Children.RemoveAll(typeof(LineGraph));
+            chart.MarkerGraph.DataSource = null;
+            Clear_button.IsEnabled = false;
+            Clear_button.Content = "";
+            Plot_graph_button.IsEnabled = true;
         }
 
         private void Plot_graph_button_Click(object sender, RoutedEventArgs e)
         {
+            Clear_button.IsEnabled = true;
+            Clear_button.Content = "Clear Graph";
+            Plot_graph_button.IsEnabled = false;
+
             
+            //Prepare coordinates for plotting
+            List<float[]> lf_data = sessionGestures.gestures[selectedRow];
+            List<List<float>> ll_data = toListList(lf_data);
+
+            String test = ll_data[(Plot_Type_ComboBox.SelectedIndex * 3) + 2].ToString();
+
+            //plotDatatextBlock.Text = test;
+
+            //Add the x-z radio button choice
+            var x = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2].AsEnumerable();
+            var y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3].AsEnumerable();
+            
+            float[] xfarray = x.ToArray();
+            float[] yfarray = y.ToArray();
+            
+            double[] xarray = FloatAtoDoubleA(xfarray);
+            double[] yarray = FloatAtoDoubleA(yfarray);
+
+            var xdata = xarray.AsXDataSource();
+            var ydata = yarray.AsYDataSource();
+            
+            CompositeDataSource compositeDS = xdata.Join(ydata);
+
+            chart = plotter.AddLineGraph(compositeDS,
+                new Pen(Brushes.Purple, 3),
+                new CircleElementPointMarker
+                {
+                    Size = 10,
+                    Brush = Brushes.Red,
+                    Fill = Brushes.Orange
+                },
+                new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
+            plotter.FitToView();
+
+
+
+            /*const int N = 100;
+            double[] x = new double[N];
+            double[] y = new double[N];
+            EnumerableDataSource<double> xDataSource;
+            EnumerableDataSource<double> yDataSource;
+            
+            LineAndMarker<ElementMarkerPointsGraph> chart;
+            IPointDataSource ds;
+
+            // Add data sources:
+            yDataSource = new EnumerableDataSource<double>(y);
+            yDataSource.SetYMapping(Y => Y);
+            yDataSource.AddMapping(ShapeElementPointMarker.ToolTipTextProperty,
+                Y => String.Format("Value is {0}", Y));
+
+            xDataSource = new EnumerableDataSource<double>(x);
+            xDataSource.SetXMapping(X => X);
+
+
+            ds = new CompositeDataSource(xDataSource, yDataSource);
+            // adding graph to plotter
+            chart = Plotter.AddLineGraph(ds,
+                new Pen(Brushes.LimeGreen, 3),
+                new CircleElementPointMarker
+                {
+                    Size = 10,
+                    Brush = Brushes.Red,
+                    Fill = Brushes.Orange
+                },
+                new PenDescription("Joint Tracker"));*/
+
+            //Plotter.Children.Add(new CursorCoordinateGraph());
+
+            // Force evertyhing plotted to be visible
+            //Plotter.FitToView();
+        }
+
+        public static double[] FloatAtoDoubleA(float[] input)
+        {
+            if (input == null)
+            {
+                return null; // Or throw an exception - your choice
+            }
+            
+            double[] output = new double[input.Length];
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                output[i] = input[i];
+            }
+
+            return output;
         }
 
         //========================================================================= Gesture from File ==========================================================================================================
@@ -958,6 +1078,5 @@ namespace Project_v1._1
             }
             return listList;
         }
-
     }
 }
