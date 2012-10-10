@@ -22,6 +22,7 @@ using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.PointMarkers;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Research.DynamicDataDisplay.Charts.Navigation;
+using Microsoft.Xna.Framework;
 
 namespace Project_v1._1
 {
@@ -48,7 +49,10 @@ namespace Project_v1._1
         private Gestures sessionGestures;
 
         //Boolean variables to enable the 'Plot' button
-        //private Boolean isRowSelected = false;
+        private Boolean isFileloaded = false;
+        private Boolean isRowSelected = false;
+        private Boolean isPlotterSelected = false;
+        private Boolean isBodySegmentSelected = false;
 
         //Used to clear plotter
         LineAndMarker<ElementMarkerPointsGraph> chart;
@@ -661,7 +665,8 @@ namespace Project_v1._1
                     ratingSessionCategory.ItemsSource = Enum.GetValues(typeof(GestureKey.Rating)).Cast<GestureKey.Rating>().AsEnumerable();
                     sessionGridGestures.ItemsSource = sessionGestures.gestures.Keys.AsEnumerable();
                     sessionGridGestures.IsReadOnly = true;
-
+                    isFileloaded = true;
+                    Check_For_PlotButton();
                 }
             }
 
@@ -669,31 +674,18 @@ namespace Project_v1._1
 
         private void Plot_Type_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Plot_Type_ComboBox.SelectedIndex == 0 || Plot_Type_ComboBox.SelectedIndex == 2)
+            Body_Segment_ComboBox.IsEnabled = true;
+
+            if (Plot_Type_ComboBox.SelectedIndex == 0 || Plot_Type_ComboBox.SelectedIndex == 1)
             {
-                //Add appropriate combo box elements
-                Body_Segment_ComboBox.IsEnabled = true;
-                Body_Segment_ComboBox.Items.Clear();
-                Body_Segment_ComboBox.Items.Add("Centre Hip");
-                Body_Segment_ComboBox.Items.Add("Spine");
-                Body_Segment_ComboBox.Items.Add("Shoulder Centre");
-                Body_Segment_ComboBox.Items.Add("Head");
-                Body_Segment_ComboBox.Items.Add("Left Shoulder");
-                Body_Segment_ComboBox.Items.Add("Left Elbow");
-                Body_Segment_ComboBox.Items.Add("Left Wrist");
-                Body_Segment_ComboBox.Items.Add("Left Hand");
-                Body_Segment_ComboBox.Items.Add("Right Shoulder");
-                Body_Segment_ComboBox.Items.Add("Right Elbow");
-                Body_Segment_ComboBox.Items.Add("Right Wrist");
-                Body_Segment_ComboBox.Items.Add("Right Hand");
-                Body_Segment_ComboBox.Items.Add("Left Hip");
-                Body_Segment_ComboBox.Items.Add("Left Knee");
-                Body_Segment_ComboBox.Items.Add("Left Ankle");
-                Body_Segment_ComboBox.Items.Add("Left Foot");
-                Body_Segment_ComboBox.Items.Add("Right Hip");
-                Body_Segment_ComboBox.Items.Add("Right Knee");
-                Body_Segment_ComboBox.Items.Add("Right Ankle");
-                Body_Segment_ComboBox.Items.Add("Right Foot");
+                //Disable non-angle body segments
+                CBox_item_hipCentre.IsEnabled = true;
+                CBox_item_shoulderCentre.IsEnabled = true;
+                CBox_item_head.IsEnabled = true;
+                CBox_item_handLeft.IsEnabled = true;
+                CBox_item_handRight.IsEnabled = true;
+                CBox_item_footLeft.IsEnabled = true;
+                CBox_item_footRight.IsEnabled = true;
 
                 if (Plot_Type_ComboBox.SelectedIndex == 0)
                 {
@@ -702,6 +694,8 @@ namespace Project_v1._1
                     Radio_optionB.Content = "x-z axis";
                     Radio_optionA.IsEnabled = true;
                     Radio_optionB.IsEnabled = true;
+
+                    Radio_optionA.IsChecked = true;
 
                     xyz.Opacity = 0;
                 }
@@ -713,12 +707,14 @@ namespace Project_v1._1
                     Radio_optionA.IsEnabled = true;
                     Radio_optionB.IsEnabled = true;
 
+                    Radio_optionA.IsChecked = true;
+
                     //Add appropriate combo box elements
                     xyz.Opacity = 100;
                     Radio_X.IsChecked = true;
                 }
             }
-            else if (Plot_Type_ComboBox.SelectedIndex == 1)
+            else if (Plot_Type_ComboBox.SelectedIndex == 2)
             {
                 //Set Radio buttons appropriately
                 Radio_optionA.Content = "degrees";
@@ -726,31 +722,28 @@ namespace Project_v1._1
                 Radio_optionA.IsEnabled = true;
                 Radio_optionB.IsEnabled = true;
 
+                Radio_optionA.IsChecked = true;
+
                 xyz.Opacity = 0;
 
-                //Add appropriate combo box elements
-                Body_Segment_ComboBox.IsEnabled = true;
-                Body_Segment_ComboBox.Items.Clear();
-                Body_Segment_ComboBox.Items.Add("Left Shoulder");
-                Body_Segment_ComboBox.Items.Add("Left Elbow");
-                Body_Segment_ComboBox.Items.Add("Left Wrist");
-                Body_Segment_ComboBox.Items.Add("Right Shoulder");
-                Body_Segment_ComboBox.Items.Add("Right Elbow");
-                Body_Segment_ComboBox.Items.Add("Right Wrist");
-                Body_Segment_ComboBox.Items.Add("Left Hip");
-                Body_Segment_ComboBox.Items.Add("Left Knee");
-                Body_Segment_ComboBox.Items.Add("Left Ankle");
-                Body_Segment_ComboBox.Items.Add("Right Hip");
-                Body_Segment_ComboBox.Items.Add("Right Knee");
-                Body_Segment_ComboBox.Items.Add("Right Ankle");
+                //Disable non-angle body segments
+                CBox_item_hipCentre.IsEnabled = false;
+                CBox_item_shoulderCentre.IsEnabled = false;
+                CBox_item_head.IsEnabled = false;
+                CBox_item_handLeft.IsEnabled = false;
+                CBox_item_handRight.IsEnabled = false;
+                CBox_item_footLeft.IsEnabled = false;
+                CBox_item_footRight.IsEnabled = false;
+
             }
 
         }
 
         private void Body_Segment_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Plot_graph_button.IsEnabled = true;
-            //plotter.Children.Remove();
+            isPlotterSelected = true;
+            isBodySegmentSelected = true;
+            Check_For_PlotButton();
         }
 
         private void sessionGridGestures_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -758,6 +751,11 @@ namespace Project_v1._1
             if (sessionGridGestures.SelectedItem != null)
             {
                 selectedRow = (GestureKey)(sessionGridGestures.SelectedItem);
+                isRowSelected = true;
+            }
+            else
+            {
+                isRowSelected = false;
             }
         }
 
@@ -767,7 +765,7 @@ namespace Project_v1._1
             chart.MarkerGraph.DataSource = null;
             Clear_button.IsEnabled = false;
             Clear_button.Content = "";
-            Plot_graph_button.IsEnabled = true;
+            Check_For_PlotButton();
         }
 
         private void Plot_graph_button_Click(object sender, RoutedEventArgs e)
@@ -776,28 +774,66 @@ namespace Project_v1._1
             Clear_button.Content = "Clear Graph";
             Plot_graph_button.IsEnabled = false;
 
+            switch (Plot_Type_ComboBox.SelectedIndex)
+            {
+                //Initiate the Tracking Plotter
+                case 0:
+                    plotTracker();
+                    break;
+
+                //Initiate the Position Plotter
+                case 1:
+                    if (Radio_optionA.IsChecked == true)
+                    {
+                        plotPositionAngle(Body_Segment_ComboBox.SelectedIndex, 0);
+                    }
+                    else
+                    {
+                        plotPositionAngle(Body_Segment_ComboBox.SelectedIndex, 1);
+                    }
+                    break;
+
+                //Initiate the Angular Plotter
+                case 2:
+                    if (Radio_optionA.IsChecked == true)
+                    {
+                        plotPositionAngle(Body_Segment_ComboBox.SelectedIndex, 2);
+                    }
+                    else
+                    {
+                        plotPositionAngle(Body_Segment_ComboBox.SelectedIndex, 3);
+                    }
+                    break;
+            }
             
+
+        }
+
+        private void plotTracker()
+        {
             //Prepare coordinates for plotting
             List<float[]> lf_data = sessionGestures.gestures[selectedRow];
             List<List<float>> ll_data = toListList(lf_data);
 
             String test = ll_data[(Plot_Type_ComboBox.SelectedIndex * 3) + 2].ToString();
 
-            //plotDatatextBlock.Text = test;
-
-            //Add the x-z radio button choice
+            //Check for the x-y or x-z Radio buttion
             var x = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2].AsEnumerable();
             var y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3].AsEnumerable();
-            
+            if ((bool)Radio_optionB.IsChecked)
+            {
+                y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 4].AsEnumerable();
+            }
+
             float[] xfarray = x.ToArray();
             float[] yfarray = y.ToArray();
-            
+
             double[] xarray = FloatAtoDoubleA(xfarray);
             double[] yarray = FloatAtoDoubleA(yfarray);
 
             var xdata = xarray.AsXDataSource();
             var ydata = yarray.AsYDataSource();
-            
+
             CompositeDataSource compositeDS = xdata.Join(ydata);
 
             chart = plotter.AddLineGraph(compositeDS,
@@ -805,49 +841,127 @@ namespace Project_v1._1
                 new CircleElementPointMarker
                 {
                     Size = 10,
-                    Brush = Brushes.Red,
-                    Fill = Brushes.Orange
+                    Brush = Brushes.Aqua,
+                    Fill = Brushes.Purple
                 },
                 new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
+
+            plotter.Children.Add(new CursorCoordinateGraph());
+            plotter.FitToView();
+        }
+
+        /*
+         * plotGraph sets the data for the chartPlotter inside xaml.
+         * @user_axis = sets whether x,y,z coordinates of the joint will be displayed. values are 0,1,2 respectively.
+         * @jointnum = sets which joint to be displayed. starts from 0 for hipcenter to 19 for rightfoot
+         * @graphtype = sets what information is to be graphed. see the switch statement for its representation.
+         * @filepath = csv filepath
+         */
+        private void plotPositionAngle(int jointnum, int graphtype)
+        {
+            int user_axis = -1;
+            if (Radio_X.IsChecked == true)
+            {
+                user_axis = 0;
+            }
+            else if (Radio_Y.IsChecked == true)
+            {
+                user_axis = 1;
+            }
+            else if(Radio_Z.IsChecked == true){
+                user_axis = 2;
+            }
+
+            try
+            {
+                if (user_axis == -1)
+                {
+                    throw new ArgumentException();
+                }
+
+                if (jointnum > 19 || jointnum < 0)
+                {
+                    throw new ArgumentException();
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine("Invalid arguments in plotGraph()");
+
+            }
+
+            //Gestures sessionGestures = readInSessionData(filepath);// will be replaced in future by the selected Gesture in the datagrid
+            List<float[]> lf_data = sessionGestures.gestures.ElementAt(0).Value;
+
+            List<List<float>> ll_data = toListList(lf_data);
+
+            List<float> x = null;
+            List<float> y = null;
+            switch (graphtype)
+            {
+                case 0: //Position
+                    x = ll_data[1];
+                    y = ll_data[jointnum * 3 + user_axis + 2];
+                    break;
+
+                case 1: //Position over time
+                    for (int i = 0; i < ll_data[0].Count - 1; i++)
+                    {
+                        x.Add((ll_data[1][i + 1] - ll_data[1][i]) / 2);
+                        y.Add(ll_data[jointnum * 3 + user_axis + 2][i + 1] - ll_data[jointnum * 3 + user_axis + 2][i]);
+                    }
+                    break;
+                case 2: //Angle
+                    x = ll_data[1];
+                    for (int i = 0; i < ll_data[0].Count; i++)
+                    {
+                        y.Add((float)GetBodySegmentAngle(jointnum, ll_data, i));
+                    }
+                    break;
+
+                case 3: //Angle over time
+                    for (int i = 0; i < ll_data[0].Count - 1; i++)
+                    {
+                        x.Add((ll_data[1][i + 1] - ll_data[1][i]) / 2);
+                        y.Add((float)(GetBodySegmentAngle(jointnum, ll_data, i + 1) - GetBodySegmentAngle(jointnum, ll_data, i)));
+                    }
+                    break;
+
+                default:
+                    break;
+
+            }
+
+            float[] xfarray = x.ToArray();
+            float[] yfarray = y.ToArray();
+
+            double[] xarray = FloatAtoDoubleA(xfarray);
+            double[] yarray = FloatAtoDoubleA(yfarray);
+
+
+            var xdata = xarray.AsXDataSource();
+            var ydata = yarray.AsYDataSource();
+
+            CompositeDataSource compositeDS = xdata.Join(ydata);
+
+
+            plotter.AddLineGraph(compositeDS, Colors.Black, 3);
             plotter.FitToView();
 
 
+        }
 
-            /*const int N = 100;
-            double[] x = new double[N];
-            double[] y = new double[N];
-            EnumerableDataSource<double> xDataSource;
-            EnumerableDataSource<double> yDataSource;
-            
-            LineAndMarker<ElementMarkerPointsGraph> chart;
-            IPointDataSource ds;
-
-            // Add data sources:
-            yDataSource = new EnumerableDataSource<double>(y);
-            yDataSource.SetYMapping(Y => Y);
-            yDataSource.AddMapping(ShapeElementPointMarker.ToolTipTextProperty,
-                Y => String.Format("Value is {0}", Y));
-
-            xDataSource = new EnumerableDataSource<double>(x);
-            xDataSource.SetXMapping(X => X);
-
-
-            ds = new CompositeDataSource(xDataSource, yDataSource);
-            // adding graph to plotter
-            chart = Plotter.AddLineGraph(ds,
-                new Pen(Brushes.LimeGreen, 3),
-                new CircleElementPointMarker
-                {
-                    Size = 10,
-                    Brush = Brushes.Red,
-                    Fill = Brushes.Orange
-                },
-                new PenDescription("Joint Tracker"));*/
-
-            //Plotter.Children.Add(new CursorCoordinateGraph());
-
-            // Force evertyhing plotted to be visible
-            //Plotter.FitToView();
+        private void Check_For_PlotButton()
+        {
+            if ((isFileloaded && isRowSelected) && isPlotterSelected
+                && isBodySegmentSelected && !Clear_button.IsEnabled)
+            {
+                Plot_graph_button.IsEnabled = true;
+            }
+            else
+            {
+                Plot_graph_button.IsEnabled = false;
+            }
         }
 
         public static double[] FloatAtoDoubleA(float[] input)
@@ -866,6 +980,8 @@ namespace Project_v1._1
 
             return output;
         }
+
+
 
         //========================================================================= Gesture from File ==========================================================================================================
         private List<float[]> readInSingleGestureData(string fileLocation)
@@ -1078,5 +1194,78 @@ namespace Project_v1._1
             }
             return listList;
         }
+
+        public double GetBodySegmentAngle(int joint_center, List<List<float>> data, int frame)
+        {
+            int joint_parent = -1;
+            int joint_child = -1;
+            switch (joint_center)
+            {
+                case 1:
+                    joint_parent = 0;
+                    joint_child = 2;
+                    break;
+
+                case 4:
+                case 8:
+                    joint_parent = 2;
+                    joint_child = joint_center + 1;
+                    break;
+
+                case 12:
+                case 16:
+                    joint_parent = 0;
+                    joint_child = joint_center + 1;
+                    break;
+
+                case 5:
+                case 6:
+                case 9:
+                case 10:
+                case 13:
+                case 14:
+                case 17:
+                case 18:
+                    joint_parent = joint_center - 1;
+                    joint_child = joint_center + 1;
+                    break;
+
+                default:
+                    //error
+                    break;
+            }
+
+
+            //joints are stored in sets of 3(x,y,z coordinates)
+            //offset of 2 for frame number and timestamp
+            Vector3 vectorJoint1ToJoint2 = new Vector3(data[joint_parent * 3 + 2][frame] - data[joint_center * 3 + 2][frame], data[joint_parent * 3 + 3][frame] - data[joint_center * 3 + 3][frame], data[joint_parent * 3 + 4][frame] - data[joint_center * 3 + 4][frame]);
+            Vector3 vectorJoint2ToJoint3 = new Vector3(data[joint_center * 3 + 2][frame] - data[joint_child * 3 + 2][frame], data[joint_center * 3 + 3][frame] - data[joint_child * 3 + 3][frame], data[joint_center * 3 + 4][frame] - data[joint_child * 3 + 4][frame]);
+            vectorJoint1ToJoint2.Normalize();
+            vectorJoint2ToJoint3.Normalize();
+
+            Vector3 crossProduct = Vector3.Cross(vectorJoint1ToJoint2, vectorJoint2ToJoint3);
+            double crossProductLength = crossProduct.Z;
+            double dotProduct = Vector3.Dot(vectorJoint1ToJoint2, vectorJoint2ToJoint3);
+            double segmentAngle = Math.Atan2(crossProductLength, dotProduct);
+
+            // Convert the result to degrees.
+            double degrees = segmentAngle * (180 / Math.PI);
+
+            /*
+            // Add the angular offset.  Use modulo 360 to convert the value calculated above to a range
+            // from 0 to 360.
+            degrees = (degrees + _RotationOffset) % 360;
+
+            // Calculate whether the coordinates should be reversed to account for different sides 
+            if (_ReverseCoordinates)
+            {
+                degrees = CalculateReverseCoordinates(degrees);
+            }
+            */
+            return degrees;
+
+
+        }
+
     }
 }

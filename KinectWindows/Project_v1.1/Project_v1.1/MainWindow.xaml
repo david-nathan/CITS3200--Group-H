@@ -102,7 +102,8 @@
             <TabItem Header="Kinect Plot" Name="tabItem2" Loaded="tabItem2_Loaded">
                 <Grid>
                     <Grid Margin="22,32,207,179">
-                        <d3:ChartPlotter Name="plotter" />
+                        <d3:ChartPlotter Name="plotter"/>
+                        
                     </Grid>
                     <Button Content="Load From" Height="23" HorizontalAlignment="Left" Margin="24,432,0,0" Name="loadPlotDatabutton2" VerticalAlignment="Top" Width="75" Click="loadPlotDatabutton2_Click" />
                     <TextBlock Height="19" HorizontalAlignment="Left" Margin="118,436,0,0" Name="plotDatatextBlock" Text="" VerticalAlignment="Top" Width="233" />
@@ -127,8 +128,8 @@
                             <Label Content="Plotter Type:" HorizontalAlignment="Left" Height="26" Margin="0,-4,0,0" VerticalAlignment="Top" Width="154"/>
                             <ComboBox x:Name="Plot_Type_ComboBox" HorizontalAlignment="Left" Height="23" Margin="5,21,0,0" VerticalAlignment="Top" Width="160" SelectionChanged="Plot_Type_ComboBox_SelectionChanged">
                                 <ComboBoxItem x:Name="CBox_item_tracker" Content="Joint Tracker"/>
-                                <ComboBoxItem x:Name="CBox_item_angular" Content="Angular Plotter"/>
                                 <ComboBoxItem x:Name="CBox_item_position" Content="Position Plotter"/>
+                                <ComboBoxItem x:Name="CBox_item_angular" Content="Angular Plotter"/>
                             </ComboBox>
                             <Grid x:Name="Radio_Grid" Margin="5,87,8,128">
                                 <RadioButton x:Name="Radio_optionB" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsEnabled="False"/>
@@ -136,7 +137,28 @@
                             </Grid>
                             <Label Content="Plotter Specifics:" HorizontalAlignment="Left" Height="28" Margin="0,63,0,0" VerticalAlignment="Top" Width="100"/>
                             <Label Content="Body Segment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,140,0,0"/>
-                            <ComboBox x:Name="Body_Segment_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Margin="5,164,0,0" IsEnabled="False" MaxDropDownHeight="100" SelectionChanged="Body_Segment_ComboBox_SelectionChanged"/>
+                            <ComboBox x:Name="Body_Segment_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="160" Margin="5,0,0,61" IsEnabled="False" MaxDropDownHeight="100" SelectionChanged="Body_Segment_ComboBox_SelectionChanged">
+                                <ComboBoxItem Content="Hip Centre" Name="CBox_item_hipCentre" />
+                                <ComboBoxItem Content="Spine" Name="CBox_item_spine" />
+                                <ComboBoxItem Content="Shoulder Centre" Name="CBox_item_shoulderCentre" />
+                                <ComboBoxItem Content="Head" Name="CBox_item_head" />
+                                <ComboBoxItem Content="Shoulder Left" Name="CBox_item_shoulderLeft" />
+                                <ComboBoxItem Content="Elbow Left" Name="CBox_item_elbowLeft" />
+                                <ComboBoxItem Content="Wrist Left" Name="CBox_item_wristLeft" />
+                                <ComboBoxItem Content="Hand Left" Name="CBox_item_handLeft" />
+                                <ComboBoxItem Content="Shoulder Right" Name="CBox_item_shoulderRight" />
+                                <ComboBoxItem Content="Elbow Right" Name="CBox_item_elbowRight" />
+                                <ComboBoxItem Content="Wrist Right" Name="CBox_item_wristRight" />
+                                <ComboBoxItem Content="Hand Right" Name="CBox_item_handRight" />
+                                <ComboBoxItem Content="Hip Left" Name="CBox_item_hipLeft" />
+                                <ComboBoxItem Content="Knee Left" Name="CBox_item_kneeLeft" />
+                                <ComboBoxItem Content="Ankle Left" Name="CBox_item_ankleLeft" />
+                                <ComboBoxItem Content="Foot Left" Name="CBox_item_footLeft" />
+                                <ComboBoxItem Content="Hip Right" Name="CBox_item_hipRight" />
+                                <ComboBoxItem Content="Knee Right" Name="CBox_item_kneeRight" />
+                                <ComboBoxItem Content="Ankle Right" Name="CBox_item_ankleRight" />
+                                <ComboBoxItem Content="Foot Right" Name="CBox_item_footRight" />
+                            </ComboBox>
                             <Button x:Name="Plot_graph_button" Content="Plot" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,220,0,0" IsEnabled="False" Click="Plot_graph_button_Click"/>
                             <Grid x:Name="xyz" Margin="5,190,9,40" Opacity="0">
                                 <RadioButton x:Name="Radio_X" Content="x" HorizontalAlignment="Left" VerticalAlignment="Top"/>

@@ -68,3 +68,8 @@ C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\De
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.GenerateResource.Cache
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Window2.baml
 C:\Users\DavidN\Documents\Developer\CITS3200\DTWGesture\SkeletalProto\obj\x86\Debug\Window2.g.cs
+C:\Users\Patrick\Documents\GitHub\CITS3200--Group-H\DTWGesture\SkeletalProto\bin\Debug\SkeletalProto.exe.config
+C:\Users\Patrick\Documents\GitHub\CITS3200--Group-H\DTWGesture\SkeletalProto\obj\x86\Debug\Interop.SSCE.dll
+C:\Users\Patrick\Documents\GitHub\CITS3200--Group-H\DTWGesture\SkeletalProto\obj\x86\Debug\DTWGesture.csproj.ResolveComReference.cache
+C:\Users\Patrick\Documents\GitHub\CITS3200--Group-H\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.exe
+C:\Users\Patrick\Documents\GitHub\CITS3200--Group-H\DTWGesture\SkeletalProto\obj\x86\Debug\SkeletalProto.pdb
