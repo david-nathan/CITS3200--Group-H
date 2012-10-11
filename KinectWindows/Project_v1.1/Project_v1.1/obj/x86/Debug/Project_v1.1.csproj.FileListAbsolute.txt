@@ -166,3 +166,10 @@ C:\Users\pdthomas\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v
 C:\Users\pdthomas\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.g.resources
 C:\Users\pdthomas\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1._1.Properties.Resources.resources
 C:\Users\pdthomas\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.csproj.GenerateResource.Cache
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\Project_v1.1.exe.manifest
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\Project_v1.1.application
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.TrustInfo.xml
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.exe.manifest
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.application
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\bin\Debug\gestures.osl
+C:\Users\David\Documents\Developer\CITS3200\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1_Content.g.cs

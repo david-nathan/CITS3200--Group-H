@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Project_v1.1")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Kinect Active")]
+[assembly: AssemblyDescription("Kinect Active")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Project_v1.1")]
+[assembly: AssemblyCompany("Kinect Application")]
+[assembly: AssemblyProduct("Kinect Action")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

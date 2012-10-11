@@ -8,7 +8,7 @@
         
         
       
-        Title="MainWindow" Height="727" Width="913" xmlns:my="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
+        Title="Kinect Active" Height="727" Width="913" xmlns:my="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
         Closing="Window_Closing"
         WindowStartupLocation="CenterScreen" 
         Loaded="Window_Loaded">
@@ -23,8 +23,8 @@
 
             <Grid Margin="0,0,12,0">
             <Image Height="32" HorizontalAlignment="Left" Margin="10,10,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
-            <TextBlock Height="32" HorizontalAlignment="Left" Margin="576,12,0,0" Name="textBlock1" Text="Project - CITS 3200" VerticalAlignment="Top" Width="190" FontSize="14" TextAlignment="Right" />
-            <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar1" VerticalAlignment="Top" Width="778" />
+                    <TextBlock Height="32" HorizontalAlignment="Left" Margin="576,12,0,0" x:Name="textBlock1" VerticalAlignment="Top" Width="190" FontSize="18" TextAlignment="Right" ><Run Text="KINECT ACTI"/><Run Language="en-au" Text="VE"/></TextBlock>
+                    <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar1" VerticalAlignment="Top" Width="778" />
             <my:KinectColorViewer Height="180" HorizontalAlignment="Left" Margin="526,48,0,0" Name="kinectColorViewer1" VerticalAlignment="Top" Width="240" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" Background="Black" />
             <my:KinectSkeletonViewer Height="360" HorizontalAlignment="Left" Margin="12,48,0,0" Name="kinectSkeletonViewer1" VerticalAlignment="Top" Width="480" Background="Black" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" />
             <my:KinectSensorChooser HorizontalAlignment="Left" Margin="84,117,0,0" Name="kinectSensorChooser1" VerticalAlignment="Top" Width="328" />
@@ -124,6 +124,7 @@
                                 <DataGridTextColumn Header="Length of Gesture" Binding="{Binding timestamp, StringFormat=ss\\.fff}"/>
                             </DataGrid.Columns>
                         </DataGrid>
+                        <Image Height="302" HorizontalAlignment="Left" Margin="638,218,0,-69" x:Name="image" Stretch="Uniform" VerticalAlignment="Top" Width="100" Source="/Project_v1.1;component/images/Joints.png" />
 
                     </Grid>
                     <Border HorizontalAlignment="Left" Height="251" Margin="588,30,0,0" VerticalAlignment="Top" Width="176" BorderThickness="2" BorderBrush="#FFE6E6E6">

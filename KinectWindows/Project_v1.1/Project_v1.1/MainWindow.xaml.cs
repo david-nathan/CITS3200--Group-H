@@ -76,7 +76,7 @@ namespace Project_v1._1
             savegesture_button.IsEnabled = false;
             delete_button.IsEnabled = false;
             
-            Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Open);
+            Stream stream = File.Open(@"gestures.osl", FileMode.Open);
             BinaryFormatter bformatter = new BinaryFormatter();
             gestureLibrary = (Gestures)bformatter.Deserialize(stream);
             stream.Close();
@@ -259,7 +259,7 @@ namespace Project_v1._1
             StopKinect(kinectSensorChooser1.Kinect);
 
             //Save Gesture Libary 
-            Stream stream = File.Open(@"C:\Users\Public\gestures.osl", FileMode.Open);
+            Stream stream = File.Open(@"gestures.osl", FileMode.Open);
             BinaryFormatter bformatter = new BinaryFormatter();
             bformatter.Serialize(stream, gestureLibrary);
             stream.Close();

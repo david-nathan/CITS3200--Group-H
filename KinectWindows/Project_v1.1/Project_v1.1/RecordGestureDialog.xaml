@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Project_v1._1"
         xmlns:Properties="clr-namespace:Project_v1._1.Properties" x:Class="Project_v1._1.RecordGestureDialog"
-        Title="RecordGestureDialog" Height="330" Width="302"
+        Title="Recorded Gesture Details" Height="330" Width="302"
         MinHeight="10"
         MinWidth="300"
         ResizeMode="CanResizeWithGrip"
