@@ -898,8 +898,8 @@ namespace Project_v1._1
 
             List<List<float>> ll_data = toListList(lf_data);
 
-            List<float> x = null;
-            List<float> y = null;
+            List<float> x = new List<float>();
+            List<float> y = new List<float>();
             switch (graphtype)
             {
                 case 0: //Position
@@ -908,10 +908,10 @@ namespace Project_v1._1
                     break;
 
                 case 1: //Position over time
-                    for (int i = 0; i < ll_data[0].Count - 1; i++)
+                    for (int i = 1; i < ll_data[0].Count - 1; i++)
                     {
-                        x.Add((ll_data[1][i + 1] - ll_data[1][i]) / 2);
-                        y.Add(ll_data[jointnum * 3 + user_axis + 2][i + 1] - ll_data[jointnum * 3 + user_axis + 2][i]);
+                        x.Add((ll_data[1][i])/1000);
+                        y.Add((ll_data[jointnum * 3 + user_axis + 2][i + 1] - ll_data[jointnum * 3 + user_axis + 2][i-1])/2);
                     }
                     break;
                 case 2: //Angle
@@ -923,10 +923,10 @@ namespace Project_v1._1
                     break;
 
                 case 3: //Angle over time
-                    for (int i = 0; i < ll_data[0].Count - 1; i++)
+                    for (int i = 1; i < ll_data[0].Count - 1; i++)
                     {
-                        x.Add((ll_data[1][i + 1] - ll_data[1][i]) / 2);
-                        y.Add((float)(GetBodySegmentAngle(jointnum, ll_data, i + 1) - GetBodySegmentAngle(jointnum, ll_data, i)));
+                        x.Add((ll_data[1][i])/1000);
+                        y.Add(((float)(GetBodySegmentAngle(jointnum, ll_data, i + 1) - GetBodySegmentAngle(jointnum, ll_data, i-1)))/2);
                     }
                     break;
 
