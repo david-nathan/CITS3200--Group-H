@@ -22,6 +22,7 @@ using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.PointMarkers;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 using Microsoft.Research.DynamicDataDisplay.Charts.Navigation;
+using Microsoft.Research.DynamicDataDisplay.ViewportRestrictions;
 using Microsoft.Xna.Framework;
 
 namespace Project_v1._1
@@ -56,6 +57,7 @@ namespace Project_v1._1
 
         //Used to clear plotter
         LineAndMarker<ElementMarkerPointsGraph> chart;
+        LineAndMarker<ElementMarkerPointsGraph> chart2;
         //TO LOSE
         //private string startTime;
 
@@ -762,8 +764,16 @@ namespace Project_v1._1
 
         private void Clear_button_Click(object sender, RoutedEventArgs e)
         {
+            //plotter = new ChartPlotter();
+            //plotter.Viewport.RenderSize = 1;
+            //plotter.Viewport.Zoom(0.00001);
+
             plotter.Children.RemoveAll(typeof(LineGraph));
             chart.MarkerGraph.DataSource = null;
+            if (Plot_Type_ComboBox.SelectedIndex == 0)
+            {
+                chart2.MarkerGraph.DataSource = null;
+            }
             Clear_button.IsEnabled = false;
             Clear_button.Content = "";
             Body_Segment_ComboBox.SelectedIndex = -1;
@@ -771,10 +781,15 @@ namespace Project_v1._1
 
             // enable combo boxes and radio buttons 
             sessionGridGestures.IsEnabled = true;
+            loadPlotDatabutton2.IsEnabled = true;
             Plot_Type_ComboBox.IsEnabled = true;
             Radio_Grid.IsEnabled = true;
             Body_Segment_ComboBox.IsEnabled = true;
             xyz.IsEnabled = true;
+
+            //Reset Graph labels
+            plotter_vertical_title.Content = "";
+            plotter_horizontal_title.Content = "";
 
             Check_For_PlotButton();
         }
@@ -787,6 +802,7 @@ namespace Project_v1._1
 
             // disable combo boxes and radio buttons 
             sessionGridGestures.IsEnabled = false;
+            loadPlotDatabutton2.IsEnabled = false;
             Plot_Type_ComboBox.IsEnabled = false;
             Radio_Grid.IsEnabled = false;
             Body_Segment_ComboBox.IsEnabled = false;
@@ -829,6 +845,10 @@ namespace Project_v1._1
 
         private void plotTracker()
         {
+            double[] firstX = new double[1];
+            double[] firstY = new double[1];
+
+
             //Prepare coordinates for plotting
             List<float[]> lf_data = sessionGestures.gestures[selectedRow];
             List<List<float>> ll_data = toListList(lf_data);
@@ -837,10 +857,21 @@ namespace Project_v1._1
 
             //Check for the x-y or x-z Radio buttion
             var x = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2].AsEnumerable();
+            firstX[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2][0];
+
             var y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3].AsEnumerable();
+            firstY[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3][0];
+
+            plotter_horizontal_title.Content = "x-axis";
+
             if ((bool)Radio_optionB.IsChecked)
             {
                 y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 4].AsEnumerable();
+                plotter_vertical_title.Content = "z-axis";
+            }
+            else
+            {
+                plotter_vertical_title.Content = "y-axis";
             }
 
             float[] xfarray = x.ToArray();
@@ -854,6 +885,7 @@ namespace Project_v1._1
 
             CompositeDataSource compositeDS = xdata.Join(ydata);
 
+            
             chart = plotter.AddLineGraph(compositeDS,
                 new Pen(Brushes.Purple, 3),
                 new CircleElementPointMarker
@@ -863,6 +895,22 @@ namespace Project_v1._1
                     Fill = Brushes.Purple
                 },
                 new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
+
+
+            //Adding the starting point to the graph
+            var xDataSource = firstX.AsXDataSource();
+            var yDataSource = firstY.AsYDataSource();
+            compositeDS = xDataSource.Join(yDataSource);
+
+            chart2 = plotter.AddLineGraph(compositeDS,
+                new Pen(Brushes.Orange, 3),
+                new CircleElementPointMarker
+                {
+                    Size = 10,
+                    Brush = Brushes.Red,
+                    Fill = Brushes.Orange
+                },
+                new PenDescription("Starting Point"));
 
             plotter.Children.Add(new CursorCoordinateGraph());
             plotter.FitToView();
@@ -918,31 +966,43 @@ namespace Project_v1._1
             switch (graphtype)
             {
                 case 0: //Position
-                    x = ll_data[1];
+                    for (int i = 0; i < ll_data[0].Count; i++)
+                    {
+                        x.Add(ll_data[1][i] / 1000);
+                    }
                     y = ll_data[jointnum * 3 + user_axis + 2];
+                    plotter_horizontal_title.Content = "time(sec)";
+                    plotter_vertical_title.Content = "metres";
                     break;
 
                 case 1: //Position over time
                     for (int i = 1; i < ll_data[0].Count - 1; i++)
                     {
-                        x.Add((ll_data[1][i])/1000);
-                        y.Add((ll_data[jointnum * 3 + user_axis + 2][i + 1] - ll_data[jointnum * 3 + user_axis + 2][i-1])/2);
+                        x.Add((ll_data[1][i] / 1000));
+                        y.Add((ll_data[jointnum * 3 + user_axis + 2][i + 1] 
+                            - ll_data[jointnum * 3 + user_axis + 2][i-1])/2);
+                        plotter_horizontal_title.Content = "time(sec)";
+                        plotter_vertical_title.Content = "metres";
                     }
                     break;
                 case 2: //Angle
-                    x = ll_data[1];
                     for (int i = 0; i < ll_data[0].Count; i++)
                     {
+                        x.Add(ll_data[1][i] / 1000);
                         y.Add((float)GetBodySegmentAngle(jointnum, ll_data, i));
                     }
+                    plotter_horizontal_title.Content = "time(sec)";
+                    plotter_vertical_title.Content = "degrees";
                     break;
 
                 case 3: //Angle over time
                     for (int i = 1; i < ll_data[0].Count - 1; i++)
                     {
-                        x.Add((ll_data[1][i])/1000);
+                        x.Add((ll_data[1][i] / 1000));
                         y.Add(((float)(GetBodySegmentAngle(jointnum, ll_data, i + 1) - GetBodySegmentAngle(jointnum, ll_data, i-1)))/2);
                     }
+                    plotter_horizontal_title.Content = "time(sec)";
+                    plotter_vertical_title.Content = "degrees";
                     break;
 
                 default:
@@ -972,6 +1032,8 @@ namespace Project_v1._1
                     Fill = Brushes.Purple
                 },
                 new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
+
+            plotter.Children.Add(new CursorCoordinateGraph());
             plotter.FitToView();
 
 
