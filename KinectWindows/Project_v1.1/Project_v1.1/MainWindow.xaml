@@ -132,8 +132,8 @@
                                 <ComboBoxItem x:Name="CBox_item_angular" Content="Angular Plotter"/>
                             </ComboBox>
                             <Grid x:Name="Radio_Grid" Margin="5,87,8,128">
-                                <RadioButton x:Name="Radio_optionB" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsEnabled="False"/>
-                                <RadioButton x:Name="Radio_optionA" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False"/>
+                                <RadioButton x:Name="Radio_optionB" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsEnabled="False" />
+                                <RadioButton x:Name="Radio_optionA" Content="" HorizontalAlignment="Left" IsEnabled="False" Margin="0,0,0,16" />
                             </Grid>
                             <Label Content="Plotter Specifics:" HorizontalAlignment="Left" Height="28" Margin="0,63,0,0" VerticalAlignment="Top" Width="100"/>
                             <Label Content="Body Segment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,140,0,0"/>

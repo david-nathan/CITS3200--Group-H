@@ -745,13 +745,14 @@ namespace Project_v1._1
             isBodySegmentSelected = true;
             Check_For_PlotButton();
         }
-
+        
         private void sessionGridGestures_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sessionGridGestures.SelectedItem != null)
             {
                 selectedRow = (GestureKey)(sessionGridGestures.SelectedItem);
                 isRowSelected = true;
+                Check_For_PlotButton();
             }
             else
             {
@@ -765,6 +766,8 @@ namespace Project_v1._1
             chart.MarkerGraph.DataSource = null;
             Clear_button.IsEnabled = false;
             Clear_button.Content = "";
+            Body_Segment_ComboBox.SelectedIndex = -1;
+            isBodySegmentSelected = false;
             Check_For_PlotButton();
         }
 
@@ -945,7 +948,15 @@ namespace Project_v1._1
             CompositeDataSource compositeDS = xdata.Join(ydata);
 
 
-            plotter.AddLineGraph(compositeDS, Colors.Black, 3);
+            chart = plotter.AddLineGraph(compositeDS,
+                new Pen(Brushes.Purple, 3),
+                new CircleElementPointMarker
+                {
+                    Size = 10,
+                    Brush = Brushes.Aqua,
+                    Fill = Brushes.Purple
+                },
+                new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
             plotter.FitToView();
 
 
@@ -1251,21 +1262,12 @@ namespace Project_v1._1
             // Convert the result to degrees.
             double degrees = segmentAngle * (180 / Math.PI);
 
-            /*
-            // Add the angular offset.  Use modulo 360 to convert the value calculated above to a range
-            // from 0 to 360.
-            degrees = (degrees + _RotationOffset) % 360;
-
-            // Calculate whether the coordinates should be reversed to account for different sides 
-            if (_ReverseCoordinates)
-            {
-                degrees = CalculateReverseCoordinates(degrees);
-            }
-            */
             return degrees;
 
 
         }
+
+        
 
     }
 }
