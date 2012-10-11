@@ -768,6 +768,14 @@ namespace Project_v1._1
             Clear_button.Content = "";
             Body_Segment_ComboBox.SelectedIndex = -1;
             isBodySegmentSelected = false;
+
+            // enable combo boxes and radio buttons 
+            sessionGridGestures.IsEnabled = true;
+            Plot_Type_ComboBox.IsEnabled = true;
+            Radio_Grid.IsEnabled = true;
+            Body_Segment_ComboBox.IsEnabled = true;
+            xyz.IsEnabled = true;
+
             Check_For_PlotButton();
         }
 
@@ -776,6 +784,13 @@ namespace Project_v1._1
             Clear_button.IsEnabled = true;
             Clear_button.Content = "Clear Graph";
             Plot_graph_button.IsEnabled = false;
+
+            // disable combo boxes and radio buttons 
+            sessionGridGestures.IsEnabled = false;
+            Plot_Type_ComboBox.IsEnabled = false;
+            Radio_Grid.IsEnabled = false;
+            Body_Segment_ComboBox.IsEnabled = false;
+            xyz.IsEnabled = false;
 
             switch (Plot_Type_ComboBox.SelectedIndex)
             {
