@@ -1,4 +1,4 @@
-﻿<Window x:Class="Project_v1._1.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:Project_v1._1"
@@ -8,75 +8,78 @@
         
         
       
-        Title="Kinect Active" Height="727" Width="913" xmlns:my="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
+        xmlns:my="clr-namespace:Microsoft.Samples.Kinect.WpfViewers;assembly=Microsoft.Samples.Kinect.WpfViewers"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Project_v1._1.MainWindow"
+        
+        
+      
+        Title="Kinect Active" Height="962" Width="1314"
         Closing="Window_Closing"
         WindowStartupLocation="CenterScreen" 
-        Loaded="Window_Loaded">
-    <Window.Resources>
-        
+        Loaded="Window_Loaded" 
+         SizeToContent="WidthAndHeight">
+    
 
-    </Window.Resources>
-        <Grid Height="613" Width="844">
-        
-        <TabControl HorizontalAlignment="Left" Margin="24,-22,0,10" Name="tabControl1" Width="789" SelectionChanged="tabControl1_SelectionChanged" >
-            <TabItem Header="Kinect Display" Name="tabItem1">
+        <TabControl Margin="175,13,108,11" x:Name="tabControl1" 
+                    SelectionChanged="tabControl1_SelectionChanged" >
+            <TabItem Header="Kinect Display" x:Name="tabItem1">
 
-            <Grid Margin="0,0,12,0">
-            <Image Height="32" HorizontalAlignment="Left" Margin="10,10,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
+                <Grid Height="Auto" Width="Auto" Margin="0,0,239,0">
+                    <Image Height="32" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
                     <TextBlock Height="32" HorizontalAlignment="Left" Margin="576,12,0,0" x:Name="textBlock1" VerticalAlignment="Top" Width="190" FontSize="18" TextAlignment="Right" ><Run Text="KINECT ACTI"/><Run Language="en-au" Text="VE"/></TextBlock>
-                    <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar1" VerticalAlignment="Top" Width="778" />
-            <my:KinectColorViewer Height="180" HorizontalAlignment="Left" Margin="526,48,0,0" Name="kinectColorViewer1" VerticalAlignment="Top" Width="240" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" Background="Black" />
-            <my:KinectSkeletonViewer Height="360" HorizontalAlignment="Left" Margin="12,48,0,0" Name="kinectSkeletonViewer1" VerticalAlignment="Top" Width="480" Background="Black" Kinect="{Binding ElementName=kinectSensorChooser1, Path=Kinect}" />
-            <my:KinectSensorChooser HorizontalAlignment="Left" Margin="84,117,0,0" Name="kinectSensorChooser1" VerticalAlignment="Top" Width="328" />
-            <Grid Height="174" HorizontalAlignment="Left" Margin="526,234,0,0" Name="grid1" VerticalAlignment="Top" Width="240" Background="#FF52318F">
-                <Button Content="Tilt Camera" Height="23" HorizontalAlignment="Left" Margin="37,57,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
-                <Slider Height="128" HorizontalAlignment="Left" Margin="117,6,0,0" Name="slider1" VerticalAlignment="Top" Width="40" Orientation="Vertical" Maximum="27" Minimum="-27" Interval="1" IsSnapToTickEnabled="True" TickPlacement="TopLeft" />
-                <Label Content="{Binding Path=Value, ElementName=slider1}" Height="28" HorizontalAlignment="Left" Margin="150,56,0,0" Name="label1" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" />
-                <Label Content="Current Angle:" Height="28" HorizontalAlignment="Left" Margin="29,140,0,0" Name="label2" VerticalAlignment="Top" Width="100" Foreground="White" FontWeight="Bold" />
-                <Label Content="..." Height="28" HorizontalAlignment="Right" Margin="0,140,99,0" Name="lblCurrentAngle" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" />
-                <Image Height="41" HorizontalAlignment="Left" Margin="50,86,0,0" Name="image2" Stretch="Uniform" VerticalAlignment="Top" Width="49" Source="/Project_v1.1;component/images/Kinect_Angle.png" />
-            </Grid>
-            <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="statusBar2" VerticalAlignment="Top" Width="778" />
-            <Label Content="Kinect Status:" Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" Name="label3" VerticalAlignment="Top" Width="80" />
-            <Label Content="{Binding Path=Kinect.Status, ElementName=kinectSensorChooser1}" Height="23" HorizontalAlignment="Left" Margin="73,538,0,0" Name="label4" VerticalAlignment="Top" Width="113" />
-            <Button Content="Stop" Height="23" HorizontalAlignment="Left" Margin="663,428,0,0" Name="stop_button" VerticalAlignment="Top" Width="75" Click="stop_button_Click" />
-            <Button Content="Record" Height="23" HorizontalAlignment="Left" Margin="526,426,0,0" Name="start_button" VerticalAlignment="Top" Width="75" Click="start_button_Click" />
-            <Label Content=":" Height="24" HorizontalAlignment="Left" Margin="102,428,0,0" Name="label5" VerticalAlignment="Top" RenderTransformOrigin="0.462,0.261" />
-            <Image Height="23" HorizontalAlignment="Left" Margin="603,426,0,0" Name="image3" Stretch="Uniform" VerticalAlignment="Top" Width="35" Source="/Project_v1.1;component/images/record.png" />
-            <Image Height="23" HorizontalAlignment="Left" Margin="740,428,0,0" Name="image4" Stretch="Uniform" VerticalAlignment="Top" Width="26" Source="/Project_v1.1;component/images/stop.png" />
-            <Button Content="Target File" Height="23" HorizontalAlignment="Left" Margin="16,429,0,0" Name="TargetFileButton" VerticalAlignment="Top" Width="86" Click="targetFileButton_Click" />
-            <TextBlock Height="23" HorizontalAlignment="Right" Margin="0,429,435,0" Name="textBlock2" Text="" VerticalAlignment="Top" Width="212" RenderTransformOrigin="0.317,1.087" FontSize="14" />
-            <Button Content="Classify" Height="23" HorizontalAlignment="Left" Margin="526,468,0,0" Name="classify_button" VerticalAlignment="Top" Width="100" Click="classify_button_Click" />
-                    <Button Content="Add To Library" Height="23" HorizontalAlignment="Left" Margin="16,468,0,0" Name="addToLibraryButton" VerticalAlignment="Top" Width="86" Click="addToLibraryButton_Click" />
+                    <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" x:Name="statusBar1" VerticalAlignment="Top" Width="778" />
+                    <my:KinectColorViewer Height="180" HorizontalAlignment="Left" Margin="526,48,0,0" x:Name="kinectColorViewer1" VerticalAlignment="Top" Width="240" Background="Black" Kinect="{Binding Kinect, ElementName=kinectSensorChooser1}" />
+                    <my:KinectSkeletonViewer Height="360" HorizontalAlignment="Left" Margin="12,48,0,0" x:Name="kinectSkeletonViewer1" VerticalAlignment="Top" Width="480" Background="Black" Kinect="{Binding Kinect, ElementName=kinectSensorChooser1}" />
+                    <my:KinectSensorChooser HorizontalAlignment="Left" Margin="84,117,0,0" x:Name="kinectSensorChooser1" VerticalAlignment="Top" Width="328" />
+                    <Grid Height="174" HorizontalAlignment="Left" Margin="526,234,0,0" x:Name="grid1" VerticalAlignment="Top" Width="240" Background="#FF52318F">
+                        <Button Content="Tilt Camera" Height="23" HorizontalAlignment="Left" Margin="37,57,0,0" x:Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+                        <Slider Height="128" HorizontalAlignment="Left" Margin="117,6,0,0" x:Name="slider1" VerticalAlignment="Top" Width="40" Orientation="Vertical" Maximum="27" Minimum="-27" Interval="1" IsSnapToTickEnabled="True" TickPlacement="TopLeft" />
+                        <Label Content="{Binding Value, ElementName=slider1}" Height="28" HorizontalAlignment="Left" Margin="150,56,0,0" x:Name="label1" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" />
+                        <Label Content="Current Angle:" Height="28" HorizontalAlignment="Left" Margin="29,140,0,0" x:Name="label2" VerticalAlignment="Top" Width="100" Foreground="White" FontWeight="Bold" />
+                        <Label Content="..." Height="28" HorizontalAlignment="Right" Margin="0,140,99,0" x:Name="lblCurrentAngle" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" />
+                        <Image Height="41" HorizontalAlignment="Left" Margin="50,86,0,0" x:Name="image2" Stretch="Uniform" VerticalAlignment="Top" Width="49" Source="/Project_v1.1;component/images/Kinect_Angle.png" />
+                    </Grid>
+                    <StatusBar Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" x:Name="statusBar2" VerticalAlignment="Top" Width="778" />
+                    <Label Content="Kinect Status:" Height="23" HorizontalAlignment="Left" Margin="0,538,0,0" x:Name="label3" VerticalAlignment="Top" Width="80" />
+                    <Label Content="{Binding Kinect.Status, ElementName=kinectSensorChooser1}" Height="23" HorizontalAlignment="Left" Margin="73,538,0,0" x:Name="label4" VerticalAlignment="Top" Width="113" />
+                    <Button Content="Stop" Height="23" HorizontalAlignment="Left" Margin="663,428,0,0" x:Name="stop_button" VerticalAlignment="Top" Width="75" Click="stop_button_Click" />
+                    <Button Content="Record" Height="23" HorizontalAlignment="Left" Margin="526,426,0,0" x:Name="start_button" VerticalAlignment="Top" Width="75" Click="start_button_Click" />
+                    <Label Content=":" Height="24" HorizontalAlignment="Left" Margin="102,428,0,0" x:Name="label5" VerticalAlignment="Top" RenderTransformOrigin="0.462,0.261" />
+                    <Image Height="23" HorizontalAlignment="Left" Margin="603,426,0,0" x:Name="image3" Stretch="Uniform" VerticalAlignment="Top" Width="35" Source="/Project_v1.1;component/images/record.png" />
+                    <Image Height="23" HorizontalAlignment="Left" Margin="740,428,0,0" x:Name="image4" Stretch="Uniform" VerticalAlignment="Top" Width="26" Source="/Project_v1.1;component/images/stop.png" />
+                    <Button Content="Target File" Height="23" HorizontalAlignment="Left" Margin="16,429,0,0" x:Name="TargetFileButton" VerticalAlignment="Top" Width="86" Click="targetFileButton_Click" />
+                    <TextBlock Height="23" HorizontalAlignment="Right" Margin="0,429,435,0" x:Name="textBlock2" Text="" VerticalAlignment="Top" Width="212" RenderTransformOrigin="0.317,1.087" FontSize="14" />
+                    <Button Content="Classify" Height="23" HorizontalAlignment="Left" Margin="526,468,0,0" x:Name="classify_button" VerticalAlignment="Top" Width="100" Click="classify_button_Click" />
+                    <Button Content="Add To Library" Height="23" HorizontalAlignment="Left" Margin="16,468,0,0" x:Name="addToLibraryButton" VerticalAlignment="Top" Width="86" Click="addToLibraryButton_Click" />
                     <Button x:Name="cancelKDButton" Content="Cancel" HorizontalAlignment="Left" Margin="664,470,0,0" VerticalAlignment="Top" Width="100" Click="cancelKDButton_Click"/>
                 </Grid>
-                </TabItem> 
+            </TabItem>
 
-                <TabItem Header="Kinect Gestures" Name="gesturesTabItem" Loaded="gesturesTabItem_Loaded">
-               
+            <TabItem Header="Kinect Gestures" x:Name="gesturesTabItem" Loaded="gesturesTabItem_Loaded">
+
                 <Grid>
 
-                    <DataGrid  x:Name="dataGridGestures" Margin="48,169,118,40" AutoGenerateColumns="False" FontSize="14" SelectionMode="Single" IsReadOnly="True" SelectionChanged="dataGridGestures_SelectionChanged" Grid.Row="4">
-                       
-                        
-                        
+                    <DataGrid  x:Name="dataGridGestures" Margin="48,169,169,40" AutoGenerateColumns="False" FontSize="14" SelectionMode="Single" IsReadOnly="True" SelectionChanged="dataGridGestures_SelectionChanged">
+
+
+
                         <DataGrid.Columns>
-                            <DataGridComboBoxColumn Header="Rating" x:Name="ratingCategory" SelectedItemBinding="{Binding rating}"/>                            
+                            <DataGridComboBoxColumn Header="Rating" x:Name="ratingCategory" SelectedItemBinding="{Binding rating}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
                             <DataGridTextColumn Header="Recorded" Binding="{Binding recorded}"/>
                             <DataGridTextColumn Header="Number of Frames" Binding="{Binding framenum}"/>
                             <DataGridTextColumn Header="Length of Gesture" Binding="{Binding timestamp, StringFormat=ss\\.fff}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid Margin="673,170,10,13">
-                        <Button Content="Edit" Grid.Column="0" Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="5,20,0,0" Name="edit_button" VerticalAlignment="Top" Width="85" FontSize="14" Click="edit_button_Click"/>
-                        <Button Content="Delete" Grid.Column="0" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="5,70,0,0" Name="delete_button" VerticalAlignment="Top" Width="85" FontSize="14" Click="delete_button_Click"/>
-                        <Button Content="Save" Grid.Column="0" Grid.Row="2" Height="28" HorizontalAlignment="Left" Margin="5,120,0,0" Name="savegesture_button" VerticalAlignment="Top" Width="86" FontSize="14" Click="savegesture_button_Click"/>
+                    <Grid Margin="875,170,0,13" Width="128" d:IsLocked="True">
+                        <Button Content="Edit" Grid.Column="0" Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="5,20,0,0" x:Name="edit_button" VerticalAlignment="Top" Width="85" FontSize="14" Click="edit_button_Click"/>
+                        <Button Content="Delete" Grid.Column="0" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="5,70,0,0" x:Name="delete_button" VerticalAlignment="Top" Width="85" FontSize="14" Click="delete_button_Click"/>
+                        <Button Content="Save" Grid.Column="0" Grid.Row="2" Height="28" HorizontalAlignment="Left" Margin="5,120,0,0" x:Name="savegesture_button" VerticalAlignment="Top" Width="86" FontSize="14" Click="savegesture_button_Click"/>
                     </Grid>
                     <Grid Margin="60,25,175,504">
                         <Image Height="32" HorizontalAlignment="Left" Margin="10,16,0,0" Stretch="Fill" VerticalAlignment="Top" Width="81" Source="/Project_v1.1;component/images/Logo.png" />
                         <Label Content="Gesture Library" Grid.Column="0"  Grid.Row="0" Height="53" HorizontalAlignment="Left" Margin="107,-2,0,0" VerticalAlignment="Top" Width="269" FontSize="36" FontFamily="Segoe UI Semibold"/>
-                    </Grid> 
+                    </Grid>
                     <Grid Margin="48,105,118,431">
                         <Label Content="Rating:" Grid.Column="0"  Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="5,15,0,0" VerticalAlignment="Top" Width="54" FontSize="14"/>
                         <ComboBox x:Name="gestureRatingCombo" Grid.Column="1"  Grid.Row="0" Height="20" HorizontalAlignment="Left" Margin="62,23,0,0" VerticalAlignment="Top" Width="60" RenderTransformOrigin="2.944,0.464" PreviewMouseDown="gestureRatingCombo_PreviewMouseDown">
@@ -92,43 +95,60 @@
                         <Label Content="Recorded:" Grid.Column="4"  Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="352,19,0,0" VerticalAlignment="Top" Width="73" FontSize="14"/>
                         <TextBlock x:Name="gestureLibraryRecord" Grid.Row="0" Height="28" Margin="430,24,0,0" VerticalAlignment="Top" Width="152" FontSize="14" HorizontalAlignment="Left"/>
 
-                    </Grid> 
+                    </Grid>
                 </Grid>
-                    
-                
+
+
 
             </TabItem>
 
-            <TabItem Header="Kinect Plot" Name="tabItem2" Loaded="tabItem2_Loaded">
+            <TabItem Header="Kinect Plot" x:Name="tabItem2" Loaded="tabItem2_Loaded">
                 <Grid>
-                    <Grid Margin="22,32,207,179">
-                        <d3:ChartPlotter Name="plotter" Height="348" Margin="27,0,0,34">
-                            
-                        </d3:ChartPlotter>
-                        <d3:VerticalAxisTitle Name="plotter_vertical_title" Margin="0,174,0,130" HorizontalAlignment="Left"></d3:VerticalAxisTitle>
-                        <d3:HorizontalAxisTitle Name="plotter_horizontal_title" VerticalAlignment="Bottom" HorizontalAlignment="Center"></d3:HorizontalAxisTitle>
+                    <Grid Margin="22,32,225,179">
+                    <d3:ChartPlotter x:Name="plotter" VerticalAlignment=" Stretch"
+                    		Margin="27,0,0,316"/>
+
+                    <d3:VerticalAxisTitle x:Name="plotter_vertical_title" Margin="0,174,0,130" HorizontalAlignment="Left"/>
+                    <d3:HorizontalAxisTitle x:Name="plotter_horizontal_title" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                </Grid>
+
+                <Grid Margin="0,212,0,112">
+                    
+
+                    <Button HorizontalAlignment="Right" Margin="0,0,914,97" x:Name="loadPlotDatabutton2" Width="75" Click="loadPlotDatabutton2_Click" Height="23" VerticalAlignment="Bottom" >
+                        <TextBlock Height="19" HorizontalAlignment="Left" x:Name="plotDatatextBlock" Text="" VerticalAlignment="Top" Width="189" />
+                    </Button>
+                    <Label Content=":" Height="28" HorizontalAlignment="Left" Margin="105,431,0,0" x:Name="label6" VerticalAlignment="Top" Width="127" />
+
+                    <DataGrid  x:Name="sessionGridGestures" Margin="27,469,222,-104" AutoGenerateColumns="False" SelectionChanged="sessionGridGestures_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridComboBoxColumn Header="Rating" x:Name="ratingSessionCategory" SelectedItemBinding="{Binding rating}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Recorded" Binding="{Binding recorded}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Number of Frames" Binding="{Binding framenum}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Length of Gesture" Binding="{Binding timespan, StringFormat=ss\\.fff}" IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn Header="Overlay Plot" Width="Auto"  IsReadOnly="False" 
+                                        Binding="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Margin="840,218,58,-69">
+                        <StackPanel Orientation="Vertical" Margin="0,0,-4,-2">
+                            <Image Height="302" x:Name="image" Stretch="Uniform" VerticalAlignment="Top" Width="101" Source="/Project_v1.1;component/images/Joints.png" HorizontalAlignment="Right" />
+
+                        </StackPanel>
                     </Grid>
-                    <Button Content="Load From" Height="23" HorizontalAlignment="Left" Margin="24,432,0,0" Name="loadPlotDatabutton2" VerticalAlignment="Top" Width="75" Click="loadPlotDatabutton2_Click" />
-                    <TextBlock Height="19" HorizontalAlignment="Left" Margin="118,436,0,0" Name="plotDatatextBlock" Text="" VerticalAlignment="Top" Width="233" />
-                    <Label Content=":" Height="28" HorizontalAlignment="Left" Margin="105,431,0,0" Name="label6" VerticalAlignment="Top" Width="21" />
 
-                    <Grid Height="451">
-
-                        <DataGrid  x:Name="sessionGridGestures" Margin="27,396,211,-53" AutoGenerateColumns="False" SelectionChanged="sessionGridGestures_SelectionChanged">
-                            <DataGrid.Columns>
-                                <DataGridComboBoxColumn Header="Rating" x:Name="ratingSessionCategory" SelectedItemBinding="{Binding rating}">
-                                </DataGridComboBoxColumn>
-                                <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
-                                <DataGridTextColumn Header="Recorded" Binding="{Binding recorded}"/>
-                                <DataGridTextColumn Header="Number of Frames" Binding="{Binding framenum}"/>
-                                <DataGridTextColumn Header="Length of Gesture" Binding="{Binding timestamp, StringFormat=ss\\.fff}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <Image Height="302" HorizontalAlignment="Left" Margin="638,218,0,-69" x:Name="image" Stretch="Uniform" VerticalAlignment="Top" Width="100" Source="/Project_v1.1;component/images/Joints.png" />
-
-                    </Grid>
-                    <Border HorizontalAlignment="Left" Height="251" Margin="588,30,0,0" VerticalAlignment="Top" Width="176" BorderThickness="2" BorderBrush="#FFE6E6E6">
-                        <Grid>
+                </Grid>
+                    <Border Height="262" Margin="0,0,10,584" VerticalAlignment="Bottom" BorderThickness="2" BorderBrush="#FFE6E6E6" Width="202" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" d:IsLocked="True">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="0.322"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="0.494"/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                    <Grid>
                             <Label Content="Plotter Type:" HorizontalAlignment="Left" Height="26" Margin="0,-4,0,0" VerticalAlignment="Top" Width="154"/>
                             <ComboBox x:Name="Plot_Type_ComboBox" HorizontalAlignment="Left" Height="23" Margin="5,21,0,0" VerticalAlignment="Top" Width="160" SelectionChanged="Plot_Type_ComboBox_SelectionChanged">
                                 <ComboBoxItem x:Name="CBox_item_tracker" Content="Joint Tracker"/>
@@ -142,26 +162,26 @@
                             <Label Content="Plotter Specifics:" HorizontalAlignment="Left" Height="28" Margin="0,63,0,0" VerticalAlignment="Top" Width="100"/>
                             <Label Content="Body Segment:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,140,0,0"/>
                             <ComboBox x:Name="Body_Segment_ComboBox" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="160" Margin="5,0,0,61" IsEnabled="False" MaxDropDownHeight="100" SelectionChanged="Body_Segment_ComboBox_SelectionChanged">
-                                <ComboBoxItem Content="Hip Centre" Name="CBox_item_hipCentre" />
-                                <ComboBoxItem Content="Spine" Name="CBox_item_spine" />
-                                <ComboBoxItem Content="Shoulder Centre" Name="CBox_item_shoulderCentre" />
-                                <ComboBoxItem Content="Head" Name="CBox_item_head" />
-                                <ComboBoxItem Content="Shoulder Left" Name="CBox_item_shoulderLeft" />
-                                <ComboBoxItem Content="Elbow Left" Name="CBox_item_elbowLeft" />
-                                <ComboBoxItem Content="Wrist Left" Name="CBox_item_wristLeft" />
-                                <ComboBoxItem Content="Hand Left" Name="CBox_item_handLeft" />
-                                <ComboBoxItem Content="Shoulder Right" Name="CBox_item_shoulderRight" />
-                                <ComboBoxItem Content="Elbow Right" Name="CBox_item_elbowRight" />
-                                <ComboBoxItem Content="Wrist Right" Name="CBox_item_wristRight" />
-                                <ComboBoxItem Content="Hand Right" Name="CBox_item_handRight" />
-                                <ComboBoxItem Content="Hip Left" Name="CBox_item_hipLeft" />
-                                <ComboBoxItem Content="Knee Left" Name="CBox_item_kneeLeft" />
-                                <ComboBoxItem Content="Ankle Left" Name="CBox_item_ankleLeft" />
-                                <ComboBoxItem Content="Foot Left" Name="CBox_item_footLeft" />
-                                <ComboBoxItem Content="Hip Right" Name="CBox_item_hipRight" />
-                                <ComboBoxItem Content="Knee Right" Name="CBox_item_kneeRight" />
-                                <ComboBoxItem Content="Ankle Right" Name="CBox_item_ankleRight" />
-                                <ComboBoxItem Content="Foot Right" Name="CBox_item_footRight" />
+                                <ComboBoxItem Content="Hip Centre" x:Name="CBox_item_hipCentre" />
+                                <ComboBoxItem Content="Spine" x:Name="CBox_item_spine" />
+                                <ComboBoxItem Content="Shoulder Centre" x:Name="CBox_item_shoulderCentre" />
+                                <ComboBoxItem Content="Head" x:Name="CBox_item_head" />
+                                <ComboBoxItem Content="Shoulder Left" x:Name="CBox_item_shoulderLeft" />
+                                <ComboBoxItem Content="Elbow Left" x:Name="CBox_item_elbowLeft" />
+                                <ComboBoxItem Content="Wrist Left" x:Name="CBox_item_wristLeft" />
+                                <ComboBoxItem Content="Hand Left" x:Name="CBox_item_handLeft" />
+                                <ComboBoxItem Content="Shoulder Right" x:Name="CBox_item_shoulderRight" />
+                                <ComboBoxItem Content="Elbow Right" x:Name="CBox_item_elbowRight" />
+                                <ComboBoxItem Content="Wrist Right" x:Name="CBox_item_wristRight" />
+                                <ComboBoxItem Content="Hand Right" x:Name="CBox_item_handRight" />
+                                <ComboBoxItem Content="Hip Left" x:Name="CBox_item_hipLeft" />
+                                <ComboBoxItem Content="Knee Left" x:Name="CBox_item_kneeLeft" />
+                                <ComboBoxItem Content="Ankle Left" x:Name="CBox_item_ankleLeft" />
+                                <ComboBoxItem Content="Foot Left" x:Name="CBox_item_footLeft" />
+                                <ComboBoxItem Content="Hip Right" x:Name="CBox_item_hipRight" />
+                                <ComboBoxItem Content="Knee Right" x:Name="CBox_item_kneeRight" />
+                                <ComboBoxItem Content="Ankle Right" x:Name="CBox_item_ankleRight" />
+                                <ComboBoxItem Content="Foot Right" x:Name="CBox_item_footRight" />
                             </ComboBox>
                             <Button x:Name="Plot_graph_button" Content="Plot" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="90,220,0,0" IsEnabled="False" Click="Plot_graph_button_Click"/>
                             <Grid x:Name="xyz" Margin="5,190,9,40" Opacity="0">
@@ -179,5 +199,5 @@
 
 
         </TabControl>
-    </Grid>
+    
 </Window>

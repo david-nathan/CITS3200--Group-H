@@ -40,6 +40,7 @@ namespace Project_v1._1
         private Boolean kinectConnected = true;
         private DateTime startTime;
         private GestureKey selectedRow;
+        private PlotGrid selectedPlotRow;
         private string start_time;
         private string gesture_type;
         private int initFrameNum;
@@ -56,8 +57,8 @@ namespace Project_v1._1
         private Boolean isBodySegmentSelected = false;
 
         //Used to clear plotter
-        LineAndMarker<ElementMarkerPointsGraph> chart;
-        LineAndMarker<ElementMarkerPointsGraph> chart2;
+        List<LineAndMarker<ElementMarkerPointsGraph>> chart;
+        List<LineAndMarker<ElementMarkerPointsGraph>> chart2;
         //TO LOSE
         //private string startTime;
 
@@ -73,6 +74,7 @@ namespace Project_v1._1
             gesturesTabItem.IsEnabled = true;
             recording = false;
             edit_button.IsEnabled = false;
+            TargetFileButton.IsEnabled = false;
             savegesture_button.IsEnabled = false;
             delete_button.IsEnabled = false;
             
@@ -665,8 +667,12 @@ namespace Project_v1._1
                     plotDatatextBlock.Text = PlotDataLocation;
                     sessionGestures = readInSessionData(PlotDataLocation);
                     ratingSessionCategory.ItemsSource = Enum.GetValues(typeof(GestureKey.Rating)).Cast<GestureKey.Rating>().AsEnumerable();
-                    sessionGridGestures.ItemsSource = sessionGestures.gestures.Keys.AsEnumerable();
-                    sessionGridGestures.IsReadOnly = true;
+                    List<PlotGrid> sessgridData = new List<PlotGrid>();
+                    foreach (GestureKey gkey in sessionGestures.gestures.Keys)
+                    {
+                        sessgridData.Add(new PlotGrid(gkey, false));
+                    }
+                    sessionGridGestures.ItemsSource = sessgridData;
                     isFileloaded = true;
                     Check_For_PlotButton();
                 }
@@ -752,7 +758,7 @@ namespace Project_v1._1
         {
             if (sessionGridGestures.SelectedItem != null)
             {
-                selectedRow = (GestureKey)(sessionGridGestures.SelectedItem);
+                selectedPlotRow = (PlotGrid)(sessionGridGestures.SelectedItem);
                 isRowSelected = true;
                 Check_For_PlotButton();
             }
@@ -769,15 +775,27 @@ namespace Project_v1._1
             //plotter.Viewport.Zoom(0.00001);
 
             plotter.Children.RemoveAll(typeof(LineGraph));
-            chart.MarkerGraph.DataSource = null;
+            foreach (LineAndMarker<ElementMarkerPointsGraph> p in chart)
+            {
+                p.MarkerGraph.DataSource = null;
+            }
+
             if (Plot_Type_ComboBox.SelectedIndex == 0)
             {
-                chart2.MarkerGraph.DataSource = null;
+                foreach (LineAndMarker<ElementMarkerPointsGraph> p in chart2)
+                {
+                    p.MarkerGraph.DataSource = null;
+                }
             }
             Clear_button.IsEnabled = false;
             Clear_button.Content = "";
             Body_Segment_ComboBox.SelectedIndex = -1;
             isBodySegmentSelected = false;
+
+            foreach (PlotGrid pg in sessionGridGestures.ItemsSource)
+            {
+                pg.Selected = false;
+            }
 
             // enable combo boxes and radio buttons 
             sessionGridGestures.IsEnabled = true;
@@ -845,74 +863,109 @@ namespace Project_v1._1
 
         private void plotTracker()
         {
-            double[] firstX = new double[1];
-            double[] firstY = new double[1];
+            chart = new List<LineAndMarker<ElementMarkerPointsGraph>>();
+            chart2 = new List<LineAndMarker<ElementMarkerPointsGraph>>();
+            int i = 0;
 
-
-            //Prepare coordinates for plotting
-            List<float[]> lf_data = sessionGestures.gestures[selectedRow];
-            List<List<float>> ll_data = toListList(lf_data);
-
-            String test = ll_data[(Plot_Type_ComboBox.SelectedIndex * 3) + 2].ToString();
-
-            //Check for the x-y or x-z Radio buttion
-            var x = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2].AsEnumerable();
-            firstX[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2][0];
-
-            var y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3].AsEnumerable();
-            firstY[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3][0];
-
-            plotter_horizontal_title.Content = "x-axis";
-
-            if ((bool)Radio_optionB.IsChecked)
+                        
+            
+            foreach (PlotGrid pg in sessionGridGestures.ItemsSource)
             {
-                y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 4].AsEnumerable();
-                plotter_vertical_title.Content = "z-axis";
+                if (pg.Selected)
+                {
+                    double[] firstX = new double[1];
+                    double[] firstY = new double[1];
+
+
+                    //Prepare coordinates for plotting
+                    List<float[]> lf_data = sessionGestures.gestures[pg.gkey];
+                    List<List<float>> ll_data = toListList(lf_data);
+
+                    String test = ll_data[(Plot_Type_ComboBox.SelectedIndex * 3) + 2].ToString();
+
+                    //Check for the x-y or x-z Radio buttion
+                    var x = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2].AsEnumerable();
+                    firstX[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 2][0];
+
+                    var y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3].AsEnumerable();
+                    firstY[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 3][0];
+
+                    plotter_horizontal_title.Content = "x-axis";
+
+                    if ((bool)Radio_optionB.IsChecked)
+                    {
+                        y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 4].AsEnumerable();
+                        plotter_vertical_title.Content = "z-axis";
+                    }
+                    else
+                    {
+                        plotter_vertical_title.Content = "y-axis";
+                    }
+
+                    float[] xfarray = x.ToArray();
+                    float[] yfarray = y.ToArray();
+
+                    double[] xarray = FloatAtoDoubleA(xfarray);
+                    double[] yarray = FloatAtoDoubleA(yfarray);
+
+                    var xdata = xarray.AsXDataSource();
+                    var ydata = yarray.AsYDataSource();
+
+                   CompositeDataSource   compositeDS = xdata.Join(ydata);
+
+                   Pen pen = new Pen(Brushes.Purple, 3);     
+                   CircleElementPointMarker marker = new CircleElementPointMarker
+                   {
+                       Size = 10,
+                       Brush = Brushes.Aqua,
+                       Fill = Brushes.Purple
+                   }; 
+
+                   switch (i)
+                   {
+                       case 0:
+                           pen =  new Pen(Brushes.Purple, 3);                       
+                         break;
+
+                       case 1:
+                         pen = new Pen(Brushes.LimeGreen , 3);
+                         break;
+
+                       case 2:
+                         pen = new Pen(Brushes.SkyBlue, 3);
+                         break;
+
+                       default: new Pen(Brushes.MediumPurple, 3);
+                         break;
+                   }  
+
+
+
+
+                   chart.Add(plotter.AddLineGraph(compositeDS,pen ,marker, new PenDescription(pg.name + " Tracker")));
+
+
+                    //Adding the starting point to the graph
+                   
+                    var xDataSource = firstX.AsXDataSource();
+                    var yDataSource = firstY.AsYDataSource();
+                    compositeDS = xDataSource.Join(yDataSource);
+
+                    chart2.Add(plotter.AddLineGraph(compositeDS, new Pen(Brushes.Orange, 3),
+                        new CircleElementPointMarker
+                        {
+                            Size = 10,
+                            Brush = Brushes.Red,
+                            Fill = Brushes.Orange
+                        },
+                        new PenDescription("Starting Point")));
+
+                    plotter.Children.Add(new CursorCoordinateGraph());
+                    i++;
+                }
             }
-            else
-            {
-                plotter_vertical_title.Content = "y-axis";
-            }
-
-            float[] xfarray = x.ToArray();
-            float[] yfarray = y.ToArray();
-
-            double[] xarray = FloatAtoDoubleA(xfarray);
-            double[] yarray = FloatAtoDoubleA(yfarray);
-
-            var xdata = xarray.AsXDataSource();
-            var ydata = yarray.AsYDataSource();
-
-            CompositeDataSource compositeDS = xdata.Join(ydata);
 
             
-            chart = plotter.AddLineGraph(compositeDS,
-                new Pen(Brushes.Purple, 3),
-                new CircleElementPointMarker
-                {
-                    Size = 10,
-                    Brush = Brushes.Aqua,
-                    Fill = Brushes.Purple
-                },
-                new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
-
-
-            //Adding the starting point to the graph
-            var xDataSource = firstX.AsXDataSource();
-            var yDataSource = firstY.AsYDataSource();
-            compositeDS = xDataSource.Join(yDataSource);
-
-            chart2 = plotter.AddLineGraph(compositeDS,
-                new Pen(Brushes.Orange, 3),
-                new CircleElementPointMarker
-                {
-                    Size = 10,
-                    Brush = Brushes.Red,
-                    Fill = Brushes.Orange
-                },
-                new PenDescription("Starting Point"));
-
-            plotter.Children.Add(new CursorCoordinateGraph());
             plotter.FitToView();
         }
 
@@ -925,115 +978,151 @@ namespace Project_v1._1
          */
         private void plotPositionAngle(int jointnum, int graphtype)
         {
-            int user_axis = -1;
-            if (Radio_X.IsChecked == true)
+            chart = new List<LineAndMarker<ElementMarkerPointsGraph>>();
+            chart2 = new List<LineAndMarker<ElementMarkerPointsGraph>>();
+            int j = 0;
+            
+            foreach (PlotGrid pg in sessionGridGestures.ItemsSource)
             {
-                user_axis = 0;
-            }
-            else if (Radio_Y.IsChecked == true)
-            {
-                user_axis = 1;
-            }
-            else if(Radio_Z.IsChecked == true){
-                user_axis = 2;
-            }
-
-            try
-            {
-                if (user_axis == -1)
+                if (pg.Selected)
                 {
-                    throw new ArgumentException();
+
+                    int user_axis = -1;
+                    if (Radio_X.IsChecked == true)
+                    {
+                        user_axis = 0;
+                    }
+                    else if (Radio_Y.IsChecked == true)
+                    {
+                        user_axis = 1;
+                    }
+                    else if (Radio_Z.IsChecked == true)
+                    {
+                        user_axis = 2;
+                    }
+
+                    try
+                    {
+                        if (user_axis == -1)
+                        {
+                            throw new ArgumentException();
+                        }
+
+                        if (jointnum > 19 || jointnum < 0)
+                        {
+                            throw new ArgumentException();
+                        }
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine("Invalid arguments in plotGraph()");
+
+                    }
+
+                    //Gestures sessionGestures = readInSessionData(filepath);// will be replaced in future by the selected Gesture in the datagrid
+                    List<float[]> lf_data = sessionGestures.gestures.ElementAt(0).Value;
+
+                    List<List<float>> ll_data = toListList(lf_data);
+
+                    List<float> x = new List<float>();
+                    List<float> y = new List<float>();
+                    switch (graphtype)
+                    {
+                        case 0: //Position
+                            for (int i = 0; i < ll_data[0].Count; i++)
+                            {
+                                x.Add(ll_data[1][i] / 1000);
+                            }
+                            y = ll_data[jointnum * 3 + user_axis + 2];
+                            plotter_horizontal_title.Content = "time(sec)";
+                            plotter_vertical_title.Content = "metres";
+                            break;
+
+                        case 1: //Position over time
+                            for (int i = 1; i < ll_data[0].Count - 1; i++)
+                            {
+                                x.Add((ll_data[1][i] / 1000));
+                                y.Add((ll_data[jointnum * 3 + user_axis + 2][i + 1]
+                                    - ll_data[jointnum * 3 + user_axis + 2][i - 1]) / 2);
+                                plotter_horizontal_title.Content = "time(sec)";
+                                plotter_vertical_title.Content = "metres";
+                            }
+                            break;
+                        case 2: //Angle
+                            for (int i = 0; i < ll_data[0].Count; i++)
+                            {
+                                x.Add(ll_data[1][i] / 1000);
+                                y.Add((float)GetBodySegmentAngle(jointnum, ll_data, i));
+                            }
+                            plotter_horizontal_title.Content = "time(sec)";
+                            plotter_vertical_title.Content = "degrees";
+                            break;
+
+                        case 3: //Angle over time
+                            for (int i = 1; i < ll_data[0].Count - 1; i++)
+                            {
+                                x.Add((ll_data[1][i] / 1000));
+                                y.Add(((float)(GetBodySegmentAngle(jointnum, ll_data, i + 1) - GetBodySegmentAngle(jointnum, ll_data, i - 1))) / 2);
+                            }
+                            plotter_horizontal_title.Content = "time(sec)";
+                            plotter_vertical_title.Content = "degrees per sec";
+                            break;
+
+                        default:
+                            break;
+
+                    }
+
+                    float[] xfarray = x.ToArray();
+                    float[] yfarray = y.ToArray();
+
+                    double[] xarray = FloatAtoDoubleA(xfarray);
+                    double[] yarray = FloatAtoDoubleA(yfarray);
+
+
+                    var xdata = xarray.AsXDataSource();
+                    var ydata = yarray.AsYDataSource();
+
+                    CompositeDataSource compositeDS = xdata.Join(ydata);
+
+
+                    Pen pen = new Pen(Brushes.Purple, 3);
+                    CircleElementPointMarker marker = new CircleElementPointMarker
+                    {
+                        Size = 10,
+                        Brush = Brushes.Aqua,
+                        Fill = Brushes.Purple
+                    };
+
+                    switch (j)
+                    {
+                        case 0:
+                            pen = new Pen(Brushes.Purple, 3);
+                            break;
+
+                        case 1:
+                            pen = new Pen(Brushes.LimeGreen, 3);
+                            break;
+
+                        case 2:
+                            pen = new Pen(Brushes.SkyBlue, 3);
+                            break;
+
+                        default: new Pen(Brushes.MediumPurple, 3);
+                            break;
+                    }  
+
+
+                    chart.Add(plotter.AddLineGraph(compositeDS, pen, marker,
+                        new PenDescription(pg.name + " Tracker")));
+                        plotter.Children.Add(new CursorCoordinateGraph());
+                        j++;
+
                 }
-
-                if (jointnum > 19 || jointnum < 0)
-                {
-                    throw new ArgumentException();
-                }
-            }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine("Invalid arguments in plotGraph()");
-
             }
 
-            //Gestures sessionGestures = readInSessionData(filepath);// will be replaced in future by the selected Gesture in the datagrid
-            List<float[]> lf_data = sessionGestures.gestures.ElementAt(0).Value;
 
-            List<List<float>> ll_data = toListList(lf_data);
-
-            List<float> x = new List<float>();
-            List<float> y = new List<float>();
-            switch (graphtype)
-            {
-                case 0: //Position
-                    for (int i = 0; i < ll_data[0].Count; i++)
-                    {
-                        x.Add(ll_data[1][i] / 1000);
-                    }
-                    y = ll_data[jointnum * 3 + user_axis + 2];
-                    plotter_horizontal_title.Content = "time(sec)";
-                    plotter_vertical_title.Content = "metres";
-                    break;
-
-                case 1: //Position over time
-                    for (int i = 1; i < ll_data[0].Count - 1; i++)
-                    {
-                        x.Add((ll_data[1][i] / 1000));
-                        y.Add((ll_data[jointnum * 3 + user_axis + 2][i + 1] 
-                            - ll_data[jointnum * 3 + user_axis + 2][i-1])/2);
-                        plotter_horizontal_title.Content = "time(sec)";
-                        plotter_vertical_title.Content = "metres";
-                    }
-                    break;
-                case 2: //Angle
-                    for (int i = 0; i < ll_data[0].Count; i++)
-                    {
-                        x.Add(ll_data[1][i] / 1000);
-                        y.Add((float)GetBodySegmentAngle(jointnum, ll_data, i));
-                    }
-                    plotter_horizontal_title.Content = "time(sec)";
-                    plotter_vertical_title.Content = "degrees";
-                    break;
-
-                case 3: //Angle over time
-                    for (int i = 1; i < ll_data[0].Count - 1; i++)
-                    {
-                        x.Add((ll_data[1][i] / 1000));
-                        y.Add(((float)(GetBodySegmentAngle(jointnum, ll_data, i + 1) - GetBodySegmentAngle(jointnum, ll_data, i-1)))/2);
-                    }
-                    plotter_horizontal_title.Content = "time(sec)";
-                    plotter_vertical_title.Content = "degrees";
-                    break;
-
-                default:
-                    break;
-
-            }
-
-            float[] xfarray = x.ToArray();
-            float[] yfarray = y.ToArray();
-
-            double[] xarray = FloatAtoDoubleA(xfarray);
-            double[] yarray = FloatAtoDoubleA(yfarray);
-
-
-            var xdata = xarray.AsXDataSource();
-            var ydata = yarray.AsYDataSource();
-
-            CompositeDataSource compositeDS = xdata.Join(ydata);
-
-
-            chart = plotter.AddLineGraph(compositeDS,
-                new Pen(Brushes.Purple, 3),
-                new CircleElementPointMarker
-                {
-                    Size = 10,
-                    Brush = Brushes.Aqua,
-                    Fill = Brushes.Purple
-                },
-                new PenDescription(Body_Segment_ComboBox.Text + " Tracker"));
-
-            plotter.Children.Add(new CursorCoordinateGraph());
+            
             plotter.FitToView();
 
 
