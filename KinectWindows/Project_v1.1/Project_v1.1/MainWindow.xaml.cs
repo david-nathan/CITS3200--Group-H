@@ -926,7 +926,7 @@ namespace Project_v1._1
                    switch (i)
                    {
                        case 0:
-                           pen =  new Pen(Brushes.Purple, 3);                       
+                         pen =  new Pen(Brushes.Purple, 3);                       
                          break;
 
                        case 1:
@@ -981,7 +981,6 @@ namespace Project_v1._1
         private void plotPositionAngle(int jointnum, int graphtype)
         {
             chart = new List<LineAndMarker<ElementMarkerPointsGraph>>();
-            chart2 = new List<LineAndMarker<ElementMarkerPointsGraph>>();
             int j = 0;
             
             foreach (PlotGrid pg in sessionGridGestures.ItemsSource)
@@ -1022,7 +1021,7 @@ namespace Project_v1._1
                     }
 
                     //Gestures sessionGestures = readInSessionData(filepath);// will be replaced in future by the selected Gesture in the datagrid
-                    List<float[]> lf_data = sessionGestures.gestures.ElementAt(0).Value;
+                    List<float[]> lf_data = sessionGestures.gestures[pg.gkey];
 
                     List<List<float>> ll_data = toListList(lf_data);
 
@@ -1047,7 +1046,7 @@ namespace Project_v1._1
                                 y.Add((ll_data[jointnum * 3 + user_axis + 2][i + 1]
                                     - ll_data[jointnum * 3 + user_axis + 2][i - 1]) / 2);
                                 plotter_horizontal_title.Content = "time(sec)";
-                                plotter_vertical_title.Content = "metres";
+                                plotter_vertical_title.Content = "metres per sec";
                             }
                             break;
                         case 2: //Angle
