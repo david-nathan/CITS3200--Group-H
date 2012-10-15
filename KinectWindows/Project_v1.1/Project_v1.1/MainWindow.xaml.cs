@@ -674,6 +674,7 @@ namespace Project_v1._1
                     }
                     sessionGridGestures.ItemsSource = sessgridData;
                     isFileloaded = true;
+                    Plot_Type_ComboBox.IsEnabled = true;
                     Check_For_PlotButton();
                 }
             }
@@ -1120,9 +1121,6 @@ namespace Project_v1._1
 
                 }
             }
-
-
-            
             plotter.FitToView();
 
 
@@ -1130,8 +1128,19 @@ namespace Project_v1._1
 
         private void Check_For_PlotButton()
         {
+
+            bool selected = false;
+            foreach (PlotGrid pg in sessionGridGestures.ItemsSource)
+            {
+                if (pg.Selected)
+                {
+                    selected = true;
+                    break;
+                }
+            }
+
             if ((isFileloaded && isRowSelected) && isPlotterSelected
-                && isBodySegmentSelected && !Clear_button.IsEnabled)
+                && isBodySegmentSelected && !Clear_button.IsEnabled && selected)
             {
                 Plot_graph_button.IsEnabled = true;
             }
@@ -1431,6 +1440,11 @@ namespace Project_v1._1
             return degrees;
 
 
+        }
+
+        private void sessionGridGestures_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            Check_For_PlotButton();
         }
 
         
