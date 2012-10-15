@@ -896,6 +896,7 @@ namespace Project_v1._1
                     if ((bool)Radio_optionB.IsChecked)
                     {
                         y = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 4].AsEnumerable();
+                        firstY[0] = ll_data[(Body_Segment_ComboBox.SelectedIndex * 3) + 4][0];
                         plotter_vertical_title.Content = "z-axis";
                     }
                     else
