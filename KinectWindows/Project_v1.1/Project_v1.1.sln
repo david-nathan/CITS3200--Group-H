@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\..\..\..\Desktop\Project_v1.1.vsd = ..\..\..\..\..\Desktop\Project_v1.1.vsd
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfViewers", "..\..\..\..\..\Desktop\KinectWpf\WpfViewers.csproj", "{B28B247E-276C-437A-B4D5-295E4799933A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,16 +40,6 @@ Global
 		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4DE23893-27E7-423F-9BB6-BA21DAC2C45E}.Release|x86.ActiveCfg = Release|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B28B247E-276C-437A-B4D5-295E4799933A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
