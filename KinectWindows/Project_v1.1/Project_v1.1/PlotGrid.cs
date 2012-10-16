@@ -30,6 +30,7 @@ namespace Project_v1._1
             }
         }
 
+        //Constructor
         public PlotGrid(GestureKey gkey, bool overlay)
         {
             this.gkey = gkey;
@@ -40,9 +41,6 @@ namespace Project_v1._1
             this.timespan = gkey.timestamp;
             this.overlay = overlay;
         }
-
-
-
 
         protected void OnPropertyChanged(string propertyName)
         {

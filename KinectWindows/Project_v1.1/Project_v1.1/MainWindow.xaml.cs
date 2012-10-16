@@ -65,9 +65,10 @@ namespace Project_v1._1
 
 
 
-
+        //Main
         public MainWindow()
         {
+            //initialization
             InitializeComponent();
             tabItem1.IsEnabled = true;
             tabItem2.IsEnabled = true;
@@ -78,6 +79,7 @@ namespace Project_v1._1
             savegesture_button.IsEnabled = false;
             delete_button.IsEnabled = false;
             
+            //open file stream for gesture
             Stream stream = File.Open(@"gestures.osl", FileMode.Open);
             BinaryFormatter bformatter = new BinaryFormatter();
             gestureLibrary = (Gestures)bformatter.Deserialize(stream);
@@ -89,6 +91,7 @@ namespace Project_v1._1
                 
         }
 
+        //on window load
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             kinectSensorChooser1.KinectSensorChanged += new DependencyPropertyChangedEventHandler(kinectSensorChooser1_KinectSensorChanged);
@@ -104,7 +107,7 @@ namespace Project_v1._1
         }
 
         
-
+        //Selecting Kinect Sensor
         void kinectSensorChooser1_KinectSensorChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             KinectSensor oldSensor = (KinectSensor)e.OldValue;
@@ -146,6 +149,9 @@ namespace Project_v1._1
             //lblCurrentAngle.Content = kinectSensorChooser1.Kinect.ElevationAngle.ToString();
         }
 
+        /*
+         * Event Handler for when a skeleton is recognized
+         */
         void newSensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
             
@@ -198,7 +204,9 @@ namespace Project_v1._1
         //{
         //    
         //}
-
+        /*
+         * Stop all kinect related sensors
+         */
         private void StopKinect(KinectSensor sensor)
         {
             if (sensor != null)
@@ -217,6 +225,9 @@ namespace Project_v1._1
             }
         }
 
+        /*
+         * sets enabled buttons on the UI for Kinect_Display
+         */
         private void setKDButtons(bool addToLib, bool targetFile, bool record, bool stop, bool classify, bool cancel)
         {
             addToLibraryButton.IsEnabled = addToLib;
@@ -227,6 +238,9 @@ namespace Project_v1._1
             cancelKDButton.IsEnabled = cancel;
         }
 
+        /*
+         * Event handler for cancel button in Kinect Display
+         */
         private void cancelKDButton_Click(object sender, RoutedEventArgs e)
         {
             if (kinectConnected)
@@ -243,7 +257,9 @@ namespace Project_v1._1
         }
 
 
-
+        /*
+         * Button event handlers
+         */
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             button1.IsEnabled = false;
@@ -260,6 +276,9 @@ namespace Project_v1._1
             button1.IsEnabled = true;
         }
 
+        /*
+         * Event handler for when Window is closed
+         */
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             StopKinect(kinectSensorChooser1.Kinect);
@@ -271,6 +290,9 @@ namespace Project_v1._1
             stream.Close();
         }
 
+        /*
+         * start button handler
+         */
         private void start_button_Click(object sender, RoutedEventArgs e)
         {
             recording = true;
@@ -293,6 +315,9 @@ namespace Project_v1._1
             file.WriteLine(str);
         }
 
+        /*
+         * stop button handler
+         */
         private void stop_button_Click(object sender, RoutedEventArgs e)
         {
             
@@ -315,6 +340,9 @@ namespace Project_v1._1
             }    
         }
 
+        /*
+         * target file button handler
+         */
         private void targetFileButton_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
@@ -359,6 +387,9 @@ namespace Project_v1._1
 
         }
 
+        /*
+         * add to Library button handler
+         */
         private void addToLibraryButton_Click(object sender, RoutedEventArgs e)
         {
             start_button.IsEnabled = true;
@@ -368,18 +399,24 @@ namespace Project_v1._1
             SaveFileLocation = @"C:\Users\Public\placeholder.csv";
         }
 
+        /*
+         * classify button handler
+         * content for this button changes depending on previous UI button selection
+         */
         private void classify_button_Click(object sender, RoutedEventArgs e)
         {
             TargetFileButton.IsEnabled = false;
             start_button.IsEnabled = false;
 
-            if (classify_button.Content.Equals("Save to Library"))
+            if (classify_button.Content.Equals("Save to Library")) //if content is set to Save to Library mode
             {
-                
+                //load gesture data
                 List<float[]> data = readInSingleGestureData(SaveFileLocation);
 
+                //create new gesture key
                 GestureKey gkey = new GestureKey(GestureKey.Rating.DEFAULT, gesture_type, DateTime.Parse(start_time), (int)(data[data.Count-1][0]), new TimeSpan((long)(data[data.Count-1][1]*10000)));
 
+                //generate dialog
                 RecordGestureDialog dlg = new RecordGestureDialog();
                 dlg.gestureNameTextBox.Text  = gkey.name;
                 dlg.ratingComboBox.SelectedIndex = (int)(gkey.rating);
@@ -391,6 +428,7 @@ namespace Project_v1._1
 
                 if (dlg.DialogResult == true)
                 {
+                    //if true add the gesture and clear SaveFileLocation
                     gkey.name = dlg.gestureNameTextBox.Text;
                     gkey.rating = (GestureKey.Rating)(dlg.ratingComboBox.SelectedIndex);
                     gestureLibrary.gestures.Add(gkey, data);
@@ -405,6 +443,7 @@ namespace Project_v1._1
                 }
                 else
                 {
+                    //Clear without adding
                     File.Delete(SaveFileLocation);
                     SaveFileLocation = @"C:\Users\Public";
                     classify_button.Content = "Classify";
@@ -418,7 +457,7 @@ namespace Project_v1._1
             }
 
 
-           
+           //Classify gestures - dialog box
             string messageBoxText = "All Gestures in the current Target File will be classified.\n Do you wish to continue?";
             string caption = "Classify Gestures";
             MessageBoxButton button = MessageBoxButton.YesNo;
@@ -431,7 +470,7 @@ namespace Project_v1._1
                 return;
             }
              
-
+            //If yes, begin classifying
             sessionGestures = readInSessionData(SaveFileLocation);
             DTWRecognition dtw = new DTWRecognition(sessionGestures, gestureLibrary, 0.6f, 2);
 
@@ -498,9 +537,11 @@ namespace Project_v1._1
             }
            
         }
-
-
-             private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+        /*
+         * UI tab change Handler
+         */
+        private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
              {
                  if (e.Source.Equals(tabControl1))
                  {
@@ -519,7 +560,9 @@ namespace Project_v1._1
 
  //========================================================================= Kinect Gestures Functions ==========================================================================================================
 
-
+        /*
+         * gesture tab OnLoad
+         */
         private void gesturesTabItem_Loaded(object sender, RoutedEventArgs e)
         {
 		    dataGridGestures.ItemsSource = gestureLibrary.gestures.Keys.AsEnumerable();
@@ -528,6 +571,10 @@ namespace Project_v1._1
 			selectedRow = null;
 	    }
 
+
+        /*
+         * Button event handlers
+         */
         private void dataGridGestures_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dataGridGestures.SelectedItem != null)
@@ -597,12 +644,14 @@ namespace Project_v1._1
                 KeyValuePair<GestureKey, List<float[]>> toEdit = new KeyValuePair<GestureKey,List<float[]>>();
                 foreach (KeyValuePair<GestureKey, List<float[]>> kvp in gestureLibrary.gestures)
                 {
+                    //find selected KeyValuePair
                     if (selectedRow.Equals(kvp.Key))
                     {
                         toEdit = kvp;
                         break;
                     }
                 }
+                //add value
                 gestureLibrary.gestures.Remove(toEdit.Key);
                 toEdit.Key.rating = (GestureKey.Rating)(gestureRatingCombo.SelectedIndex);
                 toEdit.Key.name = gestureLibraryName.Text;
@@ -614,6 +663,7 @@ namespace Project_v1._1
             }
         }
 
+        //Sets Library fields
         private void setLibraryFields(int comboIndex, string gestureName, string recordedDate)
         {           
             gestureRatingCombo.SelectedIndex =  comboIndex;
@@ -621,6 +671,7 @@ namespace Project_v1._1
             gestureLibraryRecord.Text = recordedDate;
         }
 
+        //Enable ro Disable Library buttons
         private void setLibraryButtons(Boolean editIsEnabled, Boolean deleteIsEnabled, Boolean saveIsEnabled)
         {
             edit_button.IsEnabled = editIsEnabled;
@@ -632,15 +683,18 @@ namespace Project_v1._1
 
 //========================================================================= Kinect Plot Functions ==========================================================================================================
 
-
+        /*
+         * KinectPlot tab OnLoaad
+         */
         private void tabItem2_Loaded(object sender, RoutedEventArgs e)
         {
-
-
-
+            //no action
 
         }
 
+        /*
+         * button handlers
+         */
         private void loadPlotDatabutton2_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
@@ -668,6 +722,7 @@ namespace Project_v1._1
                 }
                 else
                 {
+                    //load data
                     plotDatatextBlock.Text = PlotDataLocation;
                     sessionGestures = readInSessionData(PlotDataLocation);
                     ratingSessionCategory.ItemsSource = Enum.GetValues(typeof(GestureKey.Rating)).Cast<GestureKey.Rating>().AsEnumerable();
@@ -685,13 +740,20 @@ namespace Project_v1._1
 
         }
 
+        /*
+         * Event handle on selected Plot type
+         * Plot_Type_ComboBox.SelectedIndex
+         * 0 = Joint Tracker
+         * 1 = Joint Position
+         * 2 = Joint Angle
+         */
         private void Plot_Type_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Body_Segment_ComboBox.IsEnabled = true;
 
             if (Plot_Type_ComboBox.SelectedIndex == 0 || Plot_Type_ComboBox.SelectedIndex == 1)
             {
-                //Disable non-angle body segments
+                //Re-enable non-angle body segments if previously disabled from angle plot
                 CBox_item_hipCentre.IsEnabled = true;
                 CBox_item_shoulderCentre.IsEnabled = true;
                 CBox_item_head.IsEnabled = true;
@@ -700,7 +762,7 @@ namespace Project_v1._1
                 CBox_item_footLeft.IsEnabled = true;
                 CBox_item_footRight.IsEnabled = true;
 
-                if (Plot_Type_ComboBox.SelectedIndex == 0)
+                if (Plot_Type_ComboBox.SelectedIndex == 0) //Joint Tracker selected
                 {
                     //Set Radio buttons appropriately
                     Radio_optionA.Content = "x-y axis";
@@ -752,6 +814,9 @@ namespace Project_v1._1
 
         }
 
+        /*
+         * Event handler for selection changes
+         */
         private void Body_Segment_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             isPlotterSelected = true;
@@ -773,6 +838,10 @@ namespace Project_v1._1
             }
         }
 
+        /*
+         * Clears plot
+         * chart and chart2 refers to the main plot and first frame dot respectively
+         */
         private void Clear_button_Click(object sender, RoutedEventArgs e)
         {
             //plotter = new ChartPlotter();
@@ -831,6 +900,8 @@ namespace Project_v1._1
             Body_Segment_ComboBox.IsEnabled = false;
             xyz.IsEnabled = false;
 
+
+            //Selects which method to run for each plot type
             switch (Plot_Type_ComboBox.SelectedIndex)
             {
                 //Initiate the Tracking Plotter
@@ -866,6 +937,9 @@ namespace Project_v1._1
 
         }
 
+        /*
+         * Joint Tracker
+         */
         private void plotTracker()
         {
             chart = new List<LineAndMarker<ElementMarkerPointsGraph>>();
@@ -882,7 +956,12 @@ namespace Project_v1._1
                     double[] firstY = new double[1];
 
 
-                    //Prepare coordinates for plotting
+                    /*Prepare coordinates for plotting
+                     * ll_data contains 62 elements
+                     * [0] = frame number
+                     * [1] = timestamp
+                     * [2...61] = 20 joints * x,y,z coordinates
+                     */
                     List<float[]> lf_data = sessionGestures.gestures[pg.gkey];
                     List<List<float>> ll_data = toListList(lf_data);
 
@@ -908,6 +987,7 @@ namespace Project_v1._1
                         plotter_vertical_title.Content = "y-axis";
                     }
 
+                    //convert to composite data source for plotting
                     float[] xfarray = x.ToArray();
                     float[] yfarray = y.ToArray();
 
@@ -919,6 +999,7 @@ namespace Project_v1._1
 
                    CompositeDataSource   compositeDS = xdata.Join(ydata);
 
+                    //set brush for different data
                    Pen pen = new Pen(Brushes.Purple, 3);     
                    CircleElementPointMarker marker = new CircleElementPointMarker
                    {
@@ -947,7 +1028,7 @@ namespace Project_v1._1
 
 
 
-
+                    //collecting the above data and sending it to the plotter
                    chart.Add(plotter.AddLineGraph(compositeDS,pen ,marker, new PenDescription(pg.name + " Tracker")));
 
 
@@ -977,10 +1058,8 @@ namespace Project_v1._1
 
         /*
          * plotGraph sets the data for the chartPlotter inside xaml.
-         * @user_axis = sets whether x,y,z coordinates of the joint will be displayed. values are 0,1,2 respectively.
          * @jointnum = sets which joint to be displayed. starts from 0 for hipcenter to 19 for rightfoot
          * @graphtype = sets what information is to be graphed. see the switch statement for its representation.
-         * @filepath = csv filepath
          */
         private void plotPositionAngle(int jointnum, int graphtype)
         {
@@ -991,7 +1070,7 @@ namespace Project_v1._1
             {
                 if (pg.Selected)
                 {
-
+                    //axis selection
                     int user_axis = -1;
                     if (Radio_X.IsChecked == true)
                     {
@@ -1008,11 +1087,12 @@ namespace Project_v1._1
 
                     try
                     {
+                        //if nothing is selected
                         if (user_axis == -1)
                         {
                             throw new ArgumentException();
                         }
-
+                        //argument out of bounds
                         if (jointnum > 19 || jointnum < 0)
                         {
                             throw new ArgumentException();
@@ -1024,13 +1104,15 @@ namespace Project_v1._1
 
                     }
 
-                    //Gestures sessionGestures = readInSessionData(filepath);// will be replaced in future by the selected Gesture in the datagrid
+                    //load data
                     List<float[]> lf_data = sessionGestures.gestures[pg.gkey];
 
                     List<List<float>> ll_data = toListList(lf_data);
 
                     List<float> x = new List<float>();
                     List<float> y = new List<float>();
+
+                    //calculations based on graph type selected
                     switch (graphtype)
                     {
                         case 0: //Position
@@ -1078,6 +1160,7 @@ namespace Project_v1._1
 
                     }
 
+                    //convert to composite data source
                     float[] xfarray = x.ToArray();
                     float[] yfarray = y.ToArray();
 
@@ -1090,7 +1173,7 @@ namespace Project_v1._1
 
                     CompositeDataSource compositeDS = xdata.Join(ydata);
 
-
+                    //set brush
                     Pen pen = new Pen(Brushes.Purple, 3);
                     CircleElementPointMarker marker = new CircleElementPointMarker
                     {
@@ -1130,6 +1213,7 @@ namespace Project_v1._1
 
         }
 
+        //checks all criteria before enabling plot button
         private void Check_For_PlotButton()
         {
 
@@ -1154,6 +1238,7 @@ namespace Project_v1._1
             }
         }
 
+        //float array to double array conversion
         public static double[] FloatAtoDoubleA(float[] input)
         {
             if (input == null)
@@ -1174,6 +1259,10 @@ namespace Project_v1._1
 
 
         //========================================================================= Gesture from File ==========================================================================================================
+        
+        /*
+         * Data Loading functions
+         */
         private List<float[]> readInSingleGestureData(string fileLocation)
         {
             List<float[]> float_gestureData;
@@ -1211,6 +1300,7 @@ namespace Project_v1._1
             List<string[]> str_sessionData = readInFullSession(fileLocation);
             List<KeyValuePair<int, int>> gestureIndex = new List<KeyValuePair<int, int>>();
 
+            //check file format
             if(str_sessionData[0][0] != "Start:")
             {
             System.Windows.Forms.MessageBox.Show("CSV file has incorrect format");
@@ -1221,13 +1311,13 @@ namespace Project_v1._1
 
             for(int i=1; i<str_sessionData.Count; i++)
             {
-                if (str_sessionData[i][0].Equals("Start:"))
+                if (str_sessionData[i][0].Equals("Start:")) //if at beginning of gesture
                 {
                     gestureIndex.Add(new KeyValuePair<int,int>(index, i-index));
                     index = i;
                 }
             }
-
+            //add the gesture
             gestureIndex.Add(new KeyValuePair<int,int>(index, str_sessionData.Count-1-index));
 
             List<KeyValuePair<int, int>>.Enumerator e = gestureIndex.GetEnumerator();
@@ -1281,6 +1371,9 @@ namespace Project_v1._1
             return sessionGestures;
         }
 
+        /*
+         * writes data to file
+         */
         private void writeToFile(string filelocation, Gestures session)
         {
             File.Delete(filelocation);
@@ -1367,6 +1460,7 @@ namespace Project_v1._1
             return parsedData;
         }
 
+        //convertt to List of List of Floats
         public List<List<float>> toListList(List<float[]> listArray)
         {
             List<List<float>> listList = new List<List<float>>(62);
@@ -1385,43 +1479,45 @@ namespace Project_v1._1
             return listList;
         }
 
+        //Angle calculation for Angle plot
         public double GetBodySegmentAngle(int joint_center, List<List<float>> data, int frame)
         {
+            //get the relevant neighbouring joints
             int joint_parent = -1;
             int joint_child = -1;
             switch (joint_center)
             {
-                case 1:
+                case 1:     //spine
                     joint_parent = 0;
                     joint_child = 2;
                     break;
 
-                case 4:
-                case 8:
+                case 4:     //left shoulder
+                case 8:     //right shoulder
                     joint_parent = 2;
                     joint_child = joint_center + 1;
                     break;
 
-                case 12:
-                case 16:
+                case 12:    //left Hip
+                case 16:    //Right Hip
                     joint_parent = 0;
                     joint_child = joint_center + 1;
                     break;
 
-                case 5:
-                case 6:
-                case 9:
-                case 10:
-                case 13:
-                case 14:
-                case 17:
-                case 18:
+                case 5:     //L.Elbow
+                case 6:     //L.Wrist
+                case 9:     //R.Elbow
+                case 10:    //R.Wrist
+                case 13:    //L.Knee
+                case 14:    //L.Ankle
+                case 17:    //R.Knee
+                case 18:    //R.Anklee
                     joint_parent = joint_center - 1;
                     joint_child = joint_center + 1;
                     break;
 
                 default:
-                    //error
+                    //nil
                     break;
             }
 

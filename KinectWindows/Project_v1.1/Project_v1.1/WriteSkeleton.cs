@@ -7,6 +7,9 @@ using Microsoft.Kinect;
 
 public class WriteSkeleton
 {
+    /*
+     * Writes Skeleton data to file
+     */
     public float[] WriteSkeletonToFile(Skeleton skeleton, SkeletonFrame skeletonFrame, System.IO.StreamWriter file)
     {
 

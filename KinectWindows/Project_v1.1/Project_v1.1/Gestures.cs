@@ -15,6 +15,7 @@ namespace Project_v1._1
 
         public Dictionary<GestureKey, List<float[]>> gestures;
 
+        //Constructor
         public Gestures()
         {
             GestureKey gestureID = new GestureKey();
@@ -49,6 +50,7 @@ namespace Project_v1._1
         public int framenum { get; set; }
         public TimeSpan  timestamp { get; set; }
 
+        //Gesture Key Constructor
         public GestureKey()
         {
             rating = Rating.DEFAULT;

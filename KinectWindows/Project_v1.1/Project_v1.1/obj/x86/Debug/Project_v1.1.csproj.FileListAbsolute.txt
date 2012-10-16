@@ -225,3 +225,5 @@ C:\Users\Patrick\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1
 C:\Users\Patrick\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.TrustInfo.xml
 C:\Users\Patrick\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.exe.manifest
 C:\Users\Patrick\Dropbox\Windows\Git stuff\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.application
+C:\Users\Tigsy\Documents\GitHub\CITS3200--Group-H\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.exe
+C:\Users\Tigsy\Documents\GitHub\CITS3200--Group-H\KinectWindows\Project_v1.1\Project_v1.1\obj\x86\Debug\Project_v1.1.pdb

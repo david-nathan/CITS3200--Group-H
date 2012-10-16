@@ -6,8 +6,6 @@ using System.Text;
 namespace Project_v1._1
 {
 
-
-
     class DTWRecognition
     {
         private Gestures sessionGestures;
@@ -20,6 +18,7 @@ namespace Project_v1._1
         private float globalThreshold;
         private int maxSlope;
 
+        //Constructor
         public DTWRecognition(Gestures sessionGestures, Gestures libraryGestures, float globalThreshold, int maxSlope)
         {
             this.sessionGestures = sessionGestures;
@@ -126,6 +125,7 @@ namespace Project_v1._1
             return bestMatch;
         }
 
+        //Calculation helper methods
         private float Dist1(List<float> a, List<float> b)
         {
             float d = 0;
