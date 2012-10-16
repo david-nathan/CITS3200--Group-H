@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Project_v1.1.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="en-AU" processorArchitecture="x86" type="win32" />
+  <asmv1:assemblyIdentity name="Project_v1.1.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="en-AU" processorArchitecture="x86" type="win32" />
   <description asmv2:iconFile="KinectExplorer.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -67,14 +67,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Samples.Kinect.WpfViewers.dll" size="71168">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Samples.Kinect.WpfViewers.dll" size="72192">
       <assemblyIdentity name="Microsoft.Samples.Kinect.WpfViewers" version="0.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>6uqkvwu5blk0WfC9+6FGDYGezFg=</dsig:DigestValue>
+        <dsig:DigestValue>c/z5xkecOtURIciaZ4XOH/jazNY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -91,14 +91,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Project_v1.1.exe" size="357888">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Project_v1.1.exe" size="357376">
       <assemblyIdentity name="Project_v1.1" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>2khPHarntMPR+YAszeuCAfguwo8=</dsig:DigestValue>
+        <dsig:DigestValue>BVuWKKCqQ9m05EKTfs/eWyQVq50=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

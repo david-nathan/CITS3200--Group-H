@@ -119,13 +119,15 @@ namespace Project_v1._1
                 return;
             }
 
-            //register for event and enable Kinect sensor features you want
-            //newSensor.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(newSensor_AllFramesReady);
-            newSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-            newSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
-            newSensor.SkeletonStream.Enable();
-            newSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(newSensor_SkeletonFrameReady);
-
+           
+            
+                //register for event and enable Kinect sensor features you want
+                //newSensor.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(newSensor_AllFramesReady);
+                newSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                newSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+                newSensor.SkeletonStream.Enable();
+                newSensor.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(newSensor_SkeletonFrameReady);
+            
 
             try
             {
@@ -146,48 +148,50 @@ namespace Project_v1._1
 
         void newSensor_SkeletonFrameReady(object sender, SkeletonFrameReadyEventArgs e)
         {
-            Skeleton[] skeletons = new Skeleton[0];
-            SkeletonFrame skelFrame = e.OpenSkeletonFrame();
+            
+                Skeleton[] skeletons = new Skeleton[0];
+                SkeletonFrame skelFrame = e.OpenSkeletonFrame();
 
-            using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
-            {
-                if (skeletonFrame != null)
+                using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
                 {
-
-                    //TODO: Throw up Error if more than one Skeleton Appears
-                    skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
-                    skeletonFrame.CopySkeletonDataTo(skeletons);
-
-                }
-            }
-            if(skeletons.Length != 0)
-            {
-                foreach (Skeleton skel in skeletons)
-                {
-                    if (skel.TrackingState == SkeletonTrackingState.Tracked)
+                    if (skeletonFrame != null)
                     {
-                        if (recording)
-                        {
-                            if (firstframe)
-                            {
-                                initFrameNum = skelFrame.FrameNumber;
-                                initTimeStamp = skelFrame.Timestamp;
-                                firstframe = false;
-                            }
 
-                            skelFrame.FrameNumber = skelFrame.FrameNumber - initFrameNum;
-                            skelFrame.Timestamp = skelFrame.Timestamp - initTimeStamp;
-                            WriteSkeleton writeSkel = new WriteSkeleton();
-                            float[] data = writeSkel.WriteSkeletonToFile(skel, skelFrame, file); 
+                        //TODO: Throw up Error if more than one Skeleton Appears
+                        skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                        skeletonFrame.CopySkeletonDataTo(skeletons);
+
+                    }
+                }
+                if (skeletons.Length != 0)
+                {
+                    foreach (Skeleton skel in skeletons)
+                    {
+                        if (skel.TrackingState == SkeletonTrackingState.Tracked)
+                        {
+                            if (recording)
+                            {
+                                if (firstframe)
+                                {
+                                    initFrameNum = skelFrame.FrameNumber;
+                                    initTimeStamp = skelFrame.Timestamp;
+                                    firstframe = false;
+                                }
+
+                                skelFrame.FrameNumber = skelFrame.FrameNumber - initFrameNum;
+                                skelFrame.Timestamp = skelFrame.Timestamp - initTimeStamp;
+                                WriteSkeleton writeSkel = new WriteSkeleton();
+                                float[] data = writeSkel.WriteSkeletonToFile(skel, skelFrame, file);
+                            }
                         }
                     }
                 }
-            }
 
-            if(skelFrame != null)
-            {
-            skelFrame.Dispose();
-            }
+                if (skelFrame != null)
+                {
+                    skelFrame.Dispose();
+                }
+            
         }
 
         //void newSensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
